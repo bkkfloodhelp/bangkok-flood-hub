@@ -1,0 +1,87 @@
+name: Draft data update (needs human review)
+
+# Reads the news sources in scripts/draft-sources.json, asks Claude for proposed changes to
+# status / roadsNote / roads / shelters, and opens a DRAFT pull request for a person to review.
+# It never merges and never publishes: the site only changes when someone merges the PR.
+#
+# Schedule: every 3 hours at :17 past (UTC 00:17, 03:17, … 21:17) =
+#           Bangkok 07:17, 10:17, 13:17, 16:17, 19:17, 22:17, 01:17, 04:17.
+#           GitHub may start scheduled runs late (or skip them) when it is busy.
+# Off switch: runs only when the repository variable AUTO_DRAFT is "on" (see README).
+on:
+  schedule:
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: draft-update
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    if: vars.AUTO_DRAFT == 'on'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false   # the push below uses the token chosen in that step
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Skip if an earlier draft is still waiting for review
+        id: open
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=$(gh pr list --state open --search "head:draft-update/" --json number --jq 'length')
+          echo "open=$n" >> "$GITHUB_OUTPUT"
+          if [ "$n" != "0" ]; then
+            echo "A draft update pull request is already open. Review, merge or close it; the next run will then draft a new one." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Draft changes from the sources
+        id: draft
+        if: steps.open.outputs.open == '0'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/draft-update.mjs --body "$RUNNER_TEMP/pr-body.md"
+
+      # The same checks the site uses, run here so a broken draft never becomes a pull request.
+      - name: Check the draft (validator, build, page without JavaScript)
+        if: steps.draft.outputs.changed == 'true'
+        run: |
+          node scripts/validate.mjs
+          node scripts/embed-fallback.mjs
+          node scripts/test-nojs.mjs
+          git checkout -- index.html damage.html   # build output isn't part of the pull request
+          {
+            echo
+            echo "### Checks run on this draft before opening the pull request"
+            echo "✅ validator · ✅ build (road count, tel: links) · ✅ page without JavaScript"
+          } >> "$RUNNER_TEMP/pr-body.md"
+
+      - name: Open a draft pull request (never merged automatically)
+        if: steps.draft.outputs.changed == 'true'
+        env:
+          # A personal access token (optional secret DRAFT_PR_TOKEN) makes GitHub run the normal
+          # checks on the pull request; with the built-in token GitHub doesn't start them.
+          GH_TOKEN: ${{ secrets.DRAFT_PR_TOKEN || github.token }}
+        run: |
+          stamp=$(TZ=Asia/Bangkok date +%Y%m%d-%H%M)
+          when=$(TZ=Asia/Bangkok date '+%d %b %H:%M')
+          branch="draft-update/$stamp"
+          git config user.name "flood-hub draft bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add data/flood.json
+          git commit -m "Draft data update ($when Bangkok) - needs human review"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$branch"
+          gh pr create --draft --base main --head "$branch" \
+            --title "Draft data update, $when - needs human review" \
+            --body-file "$RUNNER_TEMP/pr-body.md"

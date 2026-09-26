@@ -80,6 +80,30 @@ To turn it back on, remove the flag, or restore `sw.js` from its **History**. Ei
 4. If the URL ever changes (e.g. a custom domain), update `og:url` in `index.html`.
 5. Optional but recommended: in **Settings → Branches**, protect `main` so changes go through a pull request. The check then runs before anything is merged.
 
+## Automatic draft updates (optional, off by default)
+
+`.github/workflows/draft-update.yml` can prepare data updates for volunteers. Every 3 hours it reads the news sources in [`scripts/draft-sources.json`](scripts/draft-sources.json), asks Claude for proposed changes, and opens a **draft pull request**. **It never publishes anything.** The site only changes when a person reviews the pull request and merges it.
+
+**Every draft pull request must be reviewed by a person before merging.** Open each source link in the table, check that the change matches it, fix or delete anything wrong (especially Thai/English names the draft marks as "rendered"), then click **Ready for review** and merge. If in doubt, close the pull request; nothing is lost.
+
+What it may change: only `status`, `roadsNote`, `roads` and `shelters`. **Hotlines and assistance amounts are never changed.** The script enforces this and gives up if anything else would change. Every proposed change must quote its source word for word, and must have a publication time from the article itself. The script checks both, and drops changes that fail, listing them in the pull request.
+
+**Schedule:** at 07:17, 10:17, 13:17, 16:17, 19:17, 22:17, 01:17 and 04:17 Bangkok time (UTC `17 */3 * * *`). GitHub can start scheduled runs late. It skips a run while an earlier draft pull request is still open, and opens no pull request when nothing changed.
+
+**Turn it on**
+1. Add the API key: **Settings → Secrets and variables → Actions → Secrets → New repository secret**, name `ANTHROPIC_API_KEY`, value: a Claude API key from the Anthropic Console.
+2. Add the switch: same page, **Variables** tab → **New repository variable**, name `AUTO_DRAFT`, value `on`.
+3. Allow the workflow to open pull requests: **Settings → Actions → General → Workflow permissions →** tick **Allow GitHub Actions to create and approve pull requests** (for an organisation, the organisation's Actions settings must allow it too).
+4. To try it now: **Actions → Draft data update (needs human review) → Run workflow**.
+
+**Turn it off:** set `AUTO_DRAFT` to `off` (or delete the variable). Runs then stop immediately, doing nothing. To stop it being scheduled at all: **Actions → Draft data update (needs human review) → ⋯ → Disable workflow** (turn back on with **Enable workflow**).
+
+**Checks on the pull request:** before opening a pull request, the workflow runs the validator, the build (road count, phone links) and the no-JavaScript test on the draft, and opens nothing if they fail. GitHub doesn't start the usual checks on pull requests opened with the workflow's built-in token. To have them run too, add a fine-grained personal access token (repository access: this repo; permissions: Contents and Pull requests read/write) as the secret `DRAFT_PR_TOKEN`, or close and reopen the pull request.
+
+**Cost (estimate, not yet measured):** each run sends about 14 pages of text to Claude (model `claude-opus-5`), probably US$0.30–0.60 a run, or $3–5 a day at 8 runs. Check the real figure in the Anthropic Console after the first few runs. To use a different model, set `DRAFT_MODEL` in the workflow's `env`. To test without calling the API: `node scripts/draft-update.mjs --mock-response <file> --dry-run`.
+
+**Sources:** edit `scripts/draft-sources.json`. Sources that can't be fetched are listed in each pull request. Currently Khaosod and Khaosod English block automated requests (HTTP 403). TMD's website sends an incomplete security certificate, so the workflow reads TMD's open-data warnings feed instead.
+
 ## Old address
 
 The site used to be at `https://phantawat.github.io/bangkok-flood-hub/`. That address is now served by the separate repository [Phantawat/bangkok-flood-hub](https://github.com/Phantawat/bangkok-flood-hub). Its pages send visitors to the matching page here, and its `sw.js` removes the old offline copy from phones that saved it. That repository is made by `node scripts/make-redirect-site.mjs <folder>` and tested by `node scripts/test-redirect.mjs`. Don't put site content there.
