@@ -145,6 +145,7 @@
       "en": "BMA says 13 roads are impassable for small cars. Conditions change constantly: check the BMA's real-time website or call 1555 before travelling."
     }
   },
+  "roadsLiveUrl": "https://weather.bangkok.go.th/flood/",
   "roads": [
     { "name": { "th": "ด่านดอนเมืองโทลล์เวย์ แจ้งวัฒนะ ขาเข้า (ปิดชั่วคราว)", "en": "Don Muang Tollway, Chaeng Watthana entrance, inbound (temporarily closed)" }, "type": "avoid", "updated": "2026-09-26T20:46:00+07:00", "source": "Thai Post" },
     { "name": { "th": "ด่านดอนเมืองโทลล์เวย์ หลักสี่ ขาออก (ปิดชั่วคราว)", "en": "Don Muang Tollway, Lak Si entrance, outbound (temporarily closed)" }, "type": "avoid", "updated": "2026-09-26T20:46:00+07:00", "source": "Thai Post" },

@@ -23,6 +23,7 @@ const OUT = join(ROOT, "test-output");
 const data = withSamples(JSON.parse(readFileSync(join(ROOT, "data/flood.json"), "utf8")));
 const { html } = buildPage(readFileSync(join(ROOT, "index.html"), "utf8"), data);
 const telHref = n => "tel:" + n.replace(/-/g, "");
+const countTypes = types => types.reduce((m, t) => ((m[t] = (m[t] || 0) + 1), m), {});
 
 // Every link the page must have, straight from the data.
 const expected = [
@@ -46,6 +47,12 @@ const PAGE_STATE = `JSON.stringify((() => {
     },
     roadNames: [...document.querySelectorAll("#roads .rn [data-en]")].filter(visible).length,
     roads: [...document.querySelectorAll("#roads li")].filter(visible).length,
+    roadTypes: [...document.querySelectorAll("#roads li")].filter(visible)
+      .map(li => [...(li.querySelector(".tag") || { classList: [] }).classList].find(c => c !== "tag") || "(no type)"),
+    liveButtonAboveRoads: (() => {
+      const b = document.querySelector(".live-btn"), list = document.getElementById("roads");
+      return !!b && visible(b) && !!(b.compareDocumentPosition(list) & Node.DOCUMENT_POSITION_FOLLOWING);
+    })(),
     roadsNote: text("#roads-note"),
     // Visible English text (letters, no Thai) whose nearest lang attribute isn't "en".
     englishNotMarked: (() => {
@@ -100,6 +107,12 @@ try {
   }
   check(s.roadNames === data.roads.length, `all ${data.roads.length} road names shown in English too`, `${s.roadNames} shown`);
   check(s.roads === data.roads.length, `all ${data.roads.length} roads shown`, `${s.roads} shown`);
+  {
+    const want = countTypes(data.roads.map(r => r.type)), got = countTypes(s.roadTypes);
+    const diff = Object.keys({ ...want, ...got }).filter(t => want[t] !== got[t]).map(t => `${t}: ${got[t] || 0} shown, ${want[t] || 0} in data`);
+    check(!diff.length, `roads shown per type match the data (${Object.entries(want).map(([t, n]) => `${t} ${n}`).join(", ")})`, diff.join("; "));
+  }
+  if (data.roadsLiveUrl) check(s.liveButtonAboveRoads, "live road flooding button shown above the road list");
   if (data.roadsNote) check(s.roadsNote.startsWith(data.roadsNote.text.th), "road note shown", `got "${s.roadsNote.slice(0, 40)}"`);
   check(!s.englishHidden.length, "all English text is shown alongside the Thai", s.englishHidden.slice(0, 5).join(" | "));
   check(!s.englishNotMarked.length, 'every visible English text is marked lang="en"', s.englishNotMarked.slice(0, 5).join(" | "));

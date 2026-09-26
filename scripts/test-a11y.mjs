@@ -43,8 +43,7 @@ const MIN_TARGET = 24;
 const readData = () => JSON.parse(readFileSync(join(ROOT, "data/flood.json"), "utf8"));
 const built = data => buildPage(readFileSync(join(ROOT, "index.html"), "utf8"), data).html;
 
-function normalOverrides() {
-  const data = readData();
+function normalOverrides(data) {
   return {
     "/index.html": built(data),
     "/damage.html": buildDamagePage(readFileSync(join(ROOT, "damage.html"), "utf8"), data),
@@ -56,15 +55,16 @@ function normalOverrides() {
 // type, so each label style is checked even before real data uses it, and one shelter source is
 // written in Thai (checks language marking when the page is switched to English). Sample tools
 // and live-roads links are added if flood.json has none yet.
-function warningsOverrides() {
-  const data = withSamples(readData()); // tools section + live-roads button, even before real entries exist
+function warningsData() {
+  const data = withSamples(readData()); // tools, live-roads links, every road type, even before real entries exist
   const sevenHoursAgo = new Date(Date.now() - 7 * 3600e3 + 7 * 3600e3).toISOString().slice(0, 19) + "+07:00";
   data.roads.forEach(r => { r.updated = sevenHoursAgo; });
   Object.keys(ROAD_TAGS).forEach((type, i) => { if (data.roads[i]) data.roads[i].type = type; });
   // A source written in Thai, which must be marked lang="th" when the page is in English.
   if (data.shelters[0]) data.shelters[0].source = "โทรยืนยันกับศูนย์";
-  return { "/data/flood.json": null, "/index.html": built(data) };
+  return data;
 }
+const warningsOverrides = data => ({ "/data/flood.json": null, "/index.html": built(data) });
 
 // ---------- code that runs inside the page ----------
 
@@ -212,7 +212,7 @@ const READY = {
   damage: `document.documentElement.dataset.enhanced === "damage"`, // set at the end of damage.js
 };
 
-async function run(chrome, base, { theme, lang, state, page = "hub" }) {
+async function run(chrome, base, { theme, lang, state, page = "hub", roads = [] }) {
   const url = page === "damage" ? base + "damage.html" : base;
   const { send } = chrome;
   const evaluate = async expr => {
@@ -250,6 +250,14 @@ async function run(chrome, base, { theme, lang, state, page = "hub" }) {
   const expected = state === "warnings" ? ["/data/flood.json"] : [];
   report("no failed requests in the network log", [...new Set(netErrors.filter(e => !expected.includes(e.path)).map(e => e.text))]);
   report("no JavaScript errors", [...new Set(jsErrors)]);
+  if (page === "hub") {
+    // Every road in the data is rendered, for every type (catches a type being dropped or mislabelled).
+    const shown = await evaluate(`[...document.querySelectorAll("#roads li")].map(li => [...(li.querySelector(".tag") || { classList: [] }).classList].find(c => c !== "tag") || "(no type)")`);
+    const count = ts => ts.reduce((m, t) => ((m[t] = (m[t] || 0) + 1), m), {});
+    const want = count(roads.map(r => r.type)), got = count(shown);
+    const diff = Object.keys({ ...want, ...got }).filter(t => want[t] !== got[t]).map(t => `${t}: ${got[t] || 0} shown, ${want[t] || 0} in data`);
+    report(`roads shown per type match the data (${Object.entries(want).map(([t, n]) => `${t} ${n}`).join(", ")})`, diff);
+  }
 
   // Keyboard: press Tab until focus has been round the whole page.
   await send("Emulation.setFocusEmulationEnabled", { enabled: true });
@@ -426,12 +434,13 @@ try {
   for (const state of ["normal", "warnings"]) {
     // A fresh server (new port = new origin) per state, so a service worker from one state
     // can't serve cached files to the other.
-    const server = await serve(ROOT, 0, state === "warnings" ? warningsOverrides() : normalOverrides());
+    const stateData = state === "warnings" ? warningsData() : readData();
+    const server = await serve(ROOT, 0, state === "warnings" ? warningsOverrides(stateData) : normalOverrides(stateData));
     const url = `http://127.0.0.1:${server.address().port}/`;
     for (const theme of ["light", "dark"]) {
       for (const lang of ["th", "en"]) {
         console.log(`\n${WIDTH}px · ${theme} · ${lang === "th" ? "Thai" : "English"} · ${state}`);
-        await run(chrome, url, { theme, lang, state });
+        await run(chrome, url, { theme, lang, state, roads: stateData.roads });
       }
     }
     if (state === "normal") {
