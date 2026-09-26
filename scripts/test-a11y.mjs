@@ -7,6 +7,7 @@
 //     with at least 3:1 contrast against what's behind it
 //   • layout: no sideways scrolling at 360px, tap targets at least 24×24px (WCAG 2.2)
 //   • tel: links dial the number that is shown
+//   • no failed requests (404s etc.) in the network log, e.g. a missing favicon
 //
 // It runs in light and dark mode, Thai and English, and in a "warnings" state where the
 // "may be out of date" notice and the stale-roads warning are forced on. Screenshots of every
@@ -202,6 +203,8 @@ async function run(chrome, url, { theme, lang, state }) {
   };
   await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: theme }] });
   // Language is remembered in localStorage; set it, then load the page fresh (focus starts at the top).
+  // Network errors count from the first load: Chrome asks for a site's favicon only once.
+  netErrors.length = 0;
   await send("Page.navigate", { url });
   await sleep(300);
   await evaluate(`localStorage.setItem("lang", ${JSON.stringify(lang)}); true`);
@@ -225,6 +228,9 @@ async function run(chrome, url, { theme, lang, state }) {
   report(`tap targets at least ${MIN_TARGET}×${MIN_TARGET}px`, await evaluate(`__a11y.targets(${MIN_TARGET})`));
   const t = await evaluate("__a11y.tel()");
   report(`${t.count} tel: links dial the number shown`, t.fails);
+  // The "warnings" state makes data/flood.json 404 on purpose; anything else is a real problem.
+  const expected = state === "warnings" ? ["/data/flood.json"] : [];
+  report("no failed requests in the network log", [...new Set(netErrors.filter(e => !expected.includes(e.path)).map(e => e.text))]);
 
   // Keyboard: press Tab until focus has been round the whole page.
   await send("Emulation.setFocusEmulationEnabled", { enabled: true });
@@ -253,7 +259,15 @@ async function run(chrome, url, { theme, lang, state }) {
 mkdirSync(OUT, { recursive: true });
 const tmp = mkdtempSync(join(tmpdir(), "a11y-"));
 const chrome = await launchChrome(join(tmp, "profile"));
+const netErrors = [];
+chrome.on("Network.responseReceived", ({ response: r }) => {
+  if (r.status >= 400) netErrors.push({ path: new URL(r.url).pathname, text: `${r.status} ${new URL(r.url).pathname}` });
+});
+chrome.on("Network.loadingFailed", ({ errorText, canceled, requestId }) => {
+  if (!canceled) netErrors.push({ path: requestId, text: `request failed: ${errorText}` });
+});
 try {
+  await chrome.send("Network.enable");
   await chrome.send("Emulation.setDeviceMetricsOverride", { width: WIDTH, height: 740, deviceScaleFactor: 2, mobile: true });
   for (const state of ["normal", "warnings"]) {
     // A fresh server (new port = new origin) per state, so a service worker from one state

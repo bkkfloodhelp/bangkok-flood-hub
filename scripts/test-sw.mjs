@@ -16,7 +16,8 @@ import { serve, stop } from "./lib/server.mjs";
 import { buildPage } from "./embed-fallback.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
-const SITE_FILES = ["index.html", "style.css", "render.js", "app.js", "sw.js", "data", "fonts", "scripts/sw-disable.js"];
+const SITE_FILES = ["index.html", "style.css", "render.js", "app.js", "sw.js", "data", "fonts",
+  "icon.svg", "favicon-32.png", "apple-touch-icon.png", "scripts/sw-disable.js"];
 const WAIT_MS = 12000;
 
 // What the page and browser look like right now.

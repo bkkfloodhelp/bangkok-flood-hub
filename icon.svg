@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Water drop in the site's --water colour (lighter in dark mode, like the page). -->
+  <style>path{fill:#1d5c8a}@media (prefers-color-scheme:dark){path{fill:#6fb1e0}}</style>
+  <path d="M32 3C32 3 11 27.5 11 42a21 21 0 0 0 42 0C53 27.5 32 3 32 3Z"/>
+</svg>

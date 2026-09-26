@@ -43,6 +43,8 @@ scripts/test-nojs.mjs      checks every phone number works with JavaScript disab
 scripts/lib/               shared Chrome and test-server helpers for the scripts above
 scripts/make-og-image.mjs  regenerates og-image.png, the LINE/Facebook link preview picture
 og-image.png               1200×630 preview picture (generated; don't edit by hand)
+icon.svg                   favicon: water drop in the site's blue (lighter in dark mode)
+favicon-32.png, apple-touch-icon.png  PNG icons made from icon.svg by scripts/make-icons.mjs
 .github/workflows/deploy.yml  check → embed fallback → publish to GitHub Pages
 .github/workflows/tests.yml   runs both browser tests when code changes (does not block deploys)
 ```

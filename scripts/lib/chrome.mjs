@@ -44,7 +44,14 @@ export async function launchChrome(profile) {
   await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
   let id = 0;
   const pending = new Map();
-  ws.onmessage = m => { const d = JSON.parse(m.data); if (pending.has(d.id)) { pending.get(d.id)(d); pending.delete(d.id); } };
+  const listeners = new Map();
+  ws.onmessage = m => {
+    const d = JSON.parse(m.data);
+    if (pending.has(d.id)) { pending.get(d.id)(d); pending.delete(d.id); }
+    else if (d.method) (listeners.get(d.method) || []).forEach(cb => cb(d.params));
+  };
   const send = (method, params = {}) => new Promise(r => { const i = ++id; pending.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); });
-  return { proc, ws, send };
+  // on("Network.responseReceived", params => ...) — protocol events (enable the domain first).
+  const on = (method, cb) => listeners.set(method, [...(listeners.get(method) || []), cb]);
+  return { proc, ws, send, on };
 }

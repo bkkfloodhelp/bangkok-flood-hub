@@ -23,6 +23,11 @@
 <!-- Runs before the page paints: marks that JavaScript works (so JS-only controls appear) and
      applies the saved language, so English readers don't see a flash of Thai first. -->
 <script>document.documentElement.classList.add("js");try{var l=localStorage.getItem("lang");if(l==="th"||l==="en")document.documentElement.lang=l}catch(e){}</script>
+<!-- Icons (made by scripts/make-icons.mjs from icon.svg). Declaring them stops browsers asking
+     for /favicon.ico at the domain root, which isn't part of this site. -->
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>

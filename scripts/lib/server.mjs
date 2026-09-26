@@ -7,7 +7,7 @@ import { extname, join, normalize, sep } from "node:path";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript",
-  ".json": "application/json", ".woff2": "font/woff2", ".png": "image/png",
+  ".json": "application/json", ".woff2": "font/woff2", ".png": "image/png", ".svg": "image/svg+xml",
 };
 
 // overrides: { "/data/flood.json": "<new content>" | Buffer | null (null = 404) }
