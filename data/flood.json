@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2026-09-26T16:15:00+07:00",
+  "lastUpdated": "2026-09-26T20:46:00+07:00",
   "status": {
-    "updated": "2026-09-26T16:15:00+07:00",
-    "source": "ประชาชาติธุรกิจ / Prachachat",
+    "updated": "2026-09-26T20:46:00+07:00",
+    "source": "ไทยโพสต์ / Thai Post",
     "title": {
       "th": "ประกาศเขตภัยพิบัติทั้ง 50 เขต",
       "en": "All 50 districts declared disaster zones"
     },
     "body": {
-      "th": "อพยพเข้าศูนย์พักพิงแล้วราว 4,200 คน คลองสายหลัก เช่น เปรมประชากร แสนแสบ ประเวศบุรีรมย์ และทวีวัฒนา เต็มและเอ่อล้นบางจุด กทม. สูบน้ำเต็มกำลัง คาดใช้เวลา 2–3 วันหากไม่มีฝนเพิ่ม หากอยู่ริมคลองหรือที่ลุ่ม ให้ยกของขึ้นที่สูงและหลีกเลี่ยงการเดินทาง",
-      "en": "About 4,200 people have evacuated to shelters. Main canals including Prem Prachakorn, Saen Saep, Prawet Burirom and Thawi Watthana are full, with overflows in places. Pumps are at full capacity; draining will take 2–3 days if no more rain falls. If you live near a canal or in a low area, move belongings up and avoid travel."
+      "th": "กรมอุตุฯ เตือนฝนตกหนักถึงหนักมากถึง 27 ก.ย. รวมถึง กทม. คลองสายหลักยังเต็ม หากฝนหยุดต้องใช้เวลาระบายน้ำ 2–3 วัน มีผู้อพยพเข้าศูนย์พักพิงราว 4,200 คน เขื่อนเจ้าพระยาเพิ่มการระบายน้ำ ผู้อยู่ริมแม่น้ำเจ้าพระยาที่ลุ่มต่ำให้เฝ้าระวัง หากอยู่ริมคลองหรือที่ลุ่ม ให้ยกของขึ้นที่สูงและหลีกเลี่ยงการเดินทาง",
+      "en": "The TMD warns of heavy to very heavy rain through 27 Sep, including Bangkok. Main canals are still full; draining will take 2–3 days after the rain stops. About 4,200 people are in shelters. The Chao Phraya Dam has increased its release: people in low-lying areas along the river should stay alert. If you live near a canal or in a low area, move belongings up and avoid travel."
     }
   },
   "hotlines": [
@@ -173,29 +173,17 @@
     }
   ],
   "roadsNote": {
-    "updated": "2026-09-26T13:00:00+07:00",
-    "source": "Khaosod English",
+    "updated": "2026-09-26T20:46:00+07:00",
+    "source": "ไทยโพสต์ / Thai Post",
     "text": {
-      "th": "รายการนี้ไม่ครบ ผู้ว่าฯ กทม. แจ้งเวลา 13:00 น. ว่ามีถนนน้ำท่วมอย่างน้อย 93 สาย โปรดตรวจสอบกับ กทม. หรือโทร 1555 ก่อนเดินทาง",
-      "en": "This list is incomplete. At 13:00 the governor said at least 93 roads should be avoided. Check with the BMA or call 1555 before travelling."
+      "th": "กทม. แจ้งถนน 13 สายที่รถเล็กผ่านไม่ได้ สถานการณ์เปลี่ยนตลอดเวลา ตรวจสอบแบบเรียลไทม์ที่เว็บไซต์ของ กทม. หรือโทร 1555 ก่อนเดินทาง",
+      "en": "BMA says 13 roads are impassable for small cars. Conditions change constantly: check the BMA's real-time website or call 1555 before travelling."
     }
   },
   "roads": [
-    { "name": { "th": "ถ.วิภาวดีรังสิต", "en": "Vibhavadi Rangsit Rd" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.พหลโยธิน", "en": "Phahon Yothin Rd" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.รัชดาภิเษก", "en": "Ratchadaphisek Rd" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.พัฒนาการ", "en": "Pattanakan Rd" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.ลาดพร้าว", "en": "Lat Phrao Rd" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.ศรีนครินทร์", "en": "Srinakarin Rd" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.สุขุมวิท", "en": "Sukhumvit Rd" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.รามคำแหง", "en": "Ramkhamhaeng Rd" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.พระราม 9", "en": "Rama 9 Rd" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.รามอินทรา", "en": "Ram Intra Rd" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.กำแพงเพชร 2", "en": "Kamphaeng Phet 2 Rd" }, "type": "slow", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.ราชวิถี", "en": "Ratchawithi Rd" }, "type": "slow", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.ศรีอยุธยา", "en": "Si Ayutthaya Rd" }, "type": "slow", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.บางนา-ตราด", "en": "Bang Na-Trat Rd" }, "type": "slow", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
-    { "name": { "th": "ถ.พระราม 2", "en": "Rama 2 Rd" }, "type": "slow", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" }
+    { "name": { "th": "ด่านดอนเมืองโทลล์เวย์ แจ้งวัฒนะ ขาเข้า (ปิดชั่วคราว)", "en": "Don Muang Tollway, Chaeng Watthana entrance, inbound (temporarily closed)" }, "type": "avoid", "updated": "2026-09-26T20:46:00+07:00", "source": "Thai Post" },
+    { "name": { "th": "ด่านดอนเมืองโทลล์เวย์ หลักสี่ ขาออก (ปิดชั่วคราว)", "en": "Don Muang Tollway, Lak Si entrance, outbound (temporarily closed)" }, "type": "avoid", "updated": "2026-09-26T20:46:00+07:00", "source": "Thai Post" },
+    { "name": { "th": "ด่านดอนเมืองโทลล์เวย์ ลาดพร้าว ขาออก (ปิดชั่วคราว)", "en": "Don Muang Tollway, Lat Phrao entrance, outbound (temporarily closed)" }, "type": "avoid", "updated": "2026-09-26T20:46:00+07:00", "source": "Thai Post" }
   ],
   "tools": [],
   "assistance": {
@@ -223,6 +211,7 @@
     { "title": "Thai PBS World (shelters)", "url": "https://www.thaipbsworld.com/around-thailand/558607" },
     { "title": "Khaosod English (roads)", "url": "https://www.khaosodenglish.com/featured/2026/09/26/bangkok-declares-all-50-districts-disaster-affected-as-flood-warning-issued/" },
     { "title": "The Nation (hotlines)", "url": "https://www.nationthailand.com/thailand/bangkok/40071507" },
-    { "title": "Khaosod English (shelter capacity)", "url": "https://www.khaosodenglish.com/news/2026/09/26/closed-schools-and-work-from-home-on-monday-as-bangkok-battles-floods/" }
+    { "title": "Khaosod English (shelter capacity)", "url": "https://www.khaosodenglish.com/news/2026/09/26/closed-schools-and-work-from-home-on-monday-as-bangkok-battles-floods/" },
+    { "title": "Thai Post (26 Sep, 20:46 roundup)", "url": "https://www.thaipost.net/hi-light/1077095/" }
   ]
 }
