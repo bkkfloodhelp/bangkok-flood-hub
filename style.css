@@ -86,7 +86,7 @@ html[lang="en"] [data-en]{display:revert}
 .notice{background:var(--amber-soft);border-left:6px solid var(--amber);padding:10px 14px;margin:12px 0 0;border-radius:4px;font-size:.92rem}
 .notice strong{color:var(--amber)}
 .fresh{color:var(--muted);font-size:.88rem;margin:-10px 0 0}
-.stale{background:var(--alert-soft);border-left:6px solid var(--alert);padding:12px 14px;margin:0 0 12px;border-radius:4px}
+.stale{background:var(--alert-soft);border-left:6px solid var(--alert);padding:10px 14px;margin:0 0 12px;border-radius:4px}
 .stale strong{color:var(--alert)}
 .stale a{color:var(--alert);font-weight:700}
 .age{white-space:nowrap}
@@ -122,8 +122,8 @@ ul.list li > .tag{white-space:nowrap;flex-shrink:0;margin-right:0}
 /* ---------- damage.html (evidence checklist) ---------- */
 .back{margin:0 0 4px;font-size:.92rem}
 .back a{color:var(--water)}
-.note.intro{margin:16px 0 12px}
-.safety{border-left:4px solid var(--alert);padding:6px 12px;margin:12px 0;font-size:.9rem}
+.note.intro{margin:12px 0}
+.safety{background:var(--alert-soft);border-left:6px solid var(--alert);padding:10px 14px;margin:12px 0;border-radius:4px;font-size:.9rem}
 .actions{margin:12px 0}
 .print-btn{font:inherit;font-weight:700;background:var(--panel);color:var(--water);border:2px solid var(--water);border-radius:999px;padding:8px 18px;cursor:pointer}
 .clear-btn{font:inherit;font-weight:600;background:var(--panel);color:var(--muted);border:2px solid var(--muted);border-radius:999px;padding:8px 18px;cursor:pointer}
