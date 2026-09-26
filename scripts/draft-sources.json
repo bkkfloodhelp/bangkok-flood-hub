@@ -1,9 +1,9 @@
 {
-  "_comment": "Pages the draft-update workflow reads (scripts/draft-update.mjs). Edit freely: name is shown as the source in flood.json; followLinks (0-4) opens that many flood-related article links found on the page, so each change can cite an article with its own publication time. Sources that can't be fetched are listed in the pull request.",
+  "_comment": "Pages the draft-update workflow reads (scripts/draft-update.mjs). Edit freely: name is shown as the source in flood.json; followLinks (0-4) opens that many flood-related article links found on the page, so each change can cite an article with its own publication time. {NAME} in a URL is filled in from a secret or variable of that name and never shown. Sources that can't be fetched are listed in the pull request.",
   "sources": [
     { "name": "BMA flood monitoring", "url": "https://weather.bangkok.go.th/flood/", "followLinks": 0 },
-    { "name": "Thai Meteorological Department (warnings)", "url": "https://data.tmd.go.th/api/WeatherWarningNews/v1/?uid=api&ukey=api12345", "followLinks": 0,
-      "_note": "TMD open-data warnings feed, using the demo key from TMD's API documentation (register your own at data.tmd.go.th). The tmd.go.th website itself sends an incomplete certificate chain, which Node rejects." },
+    { "name": "Thai Meteorological Department (warnings)", "url": "https://data.tmd.go.th/api/WeatherWarningNews/v1/?uid={TMD_API_UID}&ukey={TMD_API_KEY}", "followLinks": 0,
+      "_note": "TMD open-data warnings feed. {TMD_API_UID} (repository variable) and {TMD_API_KEY} (secret) come from a free registration at data.tmd.go.th; if either is missing this source is skipped and flagged. The tmd.go.th website itself sends an incomplete certificate chain, which Node rejects." },
     { "name": "Thai PBS", "url": "https://www.thaipbs.or.th/news", "followLinks": 3 },
     { "name": "Thai PBS World", "url": "https://www.thaipbsworld.com/?s=bangkok+flood", "followLinks": 3 },
     { "name": "Khaosod English", "url": "https://www.khaosodenglish.com/?s=bangkok+flood", "followLinks": 3 },

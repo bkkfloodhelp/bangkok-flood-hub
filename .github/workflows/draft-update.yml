@@ -1,6 +1,6 @@
 name: Draft data update (needs human review)
 
-# Reads the news sources in scripts/draft-sources.json, asks Claude for proposed changes to
+# Reads the news sources in scripts/draft-sources.json, asks Claude (claude-sonnet-5) for proposed changes to
 # status / roadsNote / roads / shelters, and opens a DRAFT pull request for a person to review.
 # It never merges and never publishes: the site only changes when someone merges the PR.
 #
@@ -50,6 +50,8 @@ jobs:
         if: steps.open.outputs.open == '0'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TMD_API_UID: ${{ vars.TMD_API_UID }}   # TMD feed is skipped (and flagged) if either is missing
+          TMD_API_KEY: ${{ secrets.TMD_API_KEY }}
         run: node scripts/draft-update.mjs --body "$RUNNER_TEMP/pr-body.md"
 
       # The same checks the site uses, run here so a broken draft never becomes a pull request.

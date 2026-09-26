@@ -82,27 +82,84 @@ To turn it back on, remove the flag, or restore `sw.js` from its **History**. Ei
 
 ## Automatic draft updates (optional, off by default)
 
-`.github/workflows/draft-update.yml` can prepare data updates for volunteers. Every 3 hours it reads the news sources in [`scripts/draft-sources.json`](scripts/draft-sources.json), asks Claude for proposed changes, and opens a **draft pull request**. **It never publishes anything.** The site only changes when a person reviews the pull request and merges it.
+`.github/workflows/draft-update.yml` can prepare data updates for volunteers. Every 3 hours it reads the news sources in [`scripts/draft-sources.json`](scripts/draft-sources.json), asks Claude (model `claude-sonnet-5`) for proposed changes, and opens a **draft pull request**. **It never publishes anything.** The site only changes when a person reviews the pull request and merges it.
 
-**Every draft pull request must be reviewed by a person before merging.** Open each source link in the table, check that the change matches it, fix or delete anything wrong (especially Thai/English names the draft marks as "rendered"), then click **Ready for review** and merge. If in doubt, close the pull request; nothing is lost.
+**Every draft pull request must be reviewed by a person before merging.** Open each source link in the table, check that the change matches it, fix or delete anything wrong (especially Thai/English names the draft marks as "rendered"), then click **Ready for review**, approve and merge. If in doubt, close the pull request; nothing is lost.
 
 What it may change: only `status`, `roadsNote`, `roads` and `shelters`. **Hotlines and assistance amounts are never changed.** The script enforces this and gives up if anything else would change. Every proposed change must quote its source word for word, and must have a publication time from the article itself. The script checks both, and drops changes that fail, listing them in the pull request.
 
 **Schedule:** at 07:17, 10:17, 13:17, 16:17, 19:17, 22:17, 01:17 and 04:17 Bangkok time (UTC `17 */3 * * *`). GitHub can start scheduled runs late. It skips a run while an earlier draft pull request is still open, and opens no pull request when nothing changed.
 
-**Turn it on**
-1. Add the API key: **Settings → Secrets and variables → Actions → Secrets → New repository secret**, name `ANTHROPIC_API_KEY`, value: a Claude API key from the Anthropic Console.
-2. Add the switch: same page, **Variables** tab → **New repository variable**, name `AUTO_DRAFT`, value `on`.
-3. Allow the workflow to open pull requests: **Settings → Actions → General → Workflow permissions →** tick **Allow GitHub Actions to create and approve pull requests** (for an organisation, the organisation's Actions settings must allow it too).
-4. To try it now: **Actions → Draft data update (needs human review) → Run workflow**.
+### Turn it on
 
-**Turn it off:** set `AUTO_DRAFT` to `off` (or delete the variable). Runs then stop immediately, doing nothing. To stop it being scheduled at all: **Actions → Draft data update (needs human review) → ⋯ → Disable workflow** (turn back on with **Enable workflow**).
+All of these are under the repository's **Settings**.
 
-**Checks on the pull request:** before opening a pull request, the workflow runs the validator, the build (road count, phone links) and the no-JavaScript test on the draft, and opens nothing if they fail. GitHub doesn't start the usual checks on pull requests opened with the workflow's built-in token. To have them run too, add a fine-grained personal access token (repository access: this repo; permissions: Contents and Pull requests read/write) as the secret `DRAFT_PR_TOKEN`, or close and reopen the pull request.
+1. **Claude API key.** Use its own workspace, so it can have a spend limit (step 2).
+   - In the [Claude Console](https://platform.claude.com/settings/workspaces), go to **Settings → Workspaces → Create workspace** (e.g. "bkk-flood-drafts").
+   - Create an API key in that workspace.
+   - In GitHub: **Secrets and variables → Actions → Secrets → New repository secret**, name `ANTHROPIC_API_KEY`.
+2. **Monthly spend limit.** In the Claude Console, open that workspace's **Spend limits** tab, set a monthly cap (for example US$50), and add an alert at, say, 50%. When the cap is reached, API calls fail, the workflow run fails, and nothing is published. Spend limits can't be set on the Default Workspace, which is why the key gets its own workspace.
+3. **TMD weather warnings (optional).** Register for free at [data.tmd.go.th](https://data.tmd.go.th) to get a user ID and a key.
+   - Add the key as the secret `TMD_API_KEY`.
+   - Add the user ID as the variable `TMD_API_UID` (**Variables** tab).
+   - Without them, the TMD source is skipped, and each pull request says so.
+4. **Allow pull requests:** **Actions → General → Workflow permissions →** tick **Allow GitHub Actions to create and approve pull requests**. The `bkkfloodhelp` organisation's Actions settings must allow it too.
+5. **Switch it on:** **Secrets and variables → Actions → Variables → New repository variable**, name `AUTO_DRAFT`, value `on`.
+6. **Try it:** **Actions → Draft data update (needs human review) → Run workflow**.
 
-**Cost (estimate, not yet measured):** each run sends about 14 pages of text to Claude (model `claude-opus-5`), probably US$0.30–0.60 a run, or $3–5 a day at 8 runs. Check the real figure in the Anthropic Console after the first few runs. To use a different model, set `DRAFT_MODEL` in the workflow's `env`. To test without calling the API: `node scripts/draft-update.mjs --mock-response <file> --dry-run`.
+### Turn it off
 
-**Sources:** edit `scripts/draft-sources.json`. Sources that can't be fetched are listed in each pull request. Currently Khaosod and Khaosod English block automated requests (HTTP 403). TMD's website sends an incomplete security certificate, so the workflow reads TMD's open-data warnings feed instead.
+- **Stop the runs:** set `AUTO_DRAFT` to `off` (or delete it). Each run then stops immediately without doing anything.
+- **Stop scheduling it entirely:** **Actions → Draft data update (needs human review) → ⋯ → Disable workflow**. **Enable workflow** turns it back on.
+
+### Require a review before anything reaches `main` (branch protection)
+
+To make sure no change (from a draft or anyone else) is published without a second pair of eyes:
+
+1. Go to **Settings → Rules → Rulesets → New ruleset → New branch ruleset**.
+2. Set it up:
+   - name: "main needs review"
+   - Enforcement: **Active**
+   - Target branches: **Include default branch**
+3. Tick these rules:
+   - **Restrict deletions**
+   - **Block force pushes**
+   - **Require a pull request before merging**, with **Required approvals: 1**
+4. Optionally, under **Require status checks to pass**, add **Check flood.json / ตรวจสอบข้อมูล**.
+
+> [!IMPORTANT]
+> **This changes how volunteers update data.** With the rule on, nobody can commit straight to `main` any more, including the "Commit directly to the main branch" step in [UPDATING.md](UPDATING.md). Every edit becomes a pull request that someone else must approve. That's safer, but urgent fixes wait for a second person.
+>
+> If that's too slow during an emergency, add trusted maintainers to the ruleset's **Bypass list**. They can then still commit directly, while drafts and other contributors need approval.
+>
+> **You can't approve your own pull request.** Draft pull requests are authored by whoever owns the token that opened them (see below). If that's you, another maintainer must approve.
+
+### Checks on draft pull requests, and `DRAFT_PR_TOKEN`
+
+Before opening a pull request, the workflow runs the validator, the build (road count, phone links) and the no-JavaScript test on the draft, and opens nothing if they fail.
+
+GitHub doesn't start the repository's usual checks on pull requests opened with the workflow's built-in token. To have them run too (and to satisfy a "require status checks" rule), add a **fine-grained personal access token** limited to this one repository:
+
+1. On GitHub: your avatar → **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**.
+2. Set up the token:
+   - **Resource owner:** `bkkfloodhelp`. The organisation may need to approve the token under its **Settings → Personal access tokens**.
+   - **Expiration:** 90 days or less.
+   - **Repository access:** **Only select repositories →** `bangkok-flood-hub`.
+   - **Permissions → Repository permissions:** **Contents: Read and write**, **Pull requests: Read and write**. Metadata: read-only is added automatically. Nothing else.
+3. Save it as the repository secret `DRAFT_PR_TOKEN`.
+
+Pull requests will then be authored by the token's owner. Ideally that's a separate bot account, so any maintainer (including you) can approve the drafts. Renew the token before it expires. An expired token makes draft runs fail when pushing the branch (nothing is published). Renew it, or delete the secret to go back to the built-in token.
+
+### Cost
+
+This is an **estimate, not yet measured**. Each run sends about 14 pages of article text to `claude-sonnet-5` ($2 / $10 per million input / output tokens). That's roughly US$0.10–0.25 a run, or $1–2 a day at 8 runs. Check the real figure on the workspace's usage page after the first runs. The spend limit from step 2 caps it regardless.
+
+- **Different model:** set `DRAFT_MODEL` in the workflow's `env`.
+- **Test without calling the API:** `node scripts/draft-update.mjs --mock-response <file> --dry-run`.
+
+### Sources
+
+Edit `scripts/draft-sources.json`. `{NAME}` in a URL is filled in from a secret or variable of that name. It is never shown in pull requests or logs, and a source whose secret is missing is skipped and flagged. Sources that can't be fetched are listed in each pull request. Currently, Khaosod and Khaosod English block automated requests (HTTP 403). TMD's website sends an incomplete security certificate, so TMD is read through its open-data feed (step 3).
 
 ## Old address
 

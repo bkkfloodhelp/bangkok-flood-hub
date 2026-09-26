@@ -11,7 +11,8 @@
 //   --save-docs      also save the downloaded documents to this file (for building test responses)
 //   --replay-docs    use documents saved with --save-docs instead of fetching (repeatable tests)
 //
-// Needs ANTHROPIC_API_KEY (unless --mock-response). No npm dependencies (Node 22+).
+// Needs ANTHROPIC_API_KEY (unless --mock-response); TMD_API_UID / TMD_API_KEY for the TMD feed
+// (skipped and flagged if missing). No npm dependencies (Node 22+).
 //
 // Safety rules, enforced here in code, not left to the model:
 //   - only "status", "roadsNote", "roads" and "shelters" can change; hotlines, assistance and
@@ -31,7 +32,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const DATA = join(ROOT, "data/flood.json");
-const MODEL = process.env.DRAFT_MODEL || "claude-opus-5";
+const MODEL = process.env.DRAFT_MODEL || "claude-sonnet-5";
 const SECTIONS = ["status", "roadsNote", "roads", "shelters"];
 const MAX_DOC_CHARS = 20000;         // per document sent to the model (noted in the prompt when cut)
 const FETCH_TIMEOUT_MS = 30000;
@@ -146,19 +147,35 @@ async function collect(sources) {
     docs.push(doc); return doc;
   };
   for (const s of sources) {
+    // "{NAME}" in a URL is filled in from the environment (a secret, e.g. {TMD_API_KEY}). The
+    // filled-in URL is used only for the request itself; everything shown in the pull request,
+    // the logs or sent to the model uses the URL with "{NAME}" kept, and secret values are masked.
+    const needed = [...s.url.matchAll(/\{([A-Z0-9_]+)\}/g)].map(m => m[1]);
+    const missing = needed.filter(n => !process.env[n]);
+    if (missing.length) { report.push({ name: s.name, url: s.url, ok: false, detail: `skipped: ${missing.join(" and ")} not set` }); continue; }
+    const secrets = needed.map(n => process.env[n]);
+    const mask = str => secrets.reduce((out, v) => out.split(v).join("***").split(encodeURIComponent(v)).join("***"), String(str));
+    const realUrl = s.url.replace(/\{([A-Z0-9_]+)\}/g, (_, n) => encodeURIComponent(process.env[n]));
     const fetchedAt = Date.now();
-    const page = await get(s.url);
-    if (!page.ok) { report.push({ name: s.name, url: s.url, ok: false, detail: page.error }); continue; }
-    const doc = add(s.name, s.url, page, fetchedAt, false);
-    const words = (doc.text.match(FLOODY) || []).length;
-    report.push({ name: s.name, url: s.url, ok: true, detail: `${doc.text.length.toLocaleString()} chars of text${doc.text.length < 500 ? " (very little text, page may need JavaScript)" : ""}` });
-    for (const link of floodLinks(page.html, page.url || s.url, Math.min(4, s.followLinks || 0))) {
+    const got = await get(realUrl);
+    if (!got.ok) { report.push({ name: s.name, url: s.url, ok: false, detail: mask(got.error) }); continue; }
+    // Some APIs (e.g. TMD) answer a wrong key with HTTP 200 and a short "Authentication fail".
+    const short = norm(pageText(got.html));
+    if (needed.length && short.length < 200 && /authenticat\w* fail|invalid (api )?key|unauthori[sz]ed|access denied/i.test(short)) {
+      report.push({ name: s.name, url: s.url, ok: false, detail: `rejected the key (“${mask(short)}”): check ${needed.join(" and ")}` });
+      continue;
+    }
+    const shownUrl = needed.length ? s.url : got.url || s.url;
+    const page = { ...got, url: shownUrl, html: mask(got.html) };
+    const doc = add(s.name, shownUrl, page, fetchedAt, false);
+    report.push({ name: s.name, url: shownUrl, ok: true, detail: `${doc.text.length.toLocaleString()} chars of text${doc.text.length < 500 ? " (very little text, page may need JavaScript)" : ""}` });
+    const follow = needed.length ? 0 : Math.min(4, s.followLinks || 0); // never follow links from a URL that carries a secret
+    for (const link of floodLinks(page.html, shownUrl, follow)) {
       const art = await get(link);
       if (!art.ok) { report.push({ name: `${s.name} (article)`, url: link, ok: false, detail: art.error }); continue; }
       const d = add(s.name, link, art, Date.now(), true);
       report.push({ name: `${s.name} (article)`, url: d.url, ok: true, detail: d.publishedAt ? `published ${bkkIso(d.publishedAt)}` : "no reliable publication time (article text not identified, or no time in its metadata)" });
     }
-    void words;
   }
   return { docs, report };
 }
@@ -217,7 +234,6 @@ async function askClaude(current, docs) {
     `\n\nDocuments fetched just now:\n\n${docText}\n\nPropose changes as described.`;
   const body = {
     model: MODEL, max_tokens: 16000,
-    fallbacks: "default", // re-run on Anthropic's recommended model if the request is declined
     output_config: { effort: "high", format: { type: "json_schema", schema: SCHEMA } },
     system: SYSTEM, messages: [{ role: "user", content: user }],
   };
@@ -225,7 +241,7 @@ async function askClaude(current, docs) {
     const r = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: { "content-type": "application/json", "x-api-key": process.env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01", "anthropic-beta": "server-side-fallback-2026-07-01" },
+        "anthropic-version": "2023-06-01" },
       body: JSON.stringify(body), signal: AbortSignal.timeout(10 * 60e3),
     });
     const res = await r.json().catch(() => ({}));
