@@ -80,6 +80,10 @@ To turn it back on, remove the flag, or restore `sw.js` from its **History**. Ei
 4. If the URL ever changes (e.g. a custom domain), update `og:url` in `index.html`.
 5. Optional but recommended: in **Settings → Branches**, protect `main` so changes go through a pull request. The check then runs before anything is merged.
 
+## Old address
+
+The site used to be at `https://phantawat.github.io/bangkok-flood-hub/`. That address is now served by the separate repository [Phantawat/bangkok-flood-hub](https://github.com/Phantawat/bangkok-flood-hub). Its pages send visitors to the matching page here, and its `sw.js` removes the old offline copy from phones that saved it. That repository is made by `node scripts/make-redirect-site.mjs <folder>` and tested by `node scripts/test-redirect.mjs`. Don't put site content there.
+
 ## Local preview
 
 ```sh
