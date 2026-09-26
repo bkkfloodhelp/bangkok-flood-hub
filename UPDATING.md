@@ -124,11 +124,20 @@ Copy an existing shelter block, paste it after the last one, and edit it. **Don'
 Delete that shelter's whole `{ ... }` block, then check there is no extra `,` after the last block.
 
 ### แก้ถนน · Update a road
+**เขียนชื่อให้ครบ ตรงตามที่ต้องการให้แสดงบนหน้าเว็บ** หน้าเว็บจะไม่เติม "ถ." หรือ "Rd" ให้
+**Write the name in full, exactly as it should appear on the page.** The page does not add "ถ." or "Rd".
+
+ถนนทั่วไป · A normal road:
 ```json
-    { "name": { "th": "วิภาวดีรังสิต", "en": "Vibhavadi Rangsit" }, "type": "avoid", "updated": "2026-09-27T09:45:00+07:00", "source": "BMA via Khaosod English" },
+    { "name": { "th": "ถ.สุขุมวิท", "en": "Sukhumvit Rd" }, "type": "avoid", "updated": "2026-09-27T09:45:00+07:00", "source": "BMA via Khaosod English" },
+```
+จุดที่ไม่ใช่ชื่อถนน เช่น แยก หรือ ซอย ไม่ต้องมี "ถ." หรือ "Rd" · A place that isn't a road name (an intersection, a soi) has no "ถ." or "Rd":
+```json
+    { "name": { "th": "แยกพงษ์เพชร", "en": "Phong Phet intersection" }, "type": "avoid", "updated": "2026-09-27T09:45:00+07:00", "source": "BMA via Khaosod English" },
 ```
 - `"type"`: `"avoid"` = เลี่ยง (red text) · `"slow"` = ขับช้า (yellow) · `"no-small-cars"` = รถเล็กห้ามผ่าน / No small cars (solid red)
-- ไม่ต้องใส่ "ถ." หรือ "Rd" หน้าเว็บเติมให้เอง · Don't write "ถ." or "Rd"; the page adds them.
+- ระวังอย่าใส่ซ้ำ เช่น "ถ.ถ.สุขุมวิท" หรือ "Sukhumvit Rd Rd" ระบบตรวจสอบจะเตือน (⚠️) แต่ยังขึ้นหน้าเว็บ จึงควรแก้ทันที
+  Don't write it twice ("ถ.ถ.สุขุมวิท", "Sukhumvit Rd Rd"). The check shows a ⚠️ warning but the page still updates, so fix it straight away.
 - **ถ้ายืนยันว่าถนนยังท่วมอยู่ ให้แก้เวลา `updated` เป็นเวลาที่ยืนยัน** ถ้าข้อมูลถนนเก่ากว่า 6 ชั่วโมง หน้าเว็บจะขึ้นคำเตือนสีแดงให้ผู้ใช้โทรเช็ก 1555
   **If you confirm a road is still flooded, set its `updated` to the time you confirmed it.** When road information is over 6 hours old, the page shows a red warning telling people to check with 1555.
 

@@ -210,11 +210,14 @@ function checkRoads(v) {
     knownKeys(p, r, ["name", "type", "updated", "source"]);
     if (required(p, r, "name")) {
       bilingual(`${p}.name`, r.name);
-      if (isObj(r.name) && typeof r.name.th === "string" && /^ถ(\.|นน)/.test(r.name.th)) {
-        warn(`${p}.name.th`, `Leave out "ถ." / "ถนน" — the page adds "ถ." itself.`, `ไม่ต้องใส่ "ถ." หรือ "ถนน" หน้าชื่อ หน้าเว็บเติมให้เอง`);
+      // Names are written in full ("ถ.สุขุมวิท" / "Sukhumvit Rd"). Catch the prefix/suffix typed twice.
+      if (isObj(r.name) && typeof r.name.th === "string" && /^ถ\.\s*ถ\./.test(r.name.th)) {
+        warn(`${p}.name.th`, `Starts with "ถ.ถ." — "ถ." is written twice. Write the name once, e.g. "ถ.สุขุมวิท".`,
+          `ขึ้นต้นด้วย "ถ.ถ." (ใส่ "ถ." ซ้ำ) ให้เขียนครั้งเดียว เช่น "ถ.สุขุมวิท"`);
       }
-      if (isObj(r.name) && typeof r.name.en === "string" && /\s(Rd|Road)\.?$/i.test(r.name.en)) {
-        warn(`${p}.name.en`, `Leave out "Rd" / "Road" — the page adds " Rd" itself.`, `ไม่ต้องใส่ "Rd" / "Road" หน้าเว็บเติมให้เอง`);
+      if (isObj(r.name) && typeof r.name.en === "string" && /\bRd\.?\s+Rd\.?$/i.test(r.name.en)) {
+        warn(`${p}.name.en`, `Ends with "Rd Rd" — "Rd" is written twice. Write it once, e.g. "Sukhumvit Rd".`,
+          `ลงท้ายด้วย "Rd Rd" (ใส่ "Rd" ซ้ำ) ให้เขียนครั้งเดียว เช่น "Sukhumvit Rd"`);
       }
     }
     if (required(p, r, "type") && !ROAD_TYPES.includes(r.type)) {

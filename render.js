@@ -105,7 +105,8 @@
   function roadItem(r, mainSource) {
     const tag = ROAD_TAGS[r.type] || { th: r.type, en: r.type };
     return '<li><span class="road"><span class="tag ' + esc(r.type) + '">' + biObj(tag) + '</span>' +
-      '<span class="rn">' + bi("ถ." + r.name.th, r.name.en + " Rd") + '</span></span>' +
+      // Names are shown exactly as written in flood.json (e.g. "ถ.สุขุมวิท", "แยกพงษ์เพชร").
+      '<span class="rn">' + biObj(r.name) + '</span></span>' +
       '<span class="meta age-col">' + ageHTML(r.updated) + (r.source && r.source !== mainSource ? " · " + esc(r.source) : "") + '</span></li>';
   }
 
