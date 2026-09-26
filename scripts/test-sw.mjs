@@ -15,7 +15,7 @@ import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
-const SITE_FILES = ["index.html", "style.css", "app.js", "sw.js", "data", "scripts/sw-disable.js"];
+const SITE_FILES = ["index.html", "style.css", "app.js", "sw.js", "data", "fonts", "scripts/sw-disable.js"];
 const WAIT_MS = 12000;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -89,6 +89,7 @@ const REPORT = `(async () => {
     shelters: document.querySelectorAll("#shelters .name").length,
     notice: !!(n && !n.hidden),
     controlled: !!navigator.serviceWorker.controller,
+    fonts: (await document.fonts.ready, [...document.fonts].filter(f => f.status === "loaded").length),
     workers: regs.filter(r => r.active).length,
     caches: (await caches.keys()).filter(k => k.startsWith("flood-hub-")).length,
   };
@@ -134,6 +135,7 @@ async function scenario(title, applyOffSwitch) {
 
   try {
     let s = await visit(s => s.workers === 1 && s.caches === 1 && s.shelters > 0);
+    check(s && s.fonts >= 2, "online: self-hosted fonts load", show(s));
     check(s && s.shelters > 0, "online: page renders shelters", show(s));
     check(s && s.workers === 1 && s.caches === 1, "online: service worker installed and site cached", show(s));
 
@@ -141,9 +143,10 @@ async function scenario(title, applyOffSwitch) {
     check(s && s.controlled, "online, second visit: page is controlled by the worker", show(s));
 
     await stop(server);
-    s = await visit(s => s.notice && s.shelters > 0);
+    s = await visit(s => s.notice && s.shelters > 0 && s.fonts >= 2);
     check(s && s.shelters > 0, "offline: page still loads from the saved copy", show(s));
     check(s && s.notice, 'offline: "may be out of date" notice is shown', show(s));
+    check(s && s.fonts >= 2, "offline: IBM Plex Sans Thai fonts load from the cache", show(s));
 
     applyOffSwitch(site);
     server = await serve(site, port);

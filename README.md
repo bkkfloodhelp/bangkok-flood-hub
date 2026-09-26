@@ -16,7 +16,7 @@ The current sources are listed in the `sources` section of `flood.json` and in t
 - Khaosod English (roads, shelter capacity, status)
 - The Nation (hotlines)
 
-**Privacy:** the site has no analytics, no trackers, no cookies and no ads. The only third-party request is Google Fonts, for the IBM Plex Sans Thai typeface. The only thing saved on the device is the language choice, in `localStorage`.
+**Privacy:** the site has no analytics, no trackers, no cookies and no ads, and it makes **no requests to any other website**. The IBM Plex Sans Thai font is hosted here too. Two things are saved on the device: the language choice (in `localStorage`) and the service worker's offline copy of the page.
 
 ## Updating the information
 
@@ -34,6 +34,7 @@ data/flood.json            ← all content that changes; the only file volunteer
 scripts/validate.mjs       checks flood.json (required fields, phone numbers, timestamps)
 scripts/embed-fallback.mjs copies flood.json into index.html at deploy time
 sw.js                      service worker: offline support after the first visit
+fonts/                     IBM Plex Sans Thai (Thai + Latin, weights 400/600/700, ~65 KB) and its licence, OFL.txt
 scripts/sw-disable.js      emergency replacement for sw.js that removes the service worker
 scripts/test-sw.mjs        end-to-end test of offline mode and both off-switches (headless Chrome)
 .github/workflows/deploy.yml  check → embed fallback → publish to GitHub Pages

@@ -49,7 +49,7 @@ jobs:
         run: |
           mkdir _site
           cp index.html style.css app.js sw.js .nojekyll _site/
-          cp -r data _site/
+          cp -r data fonts _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

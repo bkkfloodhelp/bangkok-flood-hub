@@ -2,15 +2,18 @@
 // Strategy: network first (always try for fresh data), fall back to the cached copy if the
 // network fails or takes longer than NETWORK_TIMEOUT_MS. Cached responses are marked with an
 // X-Served-From header so the page can show its "may be out of date" notice.
+// Exception: font files are served cache first, because they never change. If a font file is
+// ever replaced, give it a new file name (or bump CACHE) so visitors get the new one.
 //
 // EMERGENCY OFF-SWITCH: replace this whole file with scripts/sw-disable.js (see README).
 
 // Only caches starting with this prefix belong to this site. phantawat.github.io is shared
 // with other project sites, so never touch other caches.
 const PREFIX = "flood-hub-";
-const CACHE = PREFIX + "v1";
+const CACHE = PREFIX + "v2";
 const NETWORK_TIMEOUT_MS = 4000;
-const SHELL = ["./", "index.html", "style.css", "app.js", "data/flood.json"];
+const FONTS = ["400", "600", "700"].flatMap(w => ["thai", "latin"].map(sub => `fonts/ibm-plex-sans-thai-${sub}-${w}.woff2`));
+const SHELL = ["./", "index.html", "style.css", "app.js", "data/flood.json", ...FONTS];
 
 self.addEventListener("install", event => {
   event.waitUntil(
@@ -30,9 +33,10 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   const req = event.request;
-  // Same-origin GETs only; Google Fonts and other sites go straight to the network.
-  if (req.method !== "GET" || new URL(req.url).origin !== self.location.origin) return;
-  event.respondWith(networkFirst(event));
+  // Same-origin GETs only; requests to other sites go straight to the network.
+  const url = new URL(req.url);
+  if (req.method !== "GET" || url.origin !== self.location.origin) return;
+  event.respondWith(url.pathname.includes("/fonts/") ? cacheFirst(event) : networkFirst(event));
 });
 
 async function fromCache(req) {
@@ -43,6 +47,11 @@ async function fromCache(req) {
   const headers = new Headers(hit.headers);
   headers.set("X-Served-From", "sw-cache");
   return new Response(hit.body, { status: hit.status, statusText: hit.statusText, headers });
+}
+
+async function cacheFirst(event) {
+  const hit = await (await caches.open(CACHE)).match(event.request, { ignoreSearch: true });
+  return hit || networkFirst(event);
 }
 
 function networkFirst(event) {
