@@ -10,10 +10,10 @@
 // Only caches starting with this prefix belong to this site. phantawat.github.io is shared
 // with other project sites, so never touch other caches.
 const PREFIX = "flood-hub-";
-const CACHE = PREFIX + "v2";
+const CACHE = PREFIX + "v3";
 const NETWORK_TIMEOUT_MS = 4000;
 const FONTS = ["400", "600", "700"].flatMap(w => ["thai", "latin"].map(sub => `fonts/ibm-plex-sans-thai-${sub}-${w}.woff2`));
-const SHELL = ["./", "index.html", "style.css", "app.js", "data/flood.json", ...FONTS];
+const SHELL = ["./", "index.html", "style.css", "render.js", "app.js", "data/flood.json", ...FONTS];
 
 self.addEventListener("install", event => {
   event.waitUntil(

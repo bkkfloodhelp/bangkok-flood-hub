@@ -1,6 +1,7 @@
 name: Site tests
 
-# Browser tests for code changes: offline mode / off-switches, and accessibility at 360px.
+# Browser tests for code changes: offline mode / off-switches, accessibility at 360px, and
+# the page with JavaScript disabled.
 # Deliberately separate from "Check data and deploy": a failure here does NOT block a deploy,
 # so a volunteer's urgent data update is never held up. Data-only and docs-only pushes skip it.
 on:
@@ -28,6 +29,9 @@ jobs:
       - name: Accessibility and layout at 360px
         if: always()
         run: node scripts/test-a11y.mjs
+      - name: Page works with JavaScript disabled
+        if: always()
+        run: node scripts/test-nojs.mjs
       - name: Keep screenshots
         if: always()
         uses: actions/upload-artifact@v4

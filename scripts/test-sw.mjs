@@ -13,9 +13,10 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { launchChrome, sleep } from "./lib/chrome.mjs";
 import { serve, stop } from "./lib/server.mjs";
+import { buildPage } from "./embed-fallback.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
-const SITE_FILES = ["index.html", "style.css", "app.js", "sw.js", "data", "fonts", "scripts/sw-disable.js"];
+const SITE_FILES = ["index.html", "style.css", "render.js", "app.js", "sw.js", "data", "fonts", "scripts/sw-disable.js"];
 const WAIT_MS = 12000;
 
 // What the page and browser look like right now.
@@ -45,6 +46,9 @@ async function scenario(title, applyOffSwitch) {
   const site = mkdtempSync(join(tmpdir(), "flood-site-"));
   const profile = mkdtempSync(join(tmpdir(), "flood-chrome-"));
   for (const f of SITE_FILES) cpSync(join(ROOT, f), join(site, f.replace(/^scripts\//, "")), { recursive: true });
+  // Build the page from the data, as the deploy does.
+  const data = JSON.parse(readFileSync(join(site, "data/flood.json"), "utf8"));
+  writeFileSync(join(site, "index.html"), buildPage(readFileSync(join(site, "index.html"), "utf8"), data).html);
 
   // Pick a free port once; the origin must stay the same when the server is restarted.
   const probe = await serve(site, 0);

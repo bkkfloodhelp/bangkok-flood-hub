@@ -1,253 +1,98 @@
 (function () {
 "use strict";
 
+// The page arrives already filled in (pre-rendered from data/flood.json at deploy time, in Thai
+// and English). This script only enhances it: "X hours ago" times, the stale-roads warning,
+// the district filter, the language toggle, the "may be out of date" notice, and offline support.
+// If the live data file is newer than the pre-rendered copy, it re-renders the data sections
+// with render.js (the same code the deploy step uses).
+
 const DATA_URL = "data/flood.json";
 const FETCH_TIMEOUT_MS = 8000;
-const ROADS_STALE_MS = 6 * 3600 * 1000;
-const BKK_OFFSET_MS = 7 * 3600 * 1000;
-
-const TH_DAYS = ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์"];
-const TH_MONTHS = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
-const EN_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const EN_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const R = window.FloodRender; // from render.js; if it failed to load, the pre-rendered page still works
 
 const $ = id => document.getElementById(id);
+const root = document.documentElement;
 
-let lang = "th";
-try { lang = localStorage.getItem("lang") || "th"; } catch (e) {}
-if (lang !== "th" && lang !== "en") lang = "th";
+// Set before first paint by the inline script in <head> (from localStorage).
+let lang = root.lang === "en" ? "en" : "th";
+let data = null;            // the data the page is currently showing
+let fallbackReason = null;  // null = live data; "fallback" = saved copy; "none" = no data at all
 
-let data = null;
-let fallbackReason = null; // null = live data; "fallback" = embedded copy; "none" = no data at all
+// ---------- enhancements ----------
 
-// ---------- helpers ----------
-
-// Pick the current language from a {th, en} object.
-function tr(o) { return o ? (o[lang] || o.th || o.en || "") : ""; }
-
-function el(tag, cls, text) {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text != null) e.textContent = text;
-  return e;
+// Turn the pre-rendered "updated 26 Sep, 13:15" into "updated 3 hours ago" (both languages).
+function refreshAges() {
+  if (!R) return;
+  const now = Date.now();
+  document.querySelectorAll(".age[data-ts]").forEach(s => { s.innerHTML = R.agoHTML(s.dataset.ts, now); });
 }
 
-function telHref(n) { return "tel:" + n.replace(/-/g, ""); }
-
-// "เสาร์ 26 ก.ย. 2569 13:15" / "Sat 26 Sep 2026, 13:15" — always Bangkok time.
-function formatStamp(iso) {
-  const t = Date.parse(iso);
-  if (isNaN(t)) return "";
-  const b = new Date(t + BKK_OFFSET_MS);
-  const hm = String(b.getUTCHours()).padStart(2, "0") + ":" + String(b.getUTCMinutes()).padStart(2, "0");
-  if (lang === "th") {
-    return TH_DAYS[b.getUTCDay()] + " " + b.getUTCDate() + " " + TH_MONTHS[b.getUTCMonth()] + " " + (b.getUTCFullYear() + 543) + " " + hm + " น.";
-  }
-  return EN_DAYS[b.getUTCDay()] + " " + b.getUTCDate() + " " + EN_MONTHS[b.getUTCMonth()] + " " + b.getUTCFullYear() + ", " + hm;
+function checkStale() {
+  $("roads-stale").hidden = !(R && data && R.roadsStale(data.roads, Date.now()));
 }
 
-// "อัปเดตเมื่อ 3 ชม. ที่แล้ว" / "updated 3 hours ago"
-function updatedAgo(iso) {
-  const t = Date.parse(iso);
-  if (isNaN(t)) return "";
-  const mins = Math.max(0, Math.floor((Date.now() - t) / 60000));
-  const th = lang === "th";
-  if (mins < 1) return th ? "อัปเดตเมื่อสักครู่" : "updated just now";
-  if (mins < 60) return th ? "อัปเดตเมื่อ " + mins + " นาทีที่แล้ว" : "updated " + mins + " min ago";
-  const hours = Math.floor(mins / 60);
-  if (hours < 48) return th ? "อัปเดตเมื่อ " + hours + " ชม. ที่แล้ว" : "updated " + hours + (hours === 1 ? " hour ago" : " hours ago");
-  const days = Math.floor(hours / 24);
-  return th ? "อัปเดตเมื่อ " + days + " วันที่แล้ว" : "updated " + days + " days ago";
-}
-
-// A span whose text is refreshed every minute by tick().
-function agoSpan(iso) {
-  const s = el("span", "age", updatedAgo(iso));
-  s.dataset.ts = iso;
-  return s;
-}
-
-function newestRoadTime() {
-  let newest = null;
-  data.roads.forEach(r => {
-    const t = Date.parse(r.updated);
-    if (!isNaN(t) && (newest === null || t > newest.t)) newest = { t, road: r };
-  });
-  return newest;
-}
-
-// ---------- render ----------
-
-function renderHeader() {
-  $("updated").textContent = (lang === "th" ? "อัปเดตล่าสุด: " : "Last updated: ") + formatStamp(data.lastUpdated);
-}
-
-function renderNotice() {
-  const n = $("notice");
-  n.textContent = "";
-  if (!fallbackReason) { n.hidden = true; return; }
-  const th = lang === "th";
-  n.appendChild(el("strong", null, th ? "ข้อมูลอาจไม่เป็นปัจจุบัน " : "May be out of date. "));
-  if (fallbackReason === "none") {
-    n.appendChild(document.createTextNode(th
-      ? "โหลดข้อมูลไม่สำเร็จ เหตุฉุกเฉินโทร 1669 หรือ 1555"
-      : "Could not load the information. In an emergency call 1669 or 1555."));
-  } else {
-    n.appendChild(document.createTextNode(th
-      ? "โหลดข้อมูลล่าสุดไม่สำเร็จ กำลังแสดงข้อมูลสำรอง ลองรีเฟรชเมื่อมีสัญญาณ"
-      : "Couldn't load the latest data, so this is a saved copy. Try refreshing when you have signal."));
-  }
-  n.hidden = false;
-}
-
-function renderStatus() {
-  const s = data.status;
-  $("status-title").textContent = tr(s.title);
-  $("status-body").textContent = tr(s.body);
-  const f = $("status-fresh");
-  f.textContent = "";
-  f.appendChild(agoSpan(s.updated));
-  if (s.source) f.appendChild(document.createTextNode(" · " + s.source));
-}
-
-function renderHotlines() {
-  const box = $("calls");
-  box.textContent = "";
-  data.hotlines.forEach(h => {
-    const a = el("a", h.urgent ? "call urgent" : "call");
-    a.href = h.number ? telHref(h.number) : h.url;
-    a.appendChild(el("b", null, h.number || h.display));
-    a.appendChild(el("span", null, tr(h.label)));
-    box.appendChild(a);
-  });
-}
-
+// <option> can't hold data-th/data-en spans, so the district list is rebuilt per language.
 function buildDistricts() {
+  if (!data) return;
   const sel = $("district");
   const cur = sel.value || "all";
   sel.textContent = "";
-  const all = el("option", null, lang === "th" ? "ทุกเขต" : "All districts");
-  all.value = "all";
-  sel.appendChild(all);
+  const add = (value, text) => {
+    const o = document.createElement("option");
+    o.value = value; o.textContent = text;
+    sel.appendChild(o);
+  };
+  add("all", lang === "th" ? "ทุกเขต" : "All districts");
   const seen = new Set();
   data.shelters.forEach(s => {
     if (s.district && !seen.has(s.district.en)) {
       seen.add(s.district.en);
-      const o = el("option", null, lang === "th" ? "เขต" + s.district.th : s.district.en);
-      o.value = s.district.en;
-      sel.appendChild(o);
+      add(s.district.en, lang === "th" ? "เขต" + s.district.th : s.district.en);
     }
   });
   sel.value = seen.has(cur) ? cur : "all";
 }
 
-function renderShelters() {
+function applyFilter() {
   const pick = $("district").value;
-  const ul = $("shelters");
-  ul.textContent = "";
-  data.shelters
-    .filter(s => pick === "all" || (s.district && s.district.en === pick))
-    .forEach(s => {
-      const li = el("li");
-      const info = el("div");
-      info.appendChild(el("div", "name", tr(s.name)));
-      const d = s.district
-        ? (lang === "th" ? "เขต" + s.district.th : s.district.en)
-        : (lang === "th" ? "ไม่ระบุเขต" : "District not stated");
-      info.appendChild(el("div", "meta", d));
-      const fresh = el("div", "meta");
-      fresh.appendChild(agoSpan(s.updated));
-      if (s.source) fresh.appendChild(document.createTextNode(" · " + s.source));
-      info.appendChild(fresh);
-      li.appendChild(info);
-      if (s.tel) {
-        const a = el("a", "tel", s.tel);
-        a.href = telHref(s.tel);
-        li.appendChild(a);
-      }
-      ul.appendChild(li);
-    });
+  document.querySelectorAll("#shelters li").forEach(li => {
+    li.hidden = pick !== "all" && li.dataset.district !== pick;
+  });
 }
 
-function renderRoads() {
-  const ul = $("roads");
-  ul.textContent = "";
-  const newest = newestRoadTime();
-  const mainSource = newest ? newest.road.source : "";
+const NOTICE = {
+  fallback: '<strong><span data-th>ข้อมูลอาจไม่เป็นปัจจุบัน </span><span data-en>May be out of date. </span></strong>' +
+    '<span data-th>โหลดข้อมูลล่าสุดไม่สำเร็จ กำลังแสดงข้อมูลสำรอง ลองรีเฟรชเมื่อมีสัญญาณ</span>' +
+    '<span data-en>Couldn\'t load the latest data, so this is a saved copy. Try refreshing when you have signal.</span>',
+  none: '<strong><span data-th>ข้อมูลอาจไม่เป็นปัจจุบัน </span><span data-en>May be out of date. </span></strong>' +
+    '<span data-th>โหลดข้อมูลไม่สำเร็จ เหตุฉุกเฉินโทร 1669 หรือ 1555</span>' +
+    '<span data-en>Could not load the information. In an emergency call 1669 or 1555.</span>',
+};
 
-  const sub = $("roads-sub");
-  sub.textContent = "";
-  if (newest) {
-    sub.appendChild(document.createTextNode((lang === "th" ? "ประกาศโดย " : "Source: ") + mainSource + " · "));
-    sub.appendChild(agoSpan(newest.road.updated));
-    sub.appendChild(document.createTextNode(lang === "th" ? " สถานการณ์อาจเปลี่ยนแล้ว" : ". Conditions may have changed since."));
-  } else {
-    sub.textContent = lang === "th" ? "ยังไม่มีรายงานถนน" : "No road reports yet.";
-  }
+function renderNotice() {
+  const n = $("notice");
+  n.innerHTML = fallbackReason ? NOTICE[fallbackReason] : "";
+  n.hidden = !fallbackReason;
+}
 
-  data.roads.forEach(r => {
-    const li = el("li");
-    const road = el("span", "road");
-    road.appendChild(el("span", "tag " + r.type,
-      r.type === "avoid" ? (lang === "th" ? "เลี่ยง" : "Avoid") : (lang === "th" ? "ขับช้า" : "Drive slowly")));
-    road.appendChild(el("span", "rn", lang === "th" ? "ถ." + r.name.th : r.name.en + " Rd"));
-    li.appendChild(road);
-    const age = el("span", "meta age-col");
-    age.appendChild(agoSpan(r.updated));
-    if (r.source && r.source !== mainSource) age.appendChild(document.createTextNode(" · " + r.source));
-    li.appendChild(age);
-    ul.appendChild(li);
-  });
+function enhance() {
+  refreshAges();
   checkStale();
-}
-
-function checkStale() {
-  const newest = data && newestRoadTime();
-  $("roads-stale").hidden = !(newest && Date.now() - newest.t > ROADS_STALE_MS);
-}
-
-function renderSources() {
-  const p = $("sources");
-  let links = p.querySelector(".links");
-  if (!links) { links = el("span", "links"); p.appendChild(links); }
-  links.textContent = " ";
-  data.sources.forEach((s, i) => {
-    if (i) links.appendChild(document.createTextNode(", "));
-    const a = el("a", null, s.title);
-    a.href = s.url;
-    links.appendChild(a);
-  });
-}
-
-function renderAll() {
-  renderNotice();
-  if (!data) return;
-  renderHeader();
-  renderStatus();
-  renderHotlines();
   buildDistricts();
-  renderShelters();
-  renderRoads();
-  renderSources();
-}
-
-// Refresh "X hours ago" text in place (no re-render, so keyboard focus is kept).
-function tick() {
-  document.querySelectorAll("span.age[data-ts]").forEach(s => {
-    s.textContent = updatedAgo(s.dataset.ts);
-  });
-  if (data) checkStale();
+  applyFilter();
+  renderNotice();
 }
 
 function setLang(l) {
   lang = l;
-  document.documentElement.lang = l;
+  root.lang = l; // CSS shows the matching data-th / data-en text
   try { localStorage.setItem("lang", l); } catch (e) {}
   document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.set === l));
-  renderAll();
+  buildDistricts();
 }
 
-// ---------- data loading ----------
+// ---------- data ----------
 
 function looksValid(d) {
   return !!(d && d.status && d.status.title && typeof d.lastUpdated === "string" &&
@@ -255,19 +100,23 @@ function looksValid(d) {
     Array.isArray(d.roads) && Array.isArray(d.sources));
 }
 
-// Render d; if rendering throws (bad data), report failure so we can fall back.
-function show(d, reason) {
-  const prev = data, prevReason = fallbackReason;
-  data = d; fallbackReason = reason;
-  try { renderAll(); return true; }
-  catch (e) {
-    console.error("Render failed", e);
-    data = prev; fallbackReason = prevReason;
-    return false;
+// Show d. The page already shows the embedded copy, so only re-render if d is different.
+// Returns false (leaving the page as it was) if d can't be rendered.
+function useData(d, reason) {
+  if (JSON.stringify(d) !== JSON.stringify(data)) {
+    if (!R) return false;
+    let html;
+    try { html = R.sections(d); } // build everything first, so a bad field can't leave a half-updated page
+    catch (e) { console.error("Render failed", e); return false; }
+    Object.keys(html).forEach(id => { const el = $(id); if (el) el.innerHTML = html[id]; });
   }
+  data = d;
+  fallbackReason = reason;
+  enhance();
+  return true;
 }
 
-function readFallback() {
+function readEmbedded() {
   try {
     const d = JSON.parse($("fallback-data").textContent);
     return looksValid(d) ? d : null;
@@ -315,26 +164,27 @@ function setupServiceWorker(d) {
     .catch(e => console.warn("Service worker not registered/updated:", e));
 }
 
-document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.set)));
-$("district").addEventListener("change", renderShelters);
-document.documentElement.lang = lang;
-document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.set === lang));
+// ---------- start ----------
 
-// Show the embedded copy immediately (no network wait), then swap in live data.
-const fallback = readFallback();
-if (fallback) show(fallback, null);
+document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.set)));
+$("district").addEventListener("change", applyFilter);
+setLang(lang);
+
+// The pre-rendered HTML matches the embedded copy, so enhance it straight away.
+data = readEmbedded();
+if (data) enhance();
 
 fetchLive()
   .then(({ d, cached }) => {
-    if (!show(d, cached ? "fallback" : null)) throw new Error("Live data could not be rendered");
+    if (!useData(d, cached ? "fallback" : null)) throw new Error("Live data could not be rendered");
     setupServiceWorker(d);
   })
   .catch(err => {
-    console.warn("Using fallback data:", err);
-    if (fallback) show(fallback, "fallback");
-    else { fallbackReason = "none"; renderNotice(); }
-    setupServiceWorker(fallback);
+    console.warn("Showing the saved copy:", err);
+    fallbackReason = data ? "fallback" : "none";
+    renderNotice();
+    setupServiceWorker(data);
   });
 
-setInterval(tick, 60 * 1000);
+setInterval(() => { refreshAges(); checkStale(); }, 60 * 1000);
 })();

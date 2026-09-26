@@ -60,8 +60,9 @@ h2{font-size:1.25rem;margin:32px 0 4px}
 .call:focus-visible,.lang button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);width:100%;margin-bottom:10px}
 ul.list{list-style:none;margin:0;padding:0;background:var(--panel);border:1px solid var(--line);border-radius:10px}
-ul.list li{padding:12px 14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}
-ul.list li:first-child{border-top:0}
+ul.list li{padding:12px 14px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+/* Divider above every row except the first visible one (rows are hidden by the district filter). */
+ul.list li:not([hidden]) ~ li{border-top:1px solid var(--line)}
 .name{font-weight:600}
 .meta{color:var(--muted);font-size:.88rem}
 .tel{white-space:nowrap;text-decoration:none;font-weight:700;color:var(--water);border:2px solid var(--water);border-radius:999px;padding:4px 12px}
@@ -69,6 +70,7 @@ ul.list li:first-child{border-top:0}
 .tag{display:inline-block;font-size:.8rem;font-weight:600;padding:1px 8px;border-radius:4px;margin-right:6px}
 .tag.avoid{background:var(--alert-soft);color:var(--alert)}
 .tag.slow{background:var(--amber-soft);color:var(--amber)}
+.tag.no-small-cars{background:var(--alert);color:var(--panel)}
 .tips li{margin-bottom:6px}
 .src{font-size:.85rem;color:var(--muted)}
 .src a{color:var(--water)}
@@ -87,3 +89,9 @@ html[lang="en"] [data-en]{display:revert}
 .stale a{color:var(--alert);font-weight:700}
 .age{white-space:nowrap}
 .age-col{text-align:right}
+/* Road note: an always-visible caveat above the road list (hidden when empty). */
+.note{background:var(--amber-soft);border-left:6px solid var(--amber);padding:10px 14px;margin:0 0 12px;border-radius:4px;font-size:.95rem}
+.note:empty{display:none}
+/* Without JavaScript the language toggle and district filter can't work, so hide them.
+   The inline script in <head> adds class "js" to <html>. */
+html:not(.js) .lang,html:not(.js) #district{display:none}

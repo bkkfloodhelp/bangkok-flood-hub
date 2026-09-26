@@ -20,6 +20,9 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { launchChrome, sleep } from "./lib/chrome.mjs";
 import { serve, stop } from "./lib/server.mjs";
+import { buildPage } from "./embed-fallback.mjs";
+import { createRequire } from "node:module";
+const { ROAD_TAGS } = createRequire(import.meta.url)("../render.js");
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const OUT = join(ROOT, "test-output");
@@ -28,16 +31,23 @@ const MIN_TARGET = 24;
 
 // ---------- page states ----------
 
-// "warnings": the live data file 404s (→ fallback notice) and the embedded fallback copy has
-// roads last updated 7 hours ago (→ stale-roads warning).
+// The page is built from data/flood.json first, exactly as the deploy does.
+const readData = () => JSON.parse(readFileSync(join(ROOT, "data/flood.json"), "utf8"));
+const built = data => buildPage(readFileSync(join(ROOT, "index.html"), "utf8"), data).html;
+
+function normalOverrides() {
+  return { "/index.html": built(readData()) };
+}
+
+// "warnings": the live data file 404s (→ fallback notice) and the page was built with roads
+// last updated 7 hours ago (→ stale-roads warning). The first roads are also given every road
+// type, so each label style is checked even before real data uses it.
 function warningsOverrides() {
-  const data = JSON.parse(readFileSync(join(ROOT, "data/flood.json"), "utf8"));
+  const data = readData();
   const sevenHoursAgo = new Date(Date.now() - 7 * 3600e3 + 7 * 3600e3).toISOString().slice(0, 19) + "+07:00";
   data.roads.forEach(r => { r.updated = sevenHoursAgo; });
-  const json = JSON.stringify(data).replace(/</g, "\\u003c");
-  const html = readFileSync(join(ROOT, "index.html"), "utf8")
-    .replace(/(<script type="application\/json" id="fallback-data">)[\s\S]*?(<\/script>)/, (_, a, b) => a + json + b);
-  return { "/data/flood.json": null, "/index.html": html };
+  Object.keys(ROAD_TAGS).forEach((type, i) => { if (data.roads[i]) data.roads[i].type = type; });
+  return { "/data/flood.json": null, "/index.html": built(data) };
 }
 
 // ---------- code that runs inside the page ----------
@@ -180,7 +190,7 @@ async function run(chrome, url, { theme, lang, state }) {
 
   const ready = state === "warnings"
     ? `!document.getElementById("notice").hidden && !document.getElementById("roads-stale").hidden`
-    : `document.querySelectorAll("#shelters li").length > 0`;
+    : `document.querySelectorAll("#district option").length > 1`; // built by app.js, so enhancement has run
   let ok = false;
   for (let i = 0; i < 40 && !ok; i++) { await sleep(250); ok = await evaluate(`(${ready}) && document.fonts.status === "loaded"`).catch(() => false); }
   if (!ok) { report("page rendered", ["page did not reach the expected state"]); return; }
@@ -228,7 +238,7 @@ try {
   for (const state of ["normal", "warnings"]) {
     // A fresh server (new port = new origin) per state, so a service worker from one state
     // can't serve cached files to the other.
-    const server = await serve(ROOT, 0, state === "warnings" ? warningsOverrides() : {});
+    const server = await serve(ROOT, 0, state === "warnings" ? warningsOverrides() : normalOverrides());
     const url = `http://127.0.0.1:${server.address().port}/`;
     for (const theme of ["light", "dark"]) {
       for (const lang of ["th", "en"]) {

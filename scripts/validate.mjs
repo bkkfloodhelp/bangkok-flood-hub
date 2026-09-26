@@ -6,6 +6,11 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { relative } from "node:path";
+import { createRequire } from "node:module";
+
+// Road types come from the page's own label table, so a type is valid exactly when the page can show it.
+const { ROAD_TAGS } = createRequire(import.meta.url)("../render.js");
+const ROAD_TYPES = Object.keys(ROAD_TAGS);
 
 const FILE = process.argv[2] || fileURLToPath(new URL("../data/flood.json", import.meta.url));
 const SHOWN = relative(process.cwd(), FILE) || FILE;
@@ -212,14 +217,27 @@ function checkRoads(v) {
         warn(`${p}.name.en`, `Leave out "Rd" / "Road" — the page adds " Rd" itself.`, `ไม่ต้องใส่ "Rd" / "Road" หน้าเว็บเติมให้เอง`);
       }
     }
-    if (required(p, r, "type") && r.type !== "avoid" && r.type !== "slow") {
-      err(`${p}.type`, `Must be "avoid" or "slow", got ${show(r.type)}.`, `ต้องเป็น "avoid" (เลี่ยง) หรือ "slow" (ขับช้า) แต่ได้ ${show(r.type)}`);
+    if (required(p, r, "type") && !ROAD_TYPES.includes(r.type)) {
+      err(`${p}.type`, `Must be one of ${ROAD_TYPES.map(t => `"${t}" (${ROAD_TAGS[t].en})`).join(", ")}, got ${show(r.type)}.`,
+        `ต้องเป็นหนึ่งใน ${ROAD_TYPES.map(t => `"${t}" (${ROAD_TAGS[t].th})`).join(", ")} แต่ได้ ${show(r.type)}`);
     }
     if (required(p, r, "updated")) times.push(timestamp(`${p}.updated`, r.updated));
     if (required(p, r, "source")) text(`${p}.source`, r.source);
   });
   noDuplicates("roads", items, r => (isObj(r) && isObj(r.name) ? r.name.th : null), "road name / ชื่อถนน");
   return times;
+}
+
+// Optional note above the road list; remove the whole block to hide it.
+function checkRoadsNote(n) {
+  const p = "roadsNote";
+  if (!isObj(n)) { err(p, "Must be an object { ... }.", "ต้องเป็นออบเจ็กต์ { ... }"); return null; }
+  knownKeys(p, n, ["updated", "source", "text"]);
+  let t = null;
+  if (required(p, n, "updated")) t = timestamp(`${p}.updated`, n.updated);
+  if (required(p, n, "source")) text(`${p}.source`, n.source);
+  if (required(p, n, "text")) bilingual(`${p}.text`, n.text);
+  return t;
 }
 
 function checkSources(v) {
@@ -281,7 +299,7 @@ function run() {
   if (d === undefined) return;
   if (!isObj(d)) { err("(file)", "The top level must be an object { ... }.", "ระดับบนสุดต้องเป็นออบเจ็กต์ { ... }"); return; }
 
-  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roads", "sources", "serviceWorker"]);
+  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roadsNote", "roads", "sources", "serviceWorker"]);
   if ("serviceWorker" in d && typeof d.serviceWorker !== "boolean") {
     err("serviceWorker", `Must be true or false (no quotes), got ${show(d.serviceWorker)}.`, `ต้องเป็น true หรือ false (ไม่มีเครื่องหมายคำพูด) แต่ได้ ${show(d.serviceWorker)}`);
   }
@@ -293,6 +311,7 @@ function run() {
   if (required("(root)", d, "sheltersNote")) bilingual("sheltersNote", d.sheltersNote);
   if (required("(root)", d, "shelters")) times.push(...checkShelters(d.shelters));
   if (required("(root)", d, "roads")) times.push(...checkRoads(d.roads));
+  if ("roadsNote" in d) times.push(checkRoadsNote(d.roadsNote));
   if (required("(root)", d, "sources")) checkSources(d.sources);
 
   const newest = Math.max(...times.filter(t => t != null));

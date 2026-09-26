@@ -127,10 +127,26 @@ Delete that shelter's whole `{ ... }` block, then check there is no extra `,` af
 ```json
     { "name": { "th": "วิภาวดีรังสิต", "en": "Vibhavadi Rangsit" }, "type": "avoid", "updated": "2026-09-27T09:45:00+07:00", "source": "BMA via Khaosod English" },
 ```
-- `"type"`: `"avoid"` = เลี่ยง (red) · `"slow"` = ขับช้า (yellow)
+- `"type"`: `"avoid"` = เลี่ยง (red text) · `"slow"` = ขับช้า (yellow) · `"no-small-cars"` = รถเล็กห้ามผ่าน / No small cars (solid red)
 - ไม่ต้องใส่ "ถ." หรือ "Rd" หน้าเว็บเติมให้เอง · Don't write "ถ." or "Rd"; the page adds them.
 - **ถ้ายืนยันว่าถนนยังท่วมอยู่ ให้แก้เวลา `updated` เป็นเวลาที่ยืนยัน** ถ้าข้อมูลถนนเก่ากว่า 6 ชั่วโมง หน้าเว็บจะขึ้นคำเตือนสีแดงให้ผู้ใช้โทรเช็ก 1555
   **If you confirm a road is still flooded, set its `updated` to the time you confirmed it.** When road information is over 6 hours old, the page shows a red warning telling people to check with 1555.
+
+### หมายเหตุเหนือรายการถนน · Note above the road list
+กล่องสีเหลืองเหนือรายการถนน ใช้แจ้งข้อควรระวัง เช่น รายการยังไม่ครบ
+The yellow box above the road list, for caveats such as "this list is incomplete".
+```json
+  "roadsNote": {
+    "updated": "2026-09-26T13:00:00+07:00",
+    "source": "Khaosod English",
+    "text": {
+      "th": "ข้อความภาษาไทย",
+      "en": "English text"
+    }
+  },
+```
+ไม่ต้องการแล้ว: ลบทั้งบล็อก `"roadsNote": { ... },` ออก กล่องจะหายไปเอง
+No longer needed: delete the whole `"roadsNote": { ... },` block and the box disappears.
 
 ### เพิ่มแหล่งข้อมูล · Add a source
 ```json

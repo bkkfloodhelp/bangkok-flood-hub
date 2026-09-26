@@ -27,17 +27,19 @@ Every change is checked automatically. If `flood.json` has a mistake (a broken p
 ## How it works
 
 ```
-index.html                 page markup, safety tips, Open Graph tags, embedded fallback copy of the data
+index.html                 page markup and safety tips; data sections are filled in at deploy time
 style.css                  styles (light + dark mode)
-app.js                     renders the data, language toggle, "updated X hours ago"
+render.js                  turns flood.json into the page's HTML (used at deploy time and in the browser)
+app.js                     enhances the page: "X hours ago", stale warning, district filter, language toggle
 data/flood.json            ← all content that changes; the only file volunteers edit
 scripts/validate.mjs       checks flood.json (required fields, phone numbers, timestamps)
-scripts/embed-fallback.mjs copies flood.json into index.html at deploy time
+scripts/embed-fallback.mjs builds index.html: pre-renders the data and embeds a fallback copy
 sw.js                      service worker: offline support after the first visit
 fonts/                     IBM Plex Sans Thai (Thai + Latin, weights 400/600/700, ~65 KB) and its licence, OFL.txt
 scripts/sw-disable.js      emergency replacement for sw.js that removes the service worker
 scripts/test-sw.mjs        end-to-end test of offline mode and both off-switches (headless Chrome)
 scripts/test-a11y.mjs      contrast, keyboard, 360px layout and tel: link checks, with screenshots
+scripts/test-nojs.mjs      checks every phone number works with JavaScript disabled
 scripts/lib/               shared Chrome and test-server helpers for the scripts above
 scripts/make-og-image.mjs  regenerates og-image.png, the LINE/Facebook link preview picture
 og-image.png               1200×630 preview picture (generated; don't edit by hand)
@@ -46,7 +48,10 @@ og-image.png               1200×630 preview picture (generated; don't edit by h
 ```
 
 - **No framework, no build tools, no npm packages.** The scripts only need Node.js 20 or later (CI uses 22).
-- **Fallback:** `index.html` contains a copy of the data. The page draws that copy instantly, then loads `data/flood.json`. If the load fails, the page keeps the copy and shows a "may be out of date" notice.
+- **Works without JavaScript:** at deploy time, `scripts/embed-fallback.mjs` uses `render.js` to write the status, every hotline, every shelter, the roads and the sources into `index.html`, in Thai and English. Every phone number is a plain `tel:` link, so the page is useful even if scripts are blocked, fail to load, or the phone is very old. The build **fails (and nothing is deployed)** if any hotline or shelter number is missing from the page.
+- **JavaScript enhances the page** instead of building it. It adds "updated X hours ago", the stale-roads warning, the district filter and the language toggle. If the live `data/flood.json` is newer than the built page, `app.js` re-renders the data sections with the same `render.js`.
+- **Fallback:** `index.html` also contains a copy of the data. If loading `data/flood.json` fails, the page keeps what it has and shows a "may be out of date" notice.
+- **Committed `index.html`:** the committed copy may lag behind `flood.json`, because only the deploy rebuilds it. Run `node scripts/embed-fallback.mjs` to refresh it for local preview.
 - **Offline:** after the first visit, `sw.js` keeps a copy of the page and data on the phone. It always tries the network first and falls back to the saved copy if there is no signal or the network takes more than 4 seconds. Saved copies show the same "may be out of date" notice. Visitors who have signal always get the newest data, so there is no cache version to bump when `flood.json` changes.
 - **Deploy:** on every push to `main`, GitHub Actions runs `validate.mjs`. If that passes, it embeds the fallback and publishes. Pull requests are checked but not published.
 
@@ -86,6 +91,7 @@ It runs the site in headless Chrome on a temporary copy, so your files are not c
 
 ```sh
 node scripts/test-a11y.mjs      # needs Node 22+ and Chrome
+node scripts/test-nojs.mjs      # page with JavaScript disabled: every hotline and shelter tel: link present
 ```
 
 It measures the page as rendered at 360px wide, in light and dark mode, in Thai and English. It also runs a "warnings" state with the "may be out of date" notice and the stale-roads warning switched on. It checks:
@@ -97,7 +103,7 @@ It measures the page as rendered at 360px wide, in light and dark mode, in Thai 
 
 Because it measures the page rather than a fixed list, new features are checked automatically. Screenshots of all 8 combinations are saved in `test-output/` (not committed) so you can look at them.
 
-**On GitHub:** both browser tests run automatically when code changes (see the **Actions** tab, "Site tests"), and the screenshots are attached to each run. They don't run for data-only or docs-only changes. A failure there does **not** stop a deploy, so urgent data updates are never blocked. Treat a red "Site tests" run as something to fix before the next code change.
+**On GitHub:** all three browser tests run automatically when code changes (see the **Actions** tab, "Site tests"), and the screenshots are attached to each run. They don't run for data-only or docs-only changes. A failure there does **not** stop a deploy, so urgent data updates are never blocked. Treat a red "Site tests" run as something to fix before the next code change.
 
 **Link preview picture:** `og-image.png` shows the page title and the urgent hotlines, taken from `data/flood.json`. If you change those, regenerate the picture and commit it:
 

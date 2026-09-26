@@ -155,6 +155,14 @@
       "sourceUrl": "https://www.thaipbsworld.com/around-thailand/558607"
     }
   ],
+  "roadsNote": {
+    "updated": "2026-09-26T13:00:00+07:00",
+    "source": "Khaosod English",
+    "text": {
+      "th": "รายการนี้ไม่ครบ ผู้ว่าฯ กทม. แจ้งเวลา 13:00 น. ว่ามีถนนน้ำท่วมอย่างน้อย 93 สาย โปรดตรวจสอบกับ กทม. หรือโทร 1555 ก่อนเดินทาง",
+      "en": "This list is incomplete. At 13:00 the governor said at least 93 roads should be avoided. Check with the BMA or call 1555 before travelling."
+    }
+  },
   "roads": [
     { "name": { "th": "วิภาวดีรังสิต", "en": "Vibhavadi Rangsit" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
     { "name": { "th": "พหลโยธิน", "en": "Phahon Yothin" }, "type": "avoid", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },

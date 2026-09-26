@@ -43,12 +43,12 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - name: Embed fallback copy of the data into index.html
+      - name: Pre-render the data into index.html (works without JavaScript) and embed a fallback copy
         run: node scripts/embed-fallback.mjs
       - name: Collect site files
         run: |
           mkdir _site
-          cp index.html style.css app.js sw.js og-image.png .nojekyll _site/
+          cp index.html style.css render.js app.js sw.js og-image.png .nojekyll _site/
           cp -r data fonts _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
