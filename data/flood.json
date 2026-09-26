@@ -209,14 +209,14 @@
       "https://www.thansettakij.com/general-news/669937"
     ],
     "items": [
-      { "label": { "th": "ค่าวัสดุซ่อมแซมที่พักอาศัย ตามความเสียหายจริง", "en": "Home repair materials, based on actual damage" }, "max": "49,500 บาท / baht per house" },
-      { "label": { "th": "ค่าเช่าบ้านหรือที่พักชั่วคราว บ้านเสียหายบางส่วน", "en": "Temporary housing or rent, home partly damaged" }, "max": "3,000 บาท / baht per family" },
-      { "label": { "th": "ค่าเช่าบ้าน บ้านเสียหายทั้งหลัง", "en": "Rent, home fully destroyed" }, "max": "3,000 บาท / baht a month, up to 2 months" },
-      { "label": { "th": "ค่าดำรงชีพเบื้องต้น บ้านเสียหายทั้งหลัง", "en": "Basic living costs, home fully damaged" }, "max": "3,800 บาท / baht per family" },
-      { "label": { "th": "ค่าดำรงชีพเบื้องต้น บ้านเสียหายบางส่วน", "en": "Basic living costs, home partly damaged" }, "max": "1,800 บาท / baht per family" },
-      { "label": { "th": "เงินทุนประกอบอาชีพ กรณีเครื่องมือใช้งานไม่ได้", "en": "Livelihood support, if work tools can't be used" }, "max": "11,400 บาท / baht per family" },
-      { "label": { "th": "เงินปลอบขวัญ กรณีบาดเจ็บ", "en": "Support for injury" }, "max": "2,300 บาท / baht per person" },
-      { "label": { "th": "ค่ารักษาพยาบาล ผู้ป่วยนอก / ผู้ป่วยใน", "en": "Medical costs, outpatient / inpatient" }, "max": "2,000 / 4,000 บาท / baht" }
+      { "label": { "th": "ค่าวัสดุซ่อมแซมที่พักอาศัย ตามความเสียหายจริง", "en": "Home repair materials, based on actual damage" }, "max": { "th": "49,500 บาท ต่อหลัง", "en": "49,500 baht per house" } },
+      { "label": { "th": "ค่าเช่าบ้านหรือที่พักชั่วคราว บ้านเสียหายบางส่วน", "en": "Temporary housing or rent, home partly damaged" }, "max": { "th": "3,000 บาท ต่อครอบครัว", "en": "3,000 baht per family" } },
+      { "label": { "th": "ค่าเช่าบ้าน บ้านเสียหายทั้งหลัง", "en": "Rent, home fully destroyed" }, "max": { "th": "3,000 บาท ต่อเดือน ไม่เกิน 2 เดือน", "en": "3,000 baht a month, up to 2 months" } },
+      { "label": { "th": "ค่าดำรงชีพเบื้องต้น บ้านเสียหายทั้งหลัง", "en": "Basic living costs, home fully damaged" }, "max": { "th": "3,800 บาท ต่อครอบครัว", "en": "3,800 baht per family" } },
+      { "label": { "th": "ค่าดำรงชีพเบื้องต้น บ้านเสียหายบางส่วน", "en": "Basic living costs, home partly damaged" }, "max": { "th": "1,800 บาท ต่อครอบครัว", "en": "1,800 baht per family" } },
+      { "label": { "th": "เงินทุนประกอบอาชีพ กรณีเครื่องมือใช้งานไม่ได้", "en": "Livelihood support, if work tools can't be used" }, "max": { "th": "11,400 บาท ต่อครอบครัว", "en": "11,400 baht per family" } },
+      { "label": { "th": "เงินปลอบขวัญ กรณีบาดเจ็บ", "en": "Support for injury" }, "max": { "th": "2,300 บาท ต่อคน", "en": "2,300 baht per person" } },
+      { "label": { "th": "ค่ารักษาพยาบาล ผู้ป่วยนอก / ผู้ป่วยใน", "en": "Medical costs, outpatient / inpatient" }, "max": { "th": "2,000 / 4,000 บาท", "en": "2,000 / 4,000 baht" } }
     ]
   },
   "sources": [

@@ -195,12 +195,12 @@ The assistance table on `damage.html` comes from `"assistance"`. Only change it 
     "source": { "th": "กรมประชาสัมพันธ์ ผ่านฐานเศรษฐกิจ", "en": "Government Public Relations Department, via Thansettakij" },
     "links": [ "https://..." ],
     "items": [
-      { "label": { "th": "ค่าวัสดุซ่อมแซมที่พักอาศัย ตามความเสียหายจริง", "en": "Home repair materials, based on actual damage" }, "max": "49,500 บาท / baht per house" }
+      { "label": { "th": "ค่าวัสดุซ่อมแซมที่พักอาศัย ตามความเสียหายจริง", "en": "Home repair materials, based on actual damage" }, "max": { "th": "49,500 บาท ต่อหลัง", "en": "49,500 baht per house" } }
     ]
   },
 ```
 - `"updated"` ใส่แค่วันที่ได้ (`"2026-09-26"`) ถ้าแหล่งข่าวไม่ระบุเวลา · can be just a date if the source gives no time.
-- `"max"` เขียนแบบเดียวใช้ทั้งสองภาษา หรือแยกเป็น `{ "th": "49,500 บาท ต่อหลัง", "en": "49,500 baht per house" }` ก็ได้ · one text for both languages, or separate `{ "th": ..., "en": ... }`.
+- `"max"` เขียนแยกภาษาไทยและอังกฤษ ตัวเลขต้องตรงกันทั้งสองภาษา · Write Thai and English separately; the numbers must match in both.
 - **ใส่ตัวเลขตามประกาศเท่านั้น ห้ามประมาณ** · **Only enter amounts exactly as announced. Never estimate.**
 
 ### เพิ่มแหล่งข้อมูล · Add a source
