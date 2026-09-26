@@ -35,6 +35,7 @@ scripts/validate.mjs       checks flood.json (required fields, phone numbers, ti
 scripts/embed-fallback.mjs copies flood.json into index.html at deploy time
 sw.js                      service worker: offline support after the first visit
 scripts/sw-disable.js      emergency replacement for sw.js that removes the service worker
+scripts/test-sw.mjs        end-to-end test of offline mode and both off-switches (headless Chrome)
 .github/workflows/deploy.yml  check → embed fallback → publish to GitHub Pages
 ```
 
@@ -66,6 +67,14 @@ To turn it back on, remove the flag, or restore `sw.js` from its **History**. Ei
 python3 -m http.server 8000     # then open http://localhost:8000
 node scripts/validate.mjs       # check the data
 ```
+
+**Service worker test** (run after changing `sw.js`, `app.js` or `scripts/sw-disable.js`):
+
+```sh
+node scripts/test-sw.mjs        # needs Node 22+ and Chrome; set CHROME_PATH if Chrome isn't found
+```
+
+It runs the site in headless Chrome on a temporary copy, so your files are not changed. It checks that the worker installs, that the page loads offline with the "may be out of date" notice, and that **both** emergency off-switches remove the worker and its caches. It takes about 20 seconds.
 
 The page must be served over HTTP. When opened as a `file://`, the browser blocks loading `flood.json` and the page shows the fallback notice.
 

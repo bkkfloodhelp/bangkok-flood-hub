@@ -296,13 +296,16 @@ const SCOPE = new URL("./", location.href).href;
 function setupServiceWorker(d) {
   if (!("serviceWorker" in navigator)) return;
   if (d && d.serviceWorker === false) {
-    // Off-switch in flood.json: remove any installed worker and its caches.
-    navigator.serviceWorker.getRegistrations()
-      .then(rs => rs.filter(r => r.scope === SCOPE).forEach(r => r.unregister()))
+    // Off-switch in flood.json: remove any installed worker and its caches. The old worker may
+    // still be saving a response for this very page load, which would re-create a cache, so
+    // clear again a few seconds later (and on every load while the flag is set).
+    const clearCaches = () => window.caches && caches.keys()
+      .then(ks => Promise.all(ks.filter(k => k.startsWith("flood-hub-")).map(k => caches.delete(k))))
       .catch(() => {});
-    if (window.caches) {
-      caches.keys().then(ks => ks.filter(k => k.startsWith("flood-hub-")).forEach(k => caches.delete(k))).catch(() => {});
-    }
+    navigator.serviceWorker.getRegistrations()
+      .then(rs => Promise.all(rs.filter(r => r.scope === SCOPE).map(r => r.unregister())))
+      .catch(() => {})
+      .then(() => { clearCaches(); setTimeout(clearCaches, 3000); });
     return;
   }
   // update() on every load makes the browser re-fetch sw.js now, instead of whenever it
