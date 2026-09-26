@@ -5,6 +5,7 @@
 // and the browser's own Print works. This only adds:
 // - remembering ticks on this device (localStorage; a per-viewer convenience — if storage is
 //   blocked or full, ticking works exactly the same, it just isn't remembered);
+// - the "Clear all ticks" button (with a confirmation);
 // - the "Print / save as PDF" button.
 
 const KEY = "damage-checklist";
@@ -22,6 +23,16 @@ document.querySelectorAll('input[type="checkbox"][data-save]').forEach(box => {
     else delete saved[box.id];
     try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) { /* not remembered, still works */ }
   });
+});
+
+// "Clear all ticks": asks first, then unticks every box and forgets them on this device.
+const clear = document.getElementById("clear-ticks");
+if (clear) clear.addEventListener("click", () => {
+  const question = document.documentElement.lang === "en" ? "Clear all ticks?" : "ล้างเครื่องหมายทั้งหมดใช่ไหม";
+  if (!window.confirm(question)) return;
+  document.querySelectorAll('input[type="checkbox"][data-save]').forEach(box => { box.checked = false; });
+  saved = {};
+  try { localStorage.removeItem(KEY); } catch (e) { /* nothing was stored */ }
 });
 
 const print = document.getElementById("print");

@@ -326,7 +326,45 @@ async function damageBehaviour(chrome, base) {
   report('"Print / save as PDF" button calls window.print()', printed === 1 ? [] : [`window.print called ${printed} times`]);
   await send("Page.removeScriptToEvaluateOnNewDocument", { identifier: stub.result.identifier });
 
-  // 4. Print stylesheet (a box is ticked at this point, and must still print empty).
+  // 4. "Clear all ticks": Cancel keeps them; OK clears them, also after a reload. The question
+  //    is asked in the page's language.
+  const confirmStub = answer => send("Page.addScriptToEvaluateOnNewDocument", {
+    source: `window.confirm = q => { window.__asked = q; return ${answer}; };`,
+  });
+  const cf = [];
+  await evaluate(`localStorage.setItem("lang", "th"); true`); // earlier runs may have left English selected
+  let st = await confirmStub(false);
+  await load();
+  const before = await evaluate(`[...document.querySelectorAll("input[data-save]")].filter(b => b.checked).length`);
+  await evaluate(`document.getElementById("clear-ticks").click(); true`);
+  const afterCancel = await evaluate(`[...document.querySelectorAll("input[data-save]")].filter(b => b.checked).length`);
+  const askedTh = await evaluate(`window.__asked || ""`);
+  if (before < 2) cf.push(`test setup: expected ticked boxes, found ${before}`);
+  if (afterCancel !== before) cf.push(`Cancel changed the ticks (${before} → ${afterCancel})`);
+  const pageLang = await evaluate(`document.documentElement.lang`);
+  if (askedTh !== "ล้างเครื่องหมายทั้งหมดใช่ไหม") cf.push(`question on the ${pageLang} page was "${askedTh}"`);
+  await send("Page.removeScriptToEvaluateOnNewDocument", { identifier: st.result.identifier });
+  st = await confirmStub(true);
+  await load();
+  await evaluate(`document.getElementById("clear-ticks").click(); true`);
+  const afterOk = await evaluate(`[...document.querySelectorAll("input[data-save]")].filter(b => b.checked).length`);
+  await load();
+  const afterReload = await evaluate(`[...document.querySelectorAll("input[data-save]")].filter(b => b.checked).length`);
+  if (afterOk !== 0) cf.push(`${afterOk} boxes still ticked after OK`);
+  if (afterReload !== 0) cf.push(`${afterReload} boxes ticked again after reload (not forgotten)`);
+  await evaluate(`localStorage.setItem("lang", "en"); true`);
+  await load();
+  await evaluate(`document.getElementById("clear-ticks").click(); true`);
+  const askedEn = await evaluate(`window.__asked || ""`);
+  if (askedEn !== "Clear all ticks?") cf.push(`question in English page was "${askedEn}"`);
+  await evaluate(`localStorage.setItem("lang", "th"); true`);
+  await send("Page.removeScriptToEvaluateOnNewDocument", { identifier: st.result.identifier });
+  report('"Clear all ticks" asks first; Cancel keeps, OK clears (also after reload)', cf);
+  // Tick one again so the print check below can confirm a ticked box prints empty.
+  await load();
+  await evaluate(`document.getElementById("doc-id").click(); true`);
+
+  // 5. Print stylesheet (a box is ticked at this point, and must still print empty).
   await load();
   await send("Emulation.setEmulatedMedia", { media: "print", features: [{ name: "prefers-color-scheme", value: "dark" }] });
   const p = await evaluate(`(() => {
@@ -334,7 +372,7 @@ async function damageBehaviour(chrome, base) {
     const texty = [...document.body.querySelectorAll("*")].filter(e => shown(e) && [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()));
     const box = document.getElementById("doc-id");
     return {
-      stillShown: [".lang", ".print-btn", ".back"].filter(s => shown(document.querySelector(s))),
+      stillShown: [".lang", ".print-btn", ".clear-btn", ".back"].filter(s => shown(document.querySelector(s))),
       colours: [...new Set(texty.map(e => getComputedStyle(e).color))],
       backgrounds: [...new Set([document.body, ...document.body.querySelectorAll("*")].filter(e => e === document.body || shown(e)).map(e => getComputedStyle(e).backgroundColor)
         .filter(c => c !== "rgba(0, 0, 0, 0)" && c !== "rgb(255, 255, 255)"))],

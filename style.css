@@ -126,7 +126,8 @@ ul.list li > .tag{white-space:nowrap;flex-shrink:0;margin-right:0}
 .safety{border-left:4px solid var(--alert);padding:6px 12px;margin:12px 0;font-size:.9rem}
 .actions{margin:12px 0}
 .print-btn{font:inherit;font-weight:700;background:var(--panel);color:var(--water);border:2px solid var(--water);border-radius:999px;padding:8px 18px;cursor:pointer}
-html:not(.js) .print-btn{display:none}
+.clear-btn{font:inherit;font-weight:600;background:var(--panel);color:var(--muted);border:2px solid var(--muted);border-radius:999px;padding:8px 18px;cursor:pointer}
+html:not(.js) .print-btn,html:not(.js) .clear-btn{display:none}
 /* Numbered steps: a real sequence, so an <ol> whose number is shown in each heading. */
 .steps{list-style:none;padding:0;margin:0;counter-reset:step}
 .steps>li{counter-increment:step;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px 16px 12px;margin:12px 0}
@@ -157,7 +158,7 @@ table.assist{width:100%;border-collapse:collapse;background:var(--panel);border:
     --amber:#000 !important;--amber-soft:#fff !important;--panel:#fff !important}
   body{background:#fff;color:#000;font-size:12pt}
   .wrap{max-width:none;padding:0}
-  .lang,.print-btn,.actions,.banner,.back,.notice,.stale,#district,.live-btn,.live-alt{display:none !important}
+  .lang,.print-btn,.clear-btn,.actions,.banner,.back,.notice,.stale,#district,.live-btn,.live-alt{display:none !important}
   a{color:#000}
   .checklist input{-webkit-appearance:none;appearance:none;width:14px;height:14px;border:1.5px solid #000;border-radius:2px;background:#fff;margin-top:4px}
   .steps>li,.checklist li,.assist tr,.note,.safety{break-inside:avoid}

@@ -144,6 +144,7 @@ try {
       links: [...document.querySelectorAll("a[href]")].filter(visible).map(a => a.getAttribute("href")),
       footer: both("footer p")[0],
       printButtonShown: visible(document.getElementById("print")),
+      clearButtonShown: visible(document.getElementById("clear-ticks")),
       englishNotMarked,
       scrollWidth: document.documentElement.scrollWidth,
     };
@@ -165,6 +166,7 @@ try {
   check(dmg.links.includes("./"), "link back to the hub");
   check(dmg.footer.thShown && dmg.footer.enShown, '"not an official form" note shown in Thai and English');
   check(!dmg.printButtonShown, "print button hidden (it needs JavaScript; the browser's Print still works)");
+  check(!dmg.clearButtonShown, '"Clear all ticks" button hidden (it needs JavaScript)');
   check(!dmg.englishNotMarked.length, 'every visible English text is marked lang="en"', dmg.englishNotMarked.slice(0, 5).join(" | "));
   check(dmg.scrollWidth <= 360, "no sideways scrolling at 360px", `page is ${dmg.scrollWidth}px wide`);
   const dh = JSON.parse((await send("Runtime.evaluate", { expression: "JSON.stringify(document.documentElement.scrollHeight)", returnByValue: true })).result.result.value);
