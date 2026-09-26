@@ -277,10 +277,39 @@ function readFallback() {
 function fetchLive() {
   const ctrl = typeof AbortController === "function" ? new AbortController() : null;
   const timer = ctrl ? setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS) : null;
+  let cached = false;
   return fetch(DATA_URL, { cache: "no-store", signal: ctrl ? ctrl.signal : undefined })
-    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-    .then(d => { if (!looksValid(d)) throw new Error("Invalid data"); return d; })
+    .then(r => {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      cached = r.headers.get("X-Served-From") === "sw-cache"; // set by sw.js when offline
+      return r.json();
+    })
+    .then(d => { if (!looksValid(d)) throw new Error("Invalid data"); return { d, cached }; })
     .finally(() => { if (timer) clearTimeout(timer); });
+}
+
+// ---------- service worker (offline support) ----------
+
+// Only registrations/caches under this site's own path; phantawat.github.io is shared with other sites.
+const SCOPE = new URL("./", location.href).href;
+
+function setupServiceWorker(d) {
+  if (!("serviceWorker" in navigator)) return;
+  if (d && d.serviceWorker === false) {
+    // Off-switch in flood.json: remove any installed worker and its caches.
+    navigator.serviceWorker.getRegistrations()
+      .then(rs => rs.filter(r => r.scope === SCOPE).forEach(r => r.unregister()))
+      .catch(() => {});
+    if (window.caches) {
+      caches.keys().then(ks => ks.filter(k => k.startsWith("flood-hub-")).forEach(k => caches.delete(k))).catch(() => {});
+    }
+    return;
+  }
+  // update() on every load makes the browser re-fetch sw.js now, instead of whenever it
+  // decides to. This is what makes the emergency off-switch (scripts/sw-disable.js) reliable.
+  navigator.serviceWorker.register("sw.js", { updateViaCache: "none" })
+    .then(reg => reg.update())
+    .catch(e => console.warn("Service worker not registered/updated:", e));
 }
 
 document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.set)));
@@ -293,13 +322,15 @@ const fallback = readFallback();
 if (fallback) show(fallback, null);
 
 fetchLive()
-  .then(live => {
-    if (!show(live, null)) throw new Error("Live data could not be rendered");
+  .then(({ d, cached }) => {
+    if (!show(d, cached ? "fallback" : null)) throw new Error("Live data could not be rendered");
+    setupServiceWorker(d);
   })
   .catch(err => {
     console.warn("Using fallback data:", err);
     if (fallback) show(fallback, "fallback");
     else { fallbackReason = "none"; renderNotice(); }
+    setupServiceWorker(fallback);
   });
 
 setInterval(tick, 60 * 1000);

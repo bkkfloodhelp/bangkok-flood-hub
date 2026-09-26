@@ -160,3 +160,17 @@ If the live page shows wrong information (but Actions was green), simply edit `f
 
 ถ้าต้องการย้อนกลับเป็นเวอร์ชันก่อน: ที่หน้า `flood.json` กด **History** → เลือกเวอร์ชันที่ถูก → กด **⋯ → View file** → กด **Raw** → คัดลอกทั้งหมด → กลับไปแก้ไข `flood.json` แล้ววางแทนทั้งไฟล์ → commit
 To go back to an earlier version: on the `flood.json` page click **History** → choose the correct version → **⋯ → View file** → **Raw** → copy everything → edit `flood.json`, replace the whole content with what you copied → commit.
+
+---
+
+## ฉุกเฉิน: ปิด service worker · Emergency: turn off the service worker
+
+ใช้เฉพาะเมื่อผู้ดูแลขอ เช่น ผู้ใช้ยังเห็นหน้าเก่าค้างอยู่ทั้งที่แก้แล้ว
+Only do this if the maintainer asks, e.g. people keep seeing an old version of the page after it has been fixed.
+
+ใน `data/flood.json` เพิ่มบรรทัดนี้ใต้ `{` บรรทัดแรกสุด แล้ว commit ตามปกติ
+In `data/flood.json`, add this line directly under the very first `{`, then commit as usual:
+```json
+  "serviceWorker": false,
+```
+เปิดใช้อีกครั้ง: ลบบรรทัดนี้ออก · To turn it back on: delete the line.

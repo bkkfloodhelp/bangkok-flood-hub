@@ -281,7 +281,10 @@ function run() {
   if (d === undefined) return;
   if (!isObj(d)) { err("(file)", "The top level must be an object { ... }.", "ระดับบนสุดต้องเป็นออบเจ็กต์ { ... }"); return; }
 
-  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roads", "sources"]);
+  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roads", "sources", "serviceWorker"]);
+  if ("serviceWorker" in d && typeof d.serviceWorker !== "boolean") {
+    err("serviceWorker", `Must be true or false (no quotes), got ${show(d.serviceWorker)}.`, `ต้องเป็น true หรือ false (ไม่มีเครื่องหมายคำพูด) แต่ได้ ${show(d.serviceWorker)}`);
+  }
   let last = null;
   if (required("(root)", d, "lastUpdated")) last = timestamp("lastUpdated", d.lastUpdated);
   const times = [];

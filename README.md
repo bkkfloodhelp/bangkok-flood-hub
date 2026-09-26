@@ -33,12 +33,24 @@ app.js                     renders the data, language toggle, "updated X hours a
 data/flood.json            ← all content that changes; the only file volunteers edit
 scripts/validate.mjs       checks flood.json (required fields, phone numbers, timestamps)
 scripts/embed-fallback.mjs copies flood.json into index.html at deploy time
+sw.js                      service worker: offline support after the first visit
+scripts/sw-disable.js      emergency replacement for sw.js that removes the service worker
 .github/workflows/deploy.yml  check → embed fallback → publish to GitHub Pages
 ```
 
 - **No framework, no build tools, no npm packages.** The scripts only need Node.js 20 or later (CI uses 22).
 - **Fallback:** `index.html` contains a copy of the data. The page draws that copy instantly, then loads `data/flood.json`. If the load fails, the page keeps the copy and shows a "may be out of date" notice.
+- **Offline:** after the first visit, `sw.js` keeps a copy of the page and data on the phone. It always tries the network first and falls back to the saved copy if there is no signal or the network takes more than 4 seconds. Saved copies show the same "may be out of date" notice. Visitors who have signal always get the newest data, so there is no cache version to bump when `flood.json` changes.
 - **Deploy:** on every push to `main`, GitHub Actions runs `validate.mjs`. If that passes, it embeds the fallback and publishes. Pull requests are checked but not published.
+
+## Emergency: turn off the service worker
+
+If the service worker ever causes problems (for example, people keep seeing an old page), turn it off. Use **either** of these:
+
+1. **Quickest, no code:** in `data/flood.json`, add `"serviceWorker": false,` on the line after the first `{`, then commit. Once visitors load the page with signal, it removes the worker and its saved copies.
+2. **Stronger (works even if app.js is broken):** open `scripts/sw-disable.js` on github.com, copy all of it, then edit `sw.js`, replace its whole content with what you copied, and commit. Each visitor's browser picks up the new `sw.js` on its next visit: it deletes this site's saved copies, unregisters itself and reloads the page from the network.
+
+To turn it back on, remove the flag, or restore `sw.js` from its **History**. Either off-switch only touches this site's own caches (names starting `flood-hub-`), never other sites on `phantawat.github.io`.
 
 ## Setup (one time)
 
