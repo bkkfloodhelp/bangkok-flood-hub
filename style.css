@@ -103,3 +103,14 @@ html:not(.js) :is(#status-body,#shelters-note,#roads-note,footer p:not(.src)) > 
 html:not(.js) :is(#status-body,#shelters-note,#roads-note,footer p:not(.src)) > span[data-en]::before,
 html:not(.js) .call span[data-th] + span[data-en]::before{content:none}
 html:not(.js) .age{white-space:normal}
+/* "Check live road flooding" button above the road list, and its backup link. */
+.live-btn{display:block;text-align:center;text-decoration:none;font-weight:700;background:var(--water);color:var(--bg);
+  border-radius:10px;padding:12px 16px;margin:0 0 12px}
+.live-alt{display:block;text-align:center;color:var(--water);font-size:.92rem;margin:-4px 0 12px;padding:4px 0}
+/* Tools section: link, description, optional note, and whether it's an official source. */
+.tool{font-weight:600;color:var(--water)}
+.desc{font-size:.95rem}
+.tool-note{color:var(--amber);font-size:.88rem;font-weight:600}
+.tag.official{background:var(--water-soft);color:var(--water)}
+.tag.unofficial{background:var(--bg);color:var(--muted)}
+ul.list li > .tag{white-space:nowrap;flex-shrink:0;margin-right:0}

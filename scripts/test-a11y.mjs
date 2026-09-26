@@ -22,6 +22,7 @@ import { fileURLToPath } from "node:url";
 import { launchChrome, sleep } from "./lib/chrome.mjs";
 import { serve, stop } from "./lib/server.mjs";
 import { buildPage } from "./embed-fallback.mjs";
+import { withSamples } from "./lib/samples.mjs";
 import { createRequire } from "node:module";
 const { ROAD_TAGS } = createRequire(import.meta.url)("../render.js");
 
@@ -43,9 +44,10 @@ function normalOverrides() {
 // "warnings": the live data file 404s (→ fallback notice) and the page was built with roads
 // last updated 7 hours ago (→ stale-roads warning). The first roads are also given every road
 // type, so each label style is checked even before real data uses it, and one shelter source is
-// written in Thai (checks language marking when the page is switched to English).
+// written in Thai (checks language marking when the page is switched to English). Sample tools
+// and live-roads links are added if flood.json has none yet.
 function warningsOverrides() {
-  const data = readData();
+  const data = withSamples(readData()); // tools section + live-roads button, even before real entries exist
   const sevenHoursAgo = new Date(Date.now() - 7 * 3600e3 + 7 * 3600e3).toISOString().slice(0, 19) + "+07:00";
   data.roads.forEach(r => { r.updated = sevenHoursAgo; });
   Object.keys(ROAD_TAGS).forEach((type, i) => { if (data.roads[i]) data.roads[i].type = type; });

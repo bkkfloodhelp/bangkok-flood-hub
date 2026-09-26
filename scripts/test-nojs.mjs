@@ -14,10 +14,13 @@ import { fileURLToPath } from "node:url";
 import { launchChrome, sleep } from "./lib/chrome.mjs";
 import { serve, stop } from "./lib/server.mjs";
 import { buildPage } from "./embed-fallback.mjs";
+import { withSamples } from "./lib/samples.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const OUT = join(ROOT, "test-output");
-const data = JSON.parse(readFileSync(join(ROOT, "data/flood.json"), "utf8"));
+// Real data, plus clearly-labelled sample tools / live-roads links if flood.json has none yet,
+// so those sections are always checked without JavaScript too.
+const data = withSamples(JSON.parse(readFileSync(join(ROOT, "data/flood.json"), "utf8")));
 const { html } = buildPage(readFileSync(join(ROOT, "index.html"), "utf8"), data);
 const telHref = n => "tel:" + n.replace(/-/g, "");
 
@@ -25,6 +28,9 @@ const telHref = n => "tel:" + n.replace(/-/g, "");
 const expected = [
   ...data.hotlines.map(h => ({ what: `hotline ${h.number || h.display}`, href: h.number ? telHref(h.number) : h.url, text: h.number || h.display })),
   ...data.shelters.filter(s => s.tel).map(s => ({ what: `shelter "${s.name.th}"`, href: telHref(s.tel), text: s.tel })),
+  { what: "live road flooding button", href: data.roadsLiveUrl, text: "เช็กถนนน้ำท่วมล่าสุด" },
+  ...(data.roadsLiveUrlAlt ? [{ what: "live roads backup link", href: data.roadsLiveUrlAlt, text: "ลิงก์สำรอง" }] : []),
+  ...data.tools.map(t => ({ what: `tool "${t.name.en}"`, href: t.url, text: t.name.th })),
 ];
 
 const PAGE_STATE = `JSON.stringify((() => {

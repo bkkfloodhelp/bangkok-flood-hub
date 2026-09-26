@@ -83,10 +83,13 @@ function phone(path, v) {
   }
 }
 
-function url(path, v) {
-  let ok = typeof v === "string" && v.startsWith("https://");
+// allowHttp: some government tools only work over plain http://, so tools and live-road links may use it.
+function url(path, v, { allowHttp = false } = {}) {
+  const schemes = allowHttp ? ["https://", "http://"] : ["https://"];
+  let ok = typeof v === "string" && schemes.some(s => v.startsWith(s));
   if (ok) { try { new URL(v); } catch { ok = false; } }
-  if (!ok) err(path, `${show(v)} is not a valid https:// link.`, `${show(v)} ไม่ใช่ลิงก์ https:// ที่ถูกต้อง`);
+  const want = allowHttp ? "https:// or http://" : "https://";
+  if (!ok) err(path, `${show(v)} is not a valid ${want} link.`, `${show(v)} ไม่ใช่ลิงก์ ${want} ที่ถูกต้อง`);
 }
 
 const TS_HELP_EN = `Use the format "2026-09-26T14:30:00+07:00" (Bangkok time).`;
@@ -243,6 +246,28 @@ function checkRoadsNote(n) {
   return t;
 }
 
+// Websites/apps for checking the situation yourself. Optional list; may be empty.
+function checkTools(v) {
+  const times = [];
+  if (!Array.isArray(v)) { err("tools", "Must be a list [ ... ].", "ต้องเป็นรายการ [ ... ]"); return times; }
+  v.forEach((t, i) => {
+    const p = `tools[${i}]`;
+    if (!isObj(t)) { err(p, "Must be an object { ... }.", "ต้องเป็นออบเจ็กต์ { ... }"); return; }
+    knownKeys(p, t, ["name", "description", "url", "official", "note", "updated", "source"]);
+    if (required(p, t, "name")) bilingual(`${p}.name`, t.name);
+    if (required(p, t, "description")) bilingual(`${p}.description`, t.description);
+    if (required(p, t, "url")) url(`${p}.url`, t.url, { allowHttp: true });
+    if (required(p, t, "official") && typeof t.official !== "boolean") {
+      err(`${p}.official`, `Must be true or false (no quotes), got ${show(t.official)}.`, `ต้องเป็น true หรือ false (ไม่มีเครื่องหมายคำพูด) แต่ได้ ${show(t.official)}`);
+    }
+    if ("note" in t) bilingual(`${p}.note`, t.note);
+    if (required(p, t, "updated")) times.push(timestamp(`${p}.updated`, t.updated));
+    if (required(p, t, "source")) text(`${p}.source`, t.source);
+  });
+  noDuplicates("tools", v, t => (isObj(t) ? t.url ?? null : null), "link / ลิงก์");
+  return times;
+}
+
 function checkSources(v) {
   list("sources", v).forEach((s, i) => {
     const p = `sources[${i}]`;
@@ -302,7 +327,7 @@ function run() {
   if (d === undefined) return;
   if (!isObj(d)) { err("(file)", "The top level must be an object { ... }.", "ระดับบนสุดต้องเป็นออบเจ็กต์ { ... }"); return; }
 
-  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roadsNote", "roads", "sources", "serviceWorker"]);
+  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roadsNote", "roadsLiveUrl", "roadsLiveUrlAlt", "roads", "tools", "sources", "serviceWorker"]);
   if ("serviceWorker" in d && typeof d.serviceWorker !== "boolean") {
     err("serviceWorker", `Must be true or false (no quotes), got ${show(d.serviceWorker)}.`, `ต้องเป็น true หรือ false (ไม่มีเครื่องหมายคำพูด) แต่ได้ ${show(d.serviceWorker)}`);
   }
@@ -315,6 +340,12 @@ function run() {
   if (required("(root)", d, "shelters")) times.push(...checkShelters(d.shelters));
   if (required("(root)", d, "roads")) times.push(...checkRoads(d.roads));
   if ("roadsNote" in d) times.push(checkRoadsNote(d.roadsNote));
+  if ("roadsLiveUrl" in d) url("roadsLiveUrl", d.roadsLiveUrl, { allowHttp: true });
+  if ("roadsLiveUrlAlt" in d) {
+    url("roadsLiveUrlAlt", d.roadsLiveUrlAlt, { allowHttp: true });
+    if (!("roadsLiveUrl" in d)) err("roadsLiveUrlAlt", `A backup link needs a main "roadsLiveUrl" too.`, `ต้องมี "roadsLiveUrl" (ลิงก์หลัก) ก่อนจึงจะใส่ลิงก์สำรองได้`);
+  }
+  if ("tools" in d) times.push(...checkTools(d.tools));
   if (required("(root)", d, "sources")) checkSources(d.sources);
 
   const newest = Math.max(...times.filter(t => t != null));

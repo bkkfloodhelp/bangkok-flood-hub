@@ -42,6 +42,7 @@ scripts/test-a11y.mjs      contrast, keyboard, 360px layout and tel: link checks
 scripts/test-nojs.mjs      checks every phone number works with JavaScript disabled
 scripts/lib/               shared Chrome and test-server helpers for the scripts above
 scripts/make-og-image.mjs  regenerates og-image.png, the LINE/Facebook link preview picture
+scripts/lib/samples.mjs    sample tools / live-roads links the tests use until flood.json has real ones
 og-image.png               1200×630 preview picture (generated; don't edit by hand)
 icon.svg                   favicon: water drop in the site's blue (lighter in dark mode)
 favicon-32.png, apple-touch-icon.png  PNG icons made from icon.svg by scripts/make-icons.mjs

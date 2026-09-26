@@ -43,6 +43,27 @@
       "number": "191",
       "urgent": false,
       "label": { "th": "ตำรวจ / เหตุด่วน", "en": "Police / emergencies" }
+    },
+    {
+      "number": "1586",
+      "urgent": false,
+      "label": { "th": "กรมทางหลวง สอบถามเส้นทาง", "en": "Dept of Highways (route info)" }
+    },
+    {
+      "number": "1146",
+      "urgent": false,
+      "label": { "th": "กรมทางหลวงชนบท", "en": "Dept of Rural Roads" }
+    },
+    {
+      "number": "1130",
+      "urgent": false,
+      "label": { "th": "การไฟฟ้านครหลวง (ไฟฟ้าขัดข้อง)", "en": "MEA (power problems)" }
+    },
+    {
+      "display": "LINE",
+      "url": "https://line.me/R/ti/p/@1784DDPM",
+      "urgent": false,
+      "label": { "th": "ปภ. ทาง LINE", "en": "DDPM on LINE" }
     }
   ],
   "sheltersNote": {
@@ -180,6 +201,7 @@
     { "name": { "th": "ถ.บางนา-ตราด", "en": "Bang Na-Trat Rd" }, "type": "slow", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" },
     { "name": { "th": "ถ.พระราม 2", "en": "Rama 2 Rd" }, "type": "slow", "updated": "2026-09-26T08:30:00+07:00", "source": "BMA via Khaosod English" }
   ],
+  "tools": [],
   "sources": [
     { "title": "Thai PBS World (shelters)", "url": "https://www.thaipbsworld.com/around-thailand/558607" },
     { "title": "Khaosod English (roads)", "url": "https://www.khaosodenglish.com/featured/2026/09/26/bangkok-declares-all-50-districts-disaster-affected-as-flood-warning-issued/" },

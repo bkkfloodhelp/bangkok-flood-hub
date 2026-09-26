@@ -117,6 +117,30 @@
       '<span class="meta age-col">' + ageHTML(r.updated) + (r.source && r.source !== mainSource ? " · " + txt(r.source) : "") + '</span></li>';
   }
 
+  // A website or app people can use to check for themselves (the "tools" section).
+  function toolItem(t) {
+    const kind = t.official ? { cls: "official", th: "ทางการ", en: "Official" } : { cls: "unofficial", th: "ไม่เป็นทางการ", en: "Unofficial" };
+    return '<li><div>' +
+      '<a class="tool" href="' + esc(t.url) + '">' + biObj(t.name) + '</a>' +
+      '<div class="desc">' + biObj(t.description) + '</div>' +
+      (t.note ? '<div class="tool-note">' + biObj(t.note) + '</div>' : "") +
+      '<div class="meta">' + ageHTML(t.updated) + (t.source ? " · " + txt(t.source) : "") + '</div>' +
+      '</div><span class="tag ' + kind.cls + '">' + bi(kind.th, kind.en) + '</span></li>';
+  }
+
+  // The whole tools section, heading included; nothing at all when there are no tools yet.
+  function toolsSection(tools) {
+    if (!tools || !tools.length) return "";
+    return '<h2>' + bi("เครื่องมือตรวจสอบ", "Check for yourself") + '</h2>\n<ul class="list">' + tools.map(toolItem).join("\n") + '</ul>';
+  }
+
+  // Big "check live road flooding" button (+ optional backup link); nothing when no URL is set.
+  function roadsLive(d) {
+    if (!d.roadsLiveUrl) return "";
+    return '<a class="live-btn" href="' + esc(d.roadsLiveUrl) + '">' + bi("เช็กถนนน้ำท่วมล่าสุด", "Check live road flooding") + '</a>' +
+      (d.roadsLiveUrlAlt ? '<a class="live-alt" href="' + esc(d.roadsLiveUrlAlt) + '">' + bi("ลิงก์สำรอง", "Backup link") + '</a>' : "");
+  }
+
   // HTML for every data-driven element, keyed by element id.
   function sections(d) {
     const last = stampLong(d.lastUpdated);
@@ -141,7 +165,9 @@
       "roads-note": d.roadsNote
         ? biObj(d.roadsNote.text) + '<br><span class="meta">' + ageHTML(d.roadsNote.updated) + " · " + txt(d.roadsNote.source) + '</span>'
         : "",
+      "roads-live": roadsLive(d),
       "roads": d.roads.map(r => roadItem(r, mainSource)).join("\n"),
+      "tools": toolsSection(d.tools),
       "source-links": " " + d.sources.map(s => '<a href="' + esc(s.url) + '"' + (isEnglish(s.title) ? ' lang="en"' : "") + '>' + esc(s.title) + '</a>').join(", "),
     };
   }

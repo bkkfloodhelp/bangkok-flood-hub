@@ -157,6 +157,35 @@ The yellow box above the road list, for caveats such as "this list is incomplete
 ไม่ต้องการแล้ว: ลบทั้งบล็อก `"roadsNote": { ... },` ออก กล่องจะหายไปเอง
 No longer needed: delete the whole `"roadsNote": { ... },` block and the box disappears.
 
+### ปุ่มเช็กถนนน้ำท่วมล่าสุด · "Check live road flooding" button
+ปุ่มสีน้ำเงินเหนือรายการถนน จะแสดงเมื่อใส่ `roadsLiveUrl` เท่านั้น ลิงก์สำรอง (`roadsLiveUrlAlt`) ใส่หรือไม่ก็ได้
+The blue button above the road list only appears when `roadsLiveUrl` is set. The backup link (`roadsLiveUrlAlt`) is optional.
+```json
+  "roadsLiveUrl": "https://...",
+  "roadsLiveUrlAlt": "https://...",
+```
+ใส่ไว้ใต้ `"roadsNote": { ... },` · Put these after the `"roadsNote": { ... },` block. ลิงก์ขึ้นต้นด้วย `https://` หรือ `http://` · Links start with `https://` or `http://`.
+
+### เครื่องมือตรวจสอบ · "Check for yourself" tools
+เว็บไซต์หรือแอปที่ผู้ใช้ตรวจสอบสถานการณ์เองได้ ส่วนนี้จะแสดงเมื่อมีอย่างน้อย 1 รายการ **กดลิงก์ตรวจสอบเองก่อนใส่ทุกครั้ง**
+Websites or apps people can use to check the situation themselves. The section only appears once there is at least one entry. **Open the link yourself before adding it.**
+```json
+  "tools": [
+    {
+      "name": { "th": "ชื่อภาษาไทย", "en": "English name" },
+      "description": { "th": "ใช้ทำอะไร", "en": "What it's for" },
+      "url": "https://...",
+      "official": true,
+      "note": { "th": "ล่มบ่อย กดรีเฟรช", "en": "Often down, try refreshing" },
+      "updated": "2026-09-27T09:45:00+07:00",
+      "source": "ตรวจลิงก์แล้ว / Link checked"
+    }
+  ],
+```
+- `"official"`: `true` = ของหน่วยงานรัฐ (ป้าย "ทางการ") · `false` = ไม่ใช่ (ป้าย "ไม่เป็นทางการ") · `true` = run by a government body ("Official" label) · `false` = not ("Unofficial" label). ไม่มีเครื่องหมายคำพูด · No quotes.
+- `"note"` ใส่หรือไม่ก็ได้ · is optional. `"description"` ต้องมีเสมอ · is always required.
+- `"updated"` = เวลาที่คุณตรวจว่าลิงก์ยังใช้ได้ · the time you checked the link still works.
+
 ### เพิ่มแหล่งข้อมูล · Add a source
 ```json
     { "title": "BMA Facebook (roads 27 Sep)", "url": "https://..." }
