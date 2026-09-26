@@ -31,6 +31,18 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!--include:icons.svg--><svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!-- Section icons, drawn for this site. 24x24 grid, 2px round strokes, no fill; colour comes from
+       the surrounding text (currentColor), so light/dark mode and print just work.
+       Use: <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg>
+       scripts/embed-fallback.mjs copies this file into each page at build time. -->
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6 3h3.5l1.8 4.6-2.4 1.6a11.5 11.5 0 0 0 5.9 5.9l1.6-2.4 4.6 1.8V18a3 3 0 0 1-3 3A16 16 0 0 1 3 6a3 3 0 0 1 3-3z"/></symbol>
+  <symbol id="i-shelter" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5.5h4V20"/></symbol>
+  <symbol id="i-road" viewBox="0 0 24 24"><path d="M8.5 3 4 21"/><path d="M15.5 3 20 21"/><path d="M12 4v2.5M12 10v3M12 16.5V20"/></symbol>
+  <symbol id="i-safety" viewBox="0 0 24 24"><path d="M12 3 19.5 6v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z"/><path d="m8.8 12.2 2.3 2.3 4.2-4.6"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 7.5h3.2L9 5h6l1.8 2.5H20a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.6"/></symbol>
+  <symbol id="i-warning" viewBox="0 0 24 24"><path d="M10.3 4.3 2.6 17.8A2 2 0 0 0 4.3 20.8h15.4a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4.5"/><path d="M12 17.3v.01"/></symbol>
+</svg><!--/include:icons.svg-->
 <div class="wrap">
 
 <header>
@@ -46,18 +58,18 @@
 
 <p class="notice" id="notice" hidden></p>
 
-<p class="banner bi-block"><span data-th>ก่อนทำความสะอาดบ้าน ถ่ายรูปความเสียหายและคราบน้ำบนผนังไว้ก่อน เพื่อใช้ขอรับความช่วยเหลือ <a href="damage.html">ดูวิธีเก็บหลักฐาน</a></span><span data-en lang="en">Before you clean up, photograph the damage and the water line on your walls. You'll need it to claim assistance. <a href="damage.html">See how to collect evidence</a></span></p>
+<p class="banner bi-block"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-camera"/></svg><span data-th>ก่อนทำความสะอาดบ้าน ถ่ายรูปความเสียหายและคราบน้ำบนผนังไว้ก่อน เพื่อใช้ขอรับความช่วยเหลือ <a href="damage.html">ดูวิธีเก็บหลักฐาน</a></span><span data-en lang="en">Before you clean up, photograph the damage and the water line on your walls. You'll need it to claim assistance. <a href="damage.html">See how to collect evidence</a></span></p>
 
 <!-- Sections between "render:" comment markers are filled from data/flood.json by
      scripts/embed-fallback.mjs at deploy time, so the page works without JavaScript.
      Don't edit their contents by hand. -->
 <div class="status" role="status">
-  <strong id="status-title"><!--render:status-title--><span data-th>ประกาศเขตภัยพิบัติทั้ง 50 เขต</span><span data-en lang="en">All 50 districts declared disaster zones</span><!--/render:status-title--></strong>
+  <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-warning"/></svg><strong id="status-title"><!--render:status-title--><span data-th>ประกาศเขตภัยพิบัติทั้ง 50 เขต</span><span data-en lang="en">All 50 districts declared disaster zones</span><!--/render:status-title--></strong>
   <p id="status-body"><!--render:status-body--><span data-th>กรมอุตุฯ เตือนฝนตกหนักถึงหนักมากถึง 27 ก.ย. รวมถึง กทม. คลองสายหลักยังเต็ม หากฝนหยุดต้องใช้เวลาระบายน้ำ 2–3 วัน มีผู้อพยพเข้าศูนย์พักพิงราว 4,200 คน เขื่อนเจ้าพระยาเพิ่มการระบายน้ำ ผู้อยู่ริมแม่น้ำเจ้าพระยาที่ลุ่มต่ำให้เฝ้าระวัง หากอยู่ริมคลองหรือที่ลุ่ม ให้ยกของขึ้นที่สูงและหลีกเลี่ยงการเดินทาง</span><span data-en lang="en">The TMD warns of heavy to very heavy rain through 27 Sep, including Bangkok. Main canals are still full; draining will take 2–3 days after the rain stops. About 4,200 people are in shelters. The Chao Phraya Dam has increased its release: people in low-lying areas along the river should stay alert. If you live near a canal or in a low area, move belongings up and avoid travel.</span><!--/render:status-body--></p>
 </div>
 <p class="fresh" id="status-fresh"><!--render:status-fresh--><span class="age" data-ts="2026-09-26T20:46:00+07:00"><span data-th>อัปเดต 26 ก.ย. 20:46 น.</span><span data-en lang="en">updated 26 Sep, 20:46</span></span> · ไทยโพสต์ / Thai Post<!--/render:status-fresh--></p>
 
-<h2><span data-th>โทรขอความช่วยเหลือ</span><span data-en lang="en">Call for help</span></h2>
+<h2><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg><span data-th>โทรขอความช่วยเหลือ</span><span data-en lang="en">Call for help</span></h2>
 <p class="sub"><span data-th>แตะเพื่อโทร</span><span data-en lang="en">Tap to call</span></p>
 <div class="calls" id="calls"><!--render:calls--><a class="call urgent" href="tel:1669"><b>1669</b><span data-th>เจ็บป่วยฉุกเฉิน / เคลื่อนย้ายผู้ป่วย</span><span data-en lang="en">Medical emergency / patient transport</span></a>
 <a class="call urgent" href="tel:1555"><b>1555</b><span data-th>สายด่วน กทม.</span><span data-en lang="en">BMA hotline</span></a>
@@ -78,7 +90,7 @@
 <a class="call" href="tel:1543"><b>1543</b><span data-th>การทางพิเศษฯ สอบถามเส้นทาง / อุบัติเหตุบนทางด่วน</span><span data-en lang="en">Expressway Authority: routes and accidents</span></a>
 <a class="call" href="tel:1137"><b>1137</b><span data-th>จส.100 แจ้งอุบัติเหตุ / สภาพจราจร</span><span data-en lang="en">JS100 radio: accidents and traffic</span></a></div><!--/render:calls-other--></div>
 
-<h2><span data-th>ศูนย์พักพิงชั่วคราว</span><span data-en lang="en">Temporary shelters</span></h2>
+<h2><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shelter"/></svg><span data-th>ศูนย์พักพิงชั่วคราว</span><span data-en lang="en">Temporary shelters</span></h2>
 <p class="sub" id="shelters-note"><!--render:shelters-note--><span data-th>กทม. มีศูนย์พักพิง 233 แห่ง รองรับราว 15,000 คน รายการด้านล่างคือที่ประกาศแล้ว โทรถามก่อนเดินทาง หรือโทร 1555 / สำนักงานเขตเพื่อหาแห่งที่ใกล้ที่สุด</span><span data-en lang="en">Bangkok has 233 shelters for about 15,000 people. Below are those publicly announced so far. Call before you go, or call 1555 / your district office for the nearest one.</span><!--/render:shelters-note--></p>
 <select id="district" aria-label="District">
   <option value="all">ทุกเขต</option>
@@ -97,21 +109,21 @@
 <li data-district=""><div><div class="name"><span data-th>โรงเรียนศาลาคู้ (รับได้ 60 คน)</span><span data-en lang="en">Salakhoo School (max 60)</span></div><div class="meta"><span data-th>ไม่ระบุเขต</span><span data-en lang="en">District not stated</span></div><div class="meta"><span class="age" data-ts="2026-09-26T12:46:00+07:00"><span data-th>อัปเดต 26 ก.ย. 12:46 น.</span><span data-en lang="en">updated 26 Sep, 12:46</span></span> · <span lang="en">Thai PBS World</span></div></div><a class="tel" href="tel:0856249534">085-624-9534</a></li>
 <li data-district=""><div><div class="name"><span data-th>โรงเรียนสุเหร่าบางชัน (รับได้ 50 คน)</span><span data-en lang="en">Surao Bang Chan School (max 50)</span></div><div class="meta"><span data-th>ไม่ระบุเขต</span><span data-en lang="en">District not stated</span></div><div class="meta"><span class="age" data-ts="2026-09-26T12:46:00+07:00"><span data-th>อัปเดต 26 ก.ย. 12:46 น.</span><span data-en lang="en">updated 26 Sep, 12:46</span></span> · <span lang="en">Thai PBS World</span></div></div><a class="tel" href="tel:0656163956">065-616-3956</a></li><!--/render:shelters--></ul>
 
-<h2><span data-th>ถนนที่ควรหลีกเลี่ยง</span><span data-en lang="en">Roads to avoid</span></h2>
+<h2><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-road"/></svg><span data-th>ถนนที่ควรหลีกเลี่ยง</span><span data-en lang="en">Roads to avoid</span></h2>
 <p class="sub" id="roads-sub"><!--render:roads-sub--><span data-th>ประกาศโดย <span lang="en">Thai Post</span> · </span><span data-en lang="en">Source: Thai Post · </span><span class="age" data-ts="2026-09-26T20:46:00+07:00"><span data-th>อัปเดต 26 ก.ย. 20:46 น.</span><span data-en lang="en">updated 26 Sep, 20:46</span></span><span data-th> สถานการณ์อาจเปลี่ยนแล้ว</span><span data-en lang="en">. Conditions may have changed since.</span><!--/render:roads-sub--></p>
 <div class="live" id="roads-live"><!--render:roads-live--><a class="live-btn" href="https://weather.bangkok.go.th/flood/"><span data-th>เช็กถนนน้ำท่วมล่าสุด</span><span data-en lang="en">Check live road flooding</span></a><!--/render:roads-live--></div>
 <div class="stale" id="roads-stale" hidden>
-  <strong><span data-th>ข้อมูลถนนเก่ากว่า 6 ชั่วโมง</span><span data-en lang="en">Road information is over 6 hours old</span></strong><br>
+  <strong><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-warning"/></svg><span data-th>ข้อมูลถนนเก่ากว่า 6 ชั่วโมง</span><span data-en lang="en">Road information is over 6 hours old</span></strong><br>
   <span data-th>โปรดตรวจสอบกับ <a href="tel:1555">สายด่วน กทม. 1555</a> หรือ กทม. ก่อนเดินทาง</span><span data-en lang="en">Please check with the <a href="tel:1555">BMA hotline 1555</a> or the BMA before travelling.</span>
 </div>
-<div class="note" id="roads-note"><!--render:roads-note--><span data-th>กทม. แจ้งถนน 13 สายที่รถเล็กผ่านไม่ได้ สถานการณ์เปลี่ยนตลอดเวลา ตรวจสอบแบบเรียลไทม์ที่เว็บไซต์ของ กทม. หรือโทร 1555 ก่อนเดินทาง</span><span data-en lang="en">BMA says 13 roads are impassable for small cars. Conditions change constantly: check the BMA&#39;s real-time website or call 1555 before travelling.</span><br><span class="meta"><span class="age" data-ts="2026-09-26T20:46:00+07:00"><span data-th>อัปเดต 26 ก.ย. 20:46 น.</span><span data-en lang="en">updated 26 Sep, 20:46</span></span> · ไทยโพสต์ / Thai Post</span><!--/render:roads-note--></div>
+<div class="note" id="roads-note"><!--render:roads-note--><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-warning"/></svg><span data-th>กทม. แจ้งถนน 13 สายที่รถเล็กผ่านไม่ได้ สถานการณ์เปลี่ยนตลอดเวลา ตรวจสอบแบบเรียลไทม์ที่เว็บไซต์ของ กทม. หรือโทร 1555 ก่อนเดินทาง</span><span data-en lang="en">BMA says 13 roads are impassable for small cars. Conditions change constantly: check the BMA&#39;s real-time website or call 1555 before travelling.</span><br><span class="meta"><span class="age" data-ts="2026-09-26T20:46:00+07:00"><span data-th>อัปเดต 26 ก.ย. 20:46 น.</span><span data-en lang="en">updated 26 Sep, 20:46</span></span> · ไทยโพสต์ / Thai Post</span><!--/render:roads-note--></div>
 <ul class="list" id="roads"><!--render:roads--><li><span class="road"><span class="tag avoid"><span data-th>เลี่ยง</span><span data-en lang="en">Avoid</span></span><span class="rn"><span data-th>ด่านดอนเมืองโทลล์เวย์ แจ้งวัฒนะ ขาเข้า (ปิดชั่วคราว)</span><span data-en lang="en">Don Muang Tollway, Chaeng Watthana entrance, inbound (temporarily closed)</span></span></span><span class="meta age-col"><span class="age" data-ts="2026-09-26T20:46:00+07:00"><span data-th>อัปเดต 26 ก.ย. 20:46 น.</span><span data-en lang="en">updated 26 Sep, 20:46</span></span></span></li>
 <li><span class="road"><span class="tag avoid"><span data-th>เลี่ยง</span><span data-en lang="en">Avoid</span></span><span class="rn"><span data-th>ด่านดอนเมืองโทลล์เวย์ หลักสี่ ขาออก (ปิดชั่วคราว)</span><span data-en lang="en">Don Muang Tollway, Lak Si entrance, outbound (temporarily closed)</span></span></span><span class="meta age-col"><span class="age" data-ts="2026-09-26T20:46:00+07:00"><span data-th>อัปเดต 26 ก.ย. 20:46 น.</span><span data-en lang="en">updated 26 Sep, 20:46</span></span></span></li>
 <li><span class="road"><span class="tag avoid"><span data-th>เลี่ยง</span><span data-en lang="en">Avoid</span></span><span class="rn"><span data-th>ด่านดอนเมืองโทลล์เวย์ ลาดพร้าว ขาออก (ปิดชั่วคราว)</span><span data-en lang="en">Don Muang Tollway, Lat Phrao entrance, outbound (temporarily closed)</span></span></span><span class="meta age-col"><span class="age" data-ts="2026-09-26T20:46:00+07:00"><span data-th>อัปเดต 26 ก.ย. 20:46 น.</span><span data-en lang="en">updated 26 Sep, 20:46</span></span></span></li><!--/render:roads--></ul>
 
 <div id="tools"><!--render:tools--><!--/render:tools--></div>
 
-<h2><span data-th>ความปลอดภัย</span><span data-en lang="en">Stay safe</span></h2>
+<h2><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-safety"/></svg><span data-th>ความปลอดภัย</span><span data-en lang="en">Stay safe</span></h2>
 <ul class="tips" data-th>
   <li>ถ้าน้ำเข้าบ้าน ปิดเบรกเกอร์หลักก่อนน้ำถึงปลั๊ก ห้ามแตะเครื่องใช้ไฟฟ้าขณะยืนในน้ำ</li>
   <li>เลี่ยงการเดินลุยน้ำ อาจมีท่อเปิด ไฟรั่ว สัตว์มีพิษ และเชื้อโรค</li>

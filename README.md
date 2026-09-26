@@ -48,6 +48,8 @@ scripts/make-og-image.mjs  regenerates og-image.png, the LINE/Facebook link prev
 scripts/lib/samples.mjs    sample tools / live-roads links the tests use until flood.json has real ones
 og-image.png               1200×630 preview picture (generated; don't edit by hand)
 icon.svg                   favicon: water drop in the site's blue (lighter in dark mode)
+icons.svg                  section icons (phone, shelter, road, safety, camera, warning), copied into each page at build time
+img/evidence-*.svg         the three line drawings on damage.html (water line, room then close-ups, appliance label)
 favicon-32.png, apple-touch-icon.png  PNG icons made from icon.svg by scripts/make-icons.mjs
 .github/workflows/deploy.yml  check → embed fallback → publish to GitHub Pages
 .github/workflows/tests.yml   runs both browser tests when code changes (does not block deploys)

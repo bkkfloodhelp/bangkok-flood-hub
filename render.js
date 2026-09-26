@@ -185,7 +185,7 @@
         : bi("ยังไม่มีรายงานถนน", "No road reports yet."),
       // Empty string when there is no note: the box is hidden by CSS (.note:empty).
       "roads-note": d.roadsNote
-        ? biObj(d.roadsNote.text) + '<br><span class="meta">' + ageHTML(d.roadsNote.updated) + " · " + txt(d.roadsNote.source) + '</span>'
+        ? '<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-warning"/></svg>' + biObj(d.roadsNote.text) + '<br><span class="meta">' + ageHTML(d.roadsNote.updated) + " · " + txt(d.roadsNote.source) + '</span>'
         : "",
       "roads-live": roadsLive(d),
       "roads": d.roads.map(r => roadItem(r, mainSource)).join("\n"),

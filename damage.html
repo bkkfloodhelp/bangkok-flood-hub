@@ -23,13 +23,25 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!--include:icons.svg--><svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!-- Section icons, drawn for this site. 24x24 grid, 2px round strokes, no fill; colour comes from
+       the surrounding text (currentColor), so light/dark mode and print just work.
+       Use: <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg>
+       scripts/embed-fallback.mjs copies this file into each page at build time. -->
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6 3h3.5l1.8 4.6-2.4 1.6a11.5 11.5 0 0 0 5.9 5.9l1.6-2.4 4.6 1.8V18a3 3 0 0 1-3 3A16 16 0 0 1 3 6a3 3 0 0 1 3-3z"/></symbol>
+  <symbol id="i-shelter" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5.5h4V20"/></symbol>
+  <symbol id="i-road" viewBox="0 0 24 24"><path d="M8.5 3 4 21"/><path d="M15.5 3 20 21"/><path d="M12 4v2.5M12 10v3M12 16.5V20"/></symbol>
+  <symbol id="i-safety" viewBox="0 0 24 24"><path d="M12 3 19.5 6v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z"/><path d="m8.8 12.2 2.3 2.3 4.2-4.6"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 7.5h3.2L9 5h6l1.8 2.5H20a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.6"/></symbol>
+  <symbol id="i-warning" viewBox="0 0 24 24"><path d="M10.3 4.3 2.6 17.8A2 2 0 0 0 4.3 20.8h15.4a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4.5"/><path d="M12 17.3v.01"/></symbol>
+</svg><!--/include:icons.svg-->
 <div class="wrap">
 
 <p class="back"><a href="./"><span data-th>← ข้อมูลช่วยเหลือน้ำท่วม กรุงเทพฯ</span><span data-en lang="en">← Bangkok flood help</span></a></p>
 
 <header>
   <div>
-    <h1><span data-th>เก็บหลักฐานความเสียหายจากน้ำท่วม</span><span data-en lang="en">Collect evidence of flood damage</span></h1>
+    <h1><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-camera"/></svg><span data-th>เก็บหลักฐานความเสียหายจากน้ำท่วม</span><span data-en lang="en">Collect evidence of flood damage</span></h1>
   </div>
   <div class="lang" role="group" aria-label="Language">
     <button type="button" data-set="th" aria-pressed="true">ไทย</button>
@@ -39,7 +51,7 @@
 
 <p class="note intro bi-block"><span data-th>ถ่ายรูปก่อนทำความสะอาดบ้าน เมื่อล้างบ้านแล้ว หลักฐานจะหายไป การประกาศเขตภัยพิบัติไม่ได้หมายความว่าจะได้รับเงินช่วยเหลืออัตโนมัติ ต้องแจ้งความเสียหายที่สำนักงานเขต และผ่านการสำรวจก่อน</span><span data-en lang="en">Take photos before you clean. Once the house is washed, the evidence is gone. Being in a disaster zone does not mean you receive assistance automatically. You must report the damage to your district office and have it surveyed first.</span></p>
 
-<p class="safety bi-block"><span data-th>ห้ามเข้าบ้านที่ยังมีน้ำท่วมถึงปลั๊กไฟ หรือโครงสร้างบ้านดูไม่ปลอดภัย ปิดเบรกเกอร์ก่อนเสมอ ความปลอดภัยสำคัญกว่าหลักฐาน</span><span data-en lang="en">Don't enter a house if water is still at the level of power outlets, or if the structure looks unsafe. Always switch off the breaker first. Your safety matters more than evidence.</span></p>
+<p class="safety bi-block"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-warning"/></svg><span data-th>ห้ามเข้าบ้านที่ยังมีน้ำท่วมถึงปลั๊กไฟ หรือโครงสร้างบ้านดูไม่ปลอดภัย ปิดเบรกเกอร์ก่อนเสมอ ความปลอดภัยสำคัญกว่าหลักฐาน</span><span data-en lang="en">Don't enter a house if water is still at the level of power outlets, or if the structure looks unsafe. Always switch off the breaker first. Your safety matters more than evidence.</span></p>
 
 <!-- Needs JavaScript (window.print), so hidden without it; the browser's own Print still works. -->
 <p class="actions"><button type="button" class="print-btn" id="print"><span data-th>พิมพ์ / บันทึกเป็น PDF</span><span data-en lang="en">Print / save as PDF</span></button></p>
@@ -47,14 +59,66 @@
 <ol class="steps">
   <li>
     <h2><span data-th>ถ่ายรูปความเสียหาย</span><span data-en lang="en">Photograph the damage</span></h2>
+    <figure class="ill-fig"><!--include:img/evidence-room.svg--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ill" aria-hidden="true" focusable="false">
+  <!-- Wide shot: the whole room -->
+  <path d="M18 116h102"/>
+  <rect x="26" y="34" width="28" height="24" rx="2"/><path d="M40 34v24M26 46h28"/>
+  <rect x="62" y="74" width="46" height="16" rx="5"/>
+  <rect x="58" y="86" width="54" height="22" rx="6"/>
+  <path d="M64 108v8M106 108v8"/>
+  <path d="M18 100h102" stroke-dasharray="6 6" style="stroke:var(--water,#1d5c8a)"/>
+  <path d="M10 30V18h12M116 18h12v12M128 118v12h-12M22 130h-12v-12"/>
+  <!-- Then -->
+  <path d="M138 74h20m-7-7 7 7-7 7"/>
+  <!-- Close-up 1: the stained sofa cushion -->
+  <path d="M176 50 q9 -4 18 0 t18 0 t8 0 V60 a4 4 0 0 1 -4 4 H180 a4 4 0 0 1 -4 -4 Z" style="fill:var(--water-soft,#e1edf6);stroke:none"/>
+  <rect x="176" y="28" width="44" height="36" rx="5"/>
+  <path d="M176 50 q9 -4 18 0 t18 0 t8 0" style="stroke:var(--water,#1d5c8a)"/>
+  <path d="M168 27V18h9M219 18h9v9M228 61v9h-9M177 70h-9v-9"/>
+  <!-- Close-up 2: a damaged box -->
+  <rect x="180" y="98" width="30" height="24" rx="1.5"/>
+  <path d="M180 98l8-8h28l-6 8M216 90v24l-6 8"/>
+  <path d="M180 112h30l6-8" stroke-dasharray="4 4" style="stroke:var(--water,#1d5c8a)"/>
+  <path d="M168 89V80h9M219 80h9v9M228 123v9h-9M177 132h-9v-9"/>
+</svg><!--/include:img/evidence-room.svg--></figure>
     <ul class="points">
       <li class="bi-block"><span data-th>ถ่ายภาพกว้างให้เห็นทั้งห้องก่อน แล้วค่อยถ่ายใกล้ของที่เสียหายทีละชิ้น</span><span data-en lang="en">Take a wide shot of each room first, then close-ups of each damaged item.</span></li>
       <li class="bi-block"><span data-th>ถ่ายยี่ห้อ รุ่น และหมายเลขเครื่องของเครื่องใช้ไฟฟ้า</span><span data-en lang="en">Photograph the brand, model and serial number labels on appliances.</span></li>
       <li class="bi-block"><span data-th>ถ่ายรูปก่อนทิ้งของเสียหายทุกชิ้น</span><span data-en lang="en">Photograph every damaged item before you throw it away.</span></li>
     </ul>
+    <figure class="ill-fig"><!--include:img/evidence-label.svg--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ill" aria-hidden="true" focusable="false">
+  <!-- Washing machine with its label -->
+  <rect x="18" y="18" width="80" height="114" rx="6"/>
+  <path d="M18 40h80"/><circle cx="32" cy="29" r="4"/>
+  <circle cx="58" cy="88" r="26"/><circle cx="58" cy="88" r="17"/>
+  <rect x="66" y="24" width="24" height="10" rx="1.5" style="fill:var(--panel,#fff);stroke:var(--amber,#8a5a00)"/>
+  <!-- The phone shows the label, enlarged -->
+  <path d="M92 29 C115 29 125 40 144 48" stroke-dasharray="4 5" stroke-width="2"/>
+  <rect x="140" y="12" width="76" height="126" rx="11"/>
+  <path d="M170 21h16"/>
+  <rect x="152" y="44" width="52" height="54" rx="3" style="fill:var(--panel,#fff);stroke:var(--amber,#8a5a00)"/>
+  <path d="M158 54h26M158 62h38M158 70h20" stroke-width="2" style="stroke:var(--amber,#8a5a00)"/>
+  <path d="M158 80v12M161 80v12M165 80v12M167 80v12M172 80v12M176 80v12M178 80v12M183 80v12M187 80v12M190 80v12M195 80v12" stroke-width="1.6" style="stroke:var(--amber,#8a5a00)"/>
+  <path d="M146 45V36h9M201 36h9v9M210 97v9h-9M155 106h-9v-9"/>
+  <circle cx="178" cy="122" r="7"/>
+</svg><!--/include:img/evidence-label.svg--></figure>
   </li>
   <li>
     <h2><span data-th>ถ่ายภาพระดับน้ำ</span><span data-en lang="en">Photograph the water level</span></h2>
+    <figure class="ill-fig"><!--include:img/evidence-waterline.svg--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ill" aria-hidden="true" focusable="false">
+  <!-- Stain on the wall below the water line -->
+  <path d="M12 84 q14 -5 28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 V132 H12 Z" style="fill:var(--water-soft,#e1edf6);stroke:none"/>
+  <path d="M12 84 q14 -5 28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0" style="stroke:var(--water,#1d5c8a)"/>
+  <!-- Door frame and floor, for context -->
+  <path d="M28 132V32h40v100"/><circle cx="60" cy="84" r="2"/>
+  <path d="M8 132h224"/>
+  <!-- Tape measure standing on the floor, reaching above the water line -->
+  <rect x="150" y="28" width="16" height="92" rx="2" style="fill:var(--panel,#fff);stroke:var(--amber,#8a5a00)"/>
+  <path d="M150 36h9M150 44h5M150 52h9M150 60h5M150 68h9M150 76h5M150 84h9M150 92h5M150 100h9M150 108h5M150 116h9" stroke-width="1.6" style="stroke:var(--amber,#8a5a00)"/>
+  <rect x="140" y="112" width="36" height="21" rx="6" style="fill:var(--panel,#fff);stroke:var(--amber,#8a5a00)"/>
+  <!-- Camera viewfinder around the tape and the water line -->
+  <path d="M116 28V16h12M188 16h12v12M200 132v12h-12M128 144h-12v-12"/>
+</svg><!--/include:img/evidence-waterline.svg--></figure>
     <ul class="points">
       <li class="bi-block"><span data-th>ถ่ายน้ำที่ท่วมขังในบ้าน หรือคราบน้ำบนผนังหลังน้ำลด</span><span data-en lang="en">Photograph the water inside the house, or the water line left on the walls after it drops.</span></li>
       <li class="bi-block"><span data-th>วางตลับเมตรหรือไม้บรรทัดข้างคราบน้ำ เพื่อให้เห็นความสูง</span><span data-en lang="en">Hold a tape measure or ruler next to the water line to show its height.</span></li>
@@ -81,7 +145,7 @@
   </li>
 </ol>
 
-<h2><span data-th>รายการถ่ายรูปทีละห้อง</span><span data-en lang="en">Room-by-room photo checklist</span></h2>
+<h2><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-camera"/></svg><span data-th>รายการถ่ายรูปทีละห้อง</span><span data-en lang="en">Room-by-room photo checklist</span></h2>
 <ul class="checklist boxed">
   <li><label><input type="checkbox" id="room-front" data-save><span class="bi-block"><span data-th>หน้าบ้านและเลขที่บ้าน</span><span data-en lang="en">Front of the house and house number</span></span></label></li>
   <li><label><input type="checkbox" id="room-waterline" data-save><span class="bi-block"><span data-th>คราบน้ำบนผนัง พร้อมตลับเมตร</span><span data-en lang="en">Water line on the wall, with a tape measure</span></span></label></li>

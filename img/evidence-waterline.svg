@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ill" aria-hidden="true" focusable="false">
+  <!-- Stain on the wall below the water line -->
+  <path d="M12 84 q14 -5 28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 V132 H12 Z" style="fill:var(--water-soft,#e1edf6);stroke:none"/>
+  <path d="M12 84 q14 -5 28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0" style="stroke:var(--water,#1d5c8a)"/>
+  <!-- Door frame and floor, for context -->
+  <path d="M28 132V32h40v100"/><circle cx="60" cy="84" r="2"/>
+  <path d="M8 132h224"/>
+  <!-- Tape measure standing on the floor, reaching above the water line -->
+  <rect x="150" y="28" width="16" height="92" rx="2" style="fill:var(--panel,#fff);stroke:var(--amber,#8a5a00)"/>
+  <path d="M150 36h9M150 44h5M150 52h9M150 60h5M150 68h9M150 76h5M150 84h9M150 92h5M150 100h9M150 108h5M150 116h9" stroke-width="1.6" style="stroke:var(--amber,#8a5a00)"/>
+  <rect x="140" y="112" width="36" height="21" rx="6" style="fill:var(--panel,#fff);stroke:var(--amber,#8a5a00)"/>
+  <!-- Camera viewfinder around the tape and the water line -->
+  <path d="M116 28V16h12M188 16h12v12M200 132v12h-12M128 144h-12v-12"/>
+</svg>

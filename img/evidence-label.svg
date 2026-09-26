@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ill" aria-hidden="true" focusable="false">
+  <!-- Washing machine with its label -->
+  <rect x="18" y="18" width="80" height="114" rx="6"/>
+  <path d="M18 40h80"/><circle cx="32" cy="29" r="4"/>
+  <circle cx="58" cy="88" r="26"/><circle cx="58" cy="88" r="17"/>
+  <rect x="66" y="24" width="24" height="10" rx="1.5" style="fill:var(--panel,#fff);stroke:var(--amber,#8a5a00)"/>
+  <!-- The phone shows the label, enlarged -->
+  <path d="M92 29 C115 29 125 40 144 48" stroke-dasharray="4 5" stroke-width="2"/>
+  <rect x="140" y="12" width="76" height="126" rx="11"/>
+  <path d="M170 21h16"/>
+  <rect x="152" y="44" width="52" height="54" rx="3" style="fill:var(--panel,#fff);stroke:var(--amber,#8a5a00)"/>
+  <path d="M158 54h26M158 62h38M158 70h20" stroke-width="2" style="stroke:var(--amber,#8a5a00)"/>
+  <path d="M158 80v12M161 80v12M165 80v12M167 80v12M172 80v12M176 80v12M178 80v12M183 80v12M187 80v12M190 80v12M195 80v12" stroke-width="1.6" style="stroke:var(--amber,#8a5a00)"/>
+  <path d="M146 45V36h9M201 36h9v9M210 97v9h-9M155 106h-9v-9"/>
+  <circle cx="178" cy="122" r="7"/>
+</svg>

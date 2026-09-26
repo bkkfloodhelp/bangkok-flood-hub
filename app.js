@@ -63,11 +63,12 @@ function applyFilter() {
   });
 }
 
+const WARN_ICON = '<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-warning"/></svg>';
 const NOTICE = {
-  fallback: '<strong><span data-th>ข้อมูลอาจไม่เป็นปัจจุบัน </span><span data-en lang="en">May be out of date. </span></strong>' +
+  fallback: WARN_ICON + '<strong><span data-th>ข้อมูลอาจไม่เป็นปัจจุบัน </span><span data-en lang="en">May be out of date. </span></strong>' +
     '<span data-th>โหลดข้อมูลล่าสุดไม่สำเร็จ กำลังแสดงข้อมูลสำรอง ลองรีเฟรชเมื่อมีสัญญาณ</span>' +
     '<span data-en lang="en">Couldn\'t load the latest data, so this is a saved copy. Try refreshing when you have signal.</span>',
-  none: '<strong><span data-th>ข้อมูลอาจไม่เป็นปัจจุบัน </span><span data-en lang="en">May be out of date. </span></strong>' +
+  none: WARN_ICON + '<strong><span data-th>ข้อมูลอาจไม่เป็นปัจจุบัน </span><span data-en lang="en">May be out of date. </span></strong>' +
     '<span data-th>โหลดข้อมูลไม่สำเร็จ เหตุฉุกเฉินโทร 1669 หรือ 1555</span>' +
     '<span data-en lang="en">Could not load the information. In an emergency call 1669 or 1555.</span>',
 };

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ill" aria-hidden="true" focusable="false">
+  <!-- Wide shot: the whole room -->
+  <path d="M18 116h102"/>
+  <rect x="26" y="34" width="28" height="24" rx="2"/><path d="M40 34v24M26 46h28"/>
+  <rect x="62" y="74" width="46" height="16" rx="5"/>
+  <rect x="58" y="86" width="54" height="22" rx="6"/>
+  <path d="M64 108v8M106 108v8"/>
+  <path d="M18 100h102" stroke-dasharray="6 6" style="stroke:var(--water,#1d5c8a)"/>
+  <path d="M10 30V18h12M116 18h12v12M128 118v12h-12M22 130h-12v-12"/>
+  <!-- Then -->
+  <path d="M138 74h20m-7-7 7 7-7 7"/>
+  <!-- Close-up 1: the stained sofa cushion -->
+  <path d="M176 50 q9 -4 18 0 t18 0 t8 0 V60 a4 4 0 0 1 -4 4 H180 a4 4 0 0 1 -4 -4 Z" style="fill:var(--water-soft,#e1edf6);stroke:none"/>
+  <rect x="176" y="28" width="44" height="36" rx="5"/>
+  <path d="M176 50 q9 -4 18 0 t18 0 t8 0" style="stroke:var(--water,#1d5c8a)"/>
+  <path d="M168 27V18h9M219 18h9v9M228 61v9h-9M177 70h-9v-9"/>
+  <!-- Close-up 2: a damaged box -->
+  <rect x="180" y="98" width="30" height="24" rx="1.5"/>
+  <path d="M180 98l8-8h28l-6 8M216 90v24l-6 8"/>
+  <path d="M180 112h30l6-8" stroke-dasharray="4 4" style="stroke:var(--water,#1d5c8a)"/>
+  <path d="M168 89V80h9M219 80h9v9M228 123v9h-9M177 132h-9v-9"/>
+</svg>

@@ -149,6 +149,16 @@ table.assist{width:100%;border-collapse:collapse;background:var(--panel);border:
 .assist tbody th{font-weight:400}
 .assist td{font-weight:700;width:42%}
 
+/* ---------- Icons and illustrations (icons.svg, img/*.svg; copied into the pages at build time) ----------
+   Colour follows meaning: blue = information (section headings), red = danger (status, stale
+   roads, safety note), amber = caution / action (notices, road note, damage banner). */
+.icon{width:1.2em;height:1.2em;vertical-align:-.22em;margin-right:.35em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+h1 > .icon,h2 > .icon{color:var(--water)}
+.status .icon,.stale .icon,.safety .icon{color:var(--alert)}
+.notice .icon,.note .icon,.banner .icon{color:var(--amber)}
+.ill-fig{margin:4px 0 10px}
+.ill{display:block;width:100%;max-width:340px;height:auto;margin:0 auto;color:var(--ink)}
+
 /* ---------- Print (both pages; "Print / save as PDF" on damage.html) ----------
    Black on white, no banner or buttons, checkboxes as empty boxes to tick by hand,
    source links printed with their addresses. */

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!-- Section icons, drawn for this site. 24x24 grid, 2px round strokes, no fill; colour comes from
+       the surrounding text (currentColor), so light/dark mode and print just work.
+       Use: <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg>
+       scripts/embed-fallback.mjs copies this file into each page at build time. -->
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6 3h3.5l1.8 4.6-2.4 1.6a11.5 11.5 0 0 0 5.9 5.9l1.6-2.4 4.6 1.8V18a3 3 0 0 1-3 3A16 16 0 0 1 3 6a3 3 0 0 1 3-3z"/></symbol>
+  <symbol id="i-shelter" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5.5h4V20"/></symbol>
+  <symbol id="i-road" viewBox="0 0 24 24"><path d="M8.5 3 4 21"/><path d="M15.5 3 20 21"/><path d="M12 4v2.5M12 10v3M12 16.5V20"/></symbol>
+  <symbol id="i-safety" viewBox="0 0 24 24"><path d="M12 3 19.5 6v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z"/><path d="m8.8 12.2 2.3 2.3 4.2-4.6"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 7.5h3.2L9 5h6l1.8 2.5H20a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.6"/></symbol>
+  <symbol id="i-warning" viewBox="0 0 24 24"><path d="M10.3 4.3 2.6 17.8A2 2 0 0 0 4.3 20.8h15.4a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4.5"/><path d="M12 17.3v.01"/></symbol>
+</svg>

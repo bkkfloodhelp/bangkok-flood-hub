@@ -9,13 +9,28 @@
 // 3. Checks that every hotline and shelter phone number ended up as a tel: link, and fails
 //    (blocking the deploy) if one is missing.
 // 4. damage.html: pre-renders the assistance table and its source line from "assistance".
+// 5. Both pages: copies SVG files (icons.svg, img/*.svg) into <!--include:FILE--> markers, so
+//    icons and illustrations need no extra download and work offline and without JavaScript.
 
 import { readFileSync, writeFileSync } from "node:fs";
+import { join, normalize } from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const require = createRequire(import.meta.url);
 const { sections, damageSections, telHref } = require("../render.js");
+
+const ROOT = fileURLToPath(new URL("..", import.meta.url));
+
+// Replace the contents of every <!--include:FILE--> ... <!--/include:FILE--> marker with that
+// file from the repo (SVG only).
+function includeFiles(html) {
+  return html.replace(/(<!--include:([\w./-]+\.svg)-->)[\s\S]*?(<!--\/include:\2-->)/g, (_, open, file, close) => {
+    const path = normalize(join(ROOT, file));
+    if (!path.startsWith(ROOT)) throw new Error(`include outside the site: ${file}`);
+    return open + readFileSync(path, "utf8").trim() + close;
+  });
+}
 
 // Replace the contents of every <!--render:ID--> ... <!--/render:ID--> marker.
 function fill(html, parts, file) {
@@ -29,11 +44,11 @@ function fill(html, parts, file) {
 }
 
 export function buildDamagePage(html, data) {
-  return fill(html, damageSections(data), "damage.html");
+  return includeFiles(fill(html, damageSections(data), "damage.html"));
 }
 
 export function buildPage(html, data) {
-  html = fill(html, sections(data), "index.html");
+  html = includeFiles(fill(html, sections(data), "index.html"));
 
   // Compact, and escape "<" so text like "</script>" inside the data can't end the block early.
   const json = JSON.stringify(data).replace(/</g, "\\u003c");
@@ -51,7 +66,7 @@ export function buildPage(html, data) {
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const root = fileURLToPath(new URL("..", import.meta.url));
+  const root = ROOT;
   const data = JSON.parse(readFileSync(root + "data/flood.json", "utf8"));
   const { html, telCount } = buildPage(readFileSync(root + "index.html", "utf8"), data);
   writeFileSync(root + "index.html", html);
