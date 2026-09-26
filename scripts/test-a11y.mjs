@@ -8,6 +8,12 @@
 //   • layout: no sideways scrolling at 360px, tap targets at least 24×24px (WCAG 2.2)
 //   • tel: links dial the number that is shown
 //   • no failed requests (404s etc.) in the network log, e.g. a missing favicon
+//   • no JavaScript errors
+//
+// Pages: index.html (normal + "warnings" states) and damage.html. damage.html also gets
+// behaviour checks: ticks are remembered, it works with storage blocked, the print button
+// prints, and the print stylesheet (black on white, no buttons, empty boxes, sources kept).
+// A PDF of the printed damage page is saved as test-output/damage-print.pdf.
 //
 // It runs in light and dark mode, Thai and English, and in a "warnings" state where the
 // "may be out of date" notice and the stale-roads warning are forced on. Screenshots of every
@@ -21,7 +27,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { launchChrome, sleep } from "./lib/chrome.mjs";
 import { serve, stop } from "./lib/server.mjs";
-import { buildPage } from "./embed-fallback.mjs";
+import { buildPage, buildDamagePage } from "./embed-fallback.mjs";
 import { withSamples } from "./lib/samples.mjs";
 import { createRequire } from "node:module";
 const { ROAD_TAGS } = createRequire(import.meta.url)("../render.js");
@@ -38,7 +44,11 @@ const readData = () => JSON.parse(readFileSync(join(ROOT, "data/flood.json"), "u
 const built = data => buildPage(readFileSync(join(ROOT, "index.html"), "utf8"), data).html;
 
 function normalOverrides() {
-  return { "/index.html": built(readData()) };
+  const data = readData();
+  return {
+    "/index.html": built(data),
+    "/damage.html": buildDamagePage(readFileSync(join(ROOT, "damage.html"), "utf8"), data),
+  };
 }
 
 // "warnings": the live data file 404s (→ fallback notice) and the page was built with roads
@@ -196,7 +206,14 @@ function report(label, fails) {
   fails.forEach(f => console.log(`      - ${f}`));
 }
 
-async function run(chrome, url, { theme, lang, state }) {
+const READY = {
+  hub: `document.querySelectorAll("#district option").length > 1`, // built by app.js, so enhancement has run
+  warnings: `!document.getElementById("notice").hidden && !document.getElementById("roads-stale").hidden`,
+  damage: `document.documentElement.dataset.enhanced === "damage"`, // set at the end of damage.js
+};
+
+async function run(chrome, base, { theme, lang, state, page = "hub" }) {
+  const url = page === "damage" ? base + "damage.html" : base;
   const { send } = chrome;
   const evaluate = async expr => {
     const r = await send("Runtime.evaluate", { expression: expr, awaitPromise: true, returnByValue: true });
@@ -207,14 +224,13 @@ async function run(chrome, url, { theme, lang, state }) {
   // Language is remembered in localStorage; set it, then load the page fresh (focus starts at the top).
   // Network errors count from the first load: Chrome asks for a site's favicon only once.
   netErrors.length = 0;
+  jsErrors.length = 0;
   await send("Page.navigate", { url });
   await sleep(300);
   await evaluate(`localStorage.setItem("lang", ${JSON.stringify(lang)}); true`);
   await send("Page.navigate", { url });
 
-  const ready = state === "warnings"
-    ? `!document.getElementById("notice").hidden && !document.getElementById("roads-stale").hidden`
-    : `document.querySelectorAll("#district option").length > 1`; // built by app.js, so enhancement has run
+  const ready = page === "damage" ? READY.damage : state === "warnings" ? READY.warnings : READY.hub;
   let ok = false;
   for (let i = 0; i < 40 && !ok; i++) { await sleep(250); ok = await evaluate(`(${ready}) && document.fonts.status === "loaded"`).catch(() => false); }
   if (!ok) { report("page rendered", ["page did not reach the expected state"]); return; }
@@ -233,6 +249,7 @@ async function run(chrome, url, { theme, lang, state }) {
   // The "warnings" state makes data/flood.json 404 on purpose; anything else is a real problem.
   const expected = state === "warnings" ? ["/data/flood.json"] : [];
   report("no failed requests in the network log", [...new Set(netErrors.filter(e => !expected.includes(e.path)).map(e => e.text))]);
+  report("no JavaScript errors", [...new Set(jsErrors)]);
 
   // Keyboard: press Tab until focus has been round the whole page.
   await send("Emulation.setFocusEmulationEnabled", { enabled: true });
@@ -255,7 +272,98 @@ async function run(chrome, url, { theme, lang, state }) {
   const h = await evaluate("document.documentElement.scrollHeight");
   await evaluate("document.activeElement && document.activeElement.blur(); scrollTo(0, 0); true");
   const shot = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: true, clip: { x: 0, y: 0, width: WIDTH, height: h, scale: 1 } });
-  writeFileSync(join(OUT, `${WIDTH}-${theme}-${lang}-${state}.png`), Buffer.from(shot.result.data, "base64"));
+  const name = page === "damage" ? `${WIDTH}-damage-${theme}-${lang}.png` : `${WIDTH}-${theme}-${lang}-${state}.png`;
+  writeFileSync(join(OUT, name), Buffer.from(shot.result.data, "base64"));
+}
+
+// damage.html behaviour: saved ticks, blocked storage, print button, print stylesheet.
+async function damageBehaviour(chrome, base) {
+  const { send } = chrome;
+  const url = base + "damage.html";
+  const evaluate = async expr => (await send("Runtime.evaluate", { expression: expr, awaitPromise: true, returnByValue: true })).result.result.value;
+  // Mark the current document first, so "ready" can't be read from the page being left.
+  const load = async () => {
+    jsErrors.length = 0;
+    await evaluate(`window.__oldPage = true`).catch(() => {});
+    await send("Page.navigate", { url });
+    for (let i = 0; i < 40; i++) {
+      await sleep(150);
+      if (await evaluate(`!window.__oldPage && (${READY.damage})`).catch(() => false)) return true;
+    }
+    return false;
+  };
+  await send("Emulation.setEmulatedMedia", { media: "", features: [{ name: "prefers-color-scheme", value: "light" }] });
+
+  // 1. Ticks are remembered on this device.
+  await load();
+  await evaluate(`localStorage.removeItem("damage-checklist"); true`);
+  await load();
+  await evaluate(`document.getElementById("doc-id").click(); document.getElementById("room-kitchen").click(); true`);
+  await load();
+  const kept = await evaluate(`["doc-id","room-kitchen","doc-land"].map(id => document.getElementById(id).checked)`);
+  report("ticks are remembered after reloading", kept.join() === "true,true,false" ? [] : [`checked after reload: ${kept.join(", ")} (expected true, true, false)`]);
+
+  // 2. Storage blocked (private mode, disabled site data): the page must work the same.
+  const block = await send("Page.addScriptToEvaluateOnNewDocument", {
+    source: `Object.defineProperty(window, "localStorage", { configurable: true, get() { throw new DOMException("blocked", "SecurityError"); } });`,
+  });
+  const ready = await load();
+  const blocked = await evaluate(`(() => { try { localStorage.length; return false; } catch (e) { return true; } })()`);
+  const toggled = await evaluate(`(() => { const b = document.getElementById("doc-photos"); b.click(); const on = b.checked; b.click(); return on && !b.checked; })()`);
+  const fails = [];
+  if (!blocked) fails.push("test setup: storage was not actually blocked");
+  if (!ready) fails.push("page did not finish setting up");
+  if (!toggled) fails.push("checkbox did not tick and untick");
+  fails.push(...jsErrors);
+  report("works with storage blocked (no errors, boxes still tick)", fails);
+  await send("Page.removeScriptToEvaluateOnNewDocument", { identifier: block.result.identifier });
+
+  // 3. The print button opens the print dialog.
+  const stub = await send("Page.addScriptToEvaluateOnNewDocument", { source: `window.print = () => { window.__printed = (window.__printed || 0) + 1; };` });
+  await load();
+  await evaluate(`document.getElementById("print").click(); true`);
+  const printed = await evaluate(`window.__printed || 0`);
+  report('"Print / save as PDF" button calls window.print()', printed === 1 ? [] : [`window.print called ${printed} times`]);
+  await send("Page.removeScriptToEvaluateOnNewDocument", { identifier: stub.result.identifier });
+
+  // 4. Print stylesheet (a box is ticked at this point, and must still print empty).
+  await load();
+  await send("Emulation.setEmulatedMedia", { media: "print", features: [{ name: "prefers-color-scheme", value: "dark" }] });
+  const p = await evaluate(`(() => {
+    const shown = e => e && e.getClientRects().length > 0 && getComputedStyle(e).display !== "none";
+    const texty = [...document.body.querySelectorAll("*")].filter(e => shown(e) && [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()));
+    const box = document.getElementById("doc-id");
+    return {
+      stillShown: [".lang", ".print-btn", ".back"].filter(s => shown(document.querySelector(s))),
+      colours: [...new Set(texty.map(e => getComputedStyle(e).color))],
+      backgrounds: [...new Set([document.body, ...document.body.querySelectorAll("*")].filter(e => e === document.body || shown(e)).map(e => getComputedStyle(e).backgroundColor)
+        .filter(c => c !== "rgba(0, 0, 0, 0)" && c !== "rgb(255, 255, 255)"))],
+      box: { ticked: box.checked, appearance: getComputedStyle(box).appearance, border: getComputedStyle(box).borderTopStyle },
+      sourceLinkUrl: getComputedStyle(document.querySelector("#assist-source a"), "::after").content,
+      sources: shown(document.getElementById("assist-source")),
+      notOfficial: shown(document.querySelector("footer p")),
+    };
+  })()`);
+  const pf = [];
+  if (p.stillShown.length) pf.push(`still shown when printed: ${p.stillShown.join(", ")}`);
+  if (p.colours.join() !== "rgb(0, 0, 0)") pf.push(`text colours other than black: ${p.colours.join(", ")}`);
+  if (p.backgrounds.length) pf.push(`backgrounds other than white: ${p.backgrounds.join(", ")}`);
+  if (p.box.appearance !== "none" || p.box.border === "none") pf.push(`checkbox doesn't print as an empty box (appearance ${p.box.appearance}, border ${p.box.border})`);
+  if (!p.box.ticked) pf.push("test setup: expected a ticked box to check it prints empty");
+  if (!/https:/.test(p.sourceLinkUrl)) pf.push("source links don't print their address");
+  if (!p.sources) pf.push("source list missing from print");
+  if (!p.notOfficial) pf.push('"not an official form" note missing from print');
+  report("print: black on white, no buttons, empty boxes, sources and note kept (even from dark mode)", pf);
+  const pdf = await send("Page.printToPDF", { paperWidth: 8.27, paperHeight: 11.69 });
+  writeFileSync(join(OUT, "damage-print.pdf"), Buffer.from(pdf.result.data, "base64"));
+
+  // Hub printed: the banner to this page is left out.
+  await send("Page.navigate", { url: base });
+  await sleep(1500);
+  const bannerPrinted = await evaluate(`getComputedStyle(document.querySelector(".banner")).display !== "none"`);
+  report("print: hub banner is left out", bannerPrinted ? ["banner is printed"] : []);
+  await send("Emulation.setEmulatedMedia", { media: "", features: [] });
+  await evaluate(`localStorage.removeItem("damage-checklist"); true`);
 }
 
 mkdirSync(OUT, { recursive: true });
@@ -268,8 +376,14 @@ chrome.on("Network.responseReceived", ({ response: r }) => {
 chrome.on("Network.loadingFailed", ({ errorText, canceled, requestId }) => {
   if (!canceled) netErrors.push({ path: requestId, text: `request failed: ${errorText}` });
 });
+const jsErrors = [];
+chrome.on("Runtime.exceptionThrown", ({ exceptionDetails: d }) => {
+  jsErrors.push(`JavaScript error: ${(d.exception && d.exception.description || d.text || "").split("\n")[0]}`);
+});
 try {
   await chrome.send("Network.enable");
+  await chrome.send("Runtime.enable");
+  await chrome.send("Page.enable"); // needed for addScriptToEvaluateOnNewDocument (storage block, print stub)
   await chrome.send("Emulation.setDeviceMetricsOverride", { width: WIDTH, height: 740, deviceScaleFactor: 2, mobile: true });
   for (const state of ["normal", "warnings"]) {
     // A fresh server (new port = new origin) per state, so a service worker from one state
@@ -282,6 +396,16 @@ try {
         await run(chrome, url, { theme, lang, state });
       }
     }
+    if (state === "normal") {
+      for (const theme of ["light", "dark"]) {
+        for (const lang of ["th", "en"]) {
+          console.log(`\n${WIDTH}px · ${theme} · ${lang === "th" ? "Thai" : "English"} · damage.html`);
+          await run(chrome, url, { theme, lang, state, page: "damage" });
+        }
+      }
+      console.log(`\ndamage.html behaviour`);
+      await damageBehaviour(chrome, url);
+    }
     await stop(server);
   }
 } finally {
@@ -291,6 +415,6 @@ try {
   rmSync(tmp, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
 }
 
-console.log(`\nScreenshots: test-output/${WIDTH}-*.png`);
+console.log(`\nScreenshots: test-output/${WIDTH}-*.png · printed damage page: test-output/damage-print.pdf`);
 console.log(failures ? `✗ ${failures} problem(s) found` : "✓ All accessibility and layout checks passed");
 process.exit(failures ? 1 : 0);

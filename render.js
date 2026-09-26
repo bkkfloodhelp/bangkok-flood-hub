@@ -60,6 +60,13 @@
     };
   }
 
+  // "26 ก.ย. 2569" / "26 Sep 2026" — for sources that give a day but no time ("2026-09-26").
+  function stampDate(v) {
+    const p = bkk(/^\d{4}-\d{2}-\d{2}$/.test(v) ? v + "T00:00:00+07:00" : v);
+    if (!p) return { th: "", en: "" };
+    return { th: p.date + " " + TH_MONTHS[p.month] + " " + (p.year + 543), en: p.date + " " + EN_MONTHS[p.month] + " " + p.year };
+  }
+
   // "อัปเดต 26 ก.ย. 13:15 น." / "updated 26 Sep, 13:15" — correct forever, shown without JavaScript.
   function stampShort(iso) {
     const p = bkk(iso);
@@ -172,5 +179,19 @@
     };
   }
 
-  return { sections: sections, agoHTML: agoHTML, roadsStale: roadsStale, telHref: telHref, ROAD_TAGS: ROAD_TAGS };
+  // damage.html: the assistance table rows and the source line, from d.assistance.
+  // "max" is shown exactly as written; if it's { th, en } each language gets its own text.
+  function damageSections(d) {
+    const a = d.assistance;
+    const date = stampDate(a.updated);
+    const host = u => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return u; } };
+    return {
+      "assist-rows": a.items.map(it =>
+        '<tr><th scope="row">' + biObj(it.label) + '</th><td>' + (typeof it.max === "string" ? esc(it.max) : biObj(it.max)) + '</td></tr>').join("\n"),
+      "assist-source": bi("ที่มา: " + a.source.th + " " + date.th, "Source: " + a.source.en + ", " + date.en) +
+        '<br>' + a.links.map(u => '<a href="' + esc(u) + '" lang="en">' + esc(host(u)) + '</a>').join(" · "),
+    };
+  }
+
+  return { sections: sections, damageSections: damageSections, agoHTML: agoHTML, roadsStale: roadsStale, telHref: telHref, ROAD_TAGS: ROAD_TAGS };
 });

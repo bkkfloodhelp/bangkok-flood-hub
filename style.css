@@ -39,6 +39,8 @@ body{margin:0;background:var(--bg);color:var(--ink);
   font-family:"IBM Plex Sans Thai",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
   font-size:17px;line-height:1.6}
 .wrap{max-width:680px;margin:0 auto;padding:16px}
+/* Links without their own colour use the site blue (the browser default blue is unreadable in dark mode). */
+a{color:var(--water)}
 header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:8px 0 4px}
 h1{font-size:1.6rem;line-height:1.25;margin:0}
 .updated{color:var(--muted);font-size:.9rem;margin:4px 0 0}
@@ -57,7 +59,7 @@ h2{font-size:1.25rem;margin:32px 0 4px}
 .call.urgent{border:2px solid var(--alert)}
 .call.urgent b{color:var(--alert)}
 .call span{font-size:.92rem}
-.call:focus-visible,.lang button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.call:focus-visible,.lang button:focus-visible,select:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);width:100%;margin-bottom:10px}
 ul.list{list-style:none;margin:0;padding:0;background:var(--panel);border:1px solid var(--line);border-radius:10px}
 ul.list li{padding:12px 14px;display:flex;justify-content:space-between;gap:12px;align-items:center}
@@ -99,8 +101,8 @@ html:not(.js) .lang,html:not(.js) #district{display:none}
    "โทรขอความช่วยเหลือ / Call for help". Longer paragraphs put the English on its own line. */
 html:not(.js) [data-en]{display:revert}
 html:not(.js) span[data-th] + span[data-en]::before{content:" / "}
-html:not(.js) :is(#status-body,#shelters-note,#roads-note,footer p:not(.src)) > span[data-en]{display:block;margin-top:4px}
-html:not(.js) :is(#status-body,#shelters-note,#roads-note,footer p:not(.src)) > span[data-en]::before,
+html:not(.js) :is(#status-body,#shelters-note,#roads-note,footer p:not(.src),.bi-block) > span[data-en]{display:block;margin-top:4px}
+html:not(.js) :is(#status-body,#shelters-note,#roads-note,footer p:not(.src),.bi-block) > span[data-en]::before,
 html:not(.js) .call span[data-th] + span[data-en]::before{content:none}
 html:not(.js) .age{white-space:normal}
 /* "Check live road flooding" button above the road list, and its backup link. */
@@ -114,3 +116,51 @@ html:not(.js) .age{white-space:normal}
 .tag.official{background:var(--water-soft);color:var(--water)}
 .tag.unofficial{background:var(--bg);color:var(--muted)}
 ul.list li > .tag{white-space:nowrap;flex-shrink:0;margin-right:0}
+/* Amber banner on the hub pointing to the damage-evidence page (amber = important, red = danger). */
+.banner{background:var(--amber-soft);border-left:6px solid var(--amber);padding:10px 14px;margin:12px 0 0;border-radius:4px;font-size:.95rem}
+.banner a{color:var(--ink);font-weight:700}
+/* ---------- damage.html (evidence checklist) ---------- */
+.back{margin:0 0 4px;font-size:.92rem}
+.back a{color:var(--water)}
+.note.intro{margin:16px 0 12px}
+.safety{border-left:4px solid var(--alert);padding:6px 12px;margin:12px 0;font-size:.9rem}
+.actions{margin:12px 0}
+.print-btn{font:inherit;font-weight:700;background:var(--panel);color:var(--water);border:2px solid var(--water);border-radius:999px;padding:8px 18px;cursor:pointer}
+html:not(.js) .print-btn{display:none}
+/* Numbered steps: a real sequence, so an <ol> whose number is shown in each heading. */
+.steps{list-style:none;padding:0;margin:0;counter-reset:step}
+.steps>li{counter-increment:step;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px 16px 12px;margin:12px 0}
+.steps h2{margin:10px 0 6px}
+.steps h2::before{content:counter(step) ". ";color:var(--water)}
+.points{margin:0;padding-left:20px}
+.points li{margin-bottom:6px}
+/* Checklists: real checkboxes, 24px so they're easy to tap; the whole row is the label. */
+.checklist{list-style:none;margin:0;padding:0}
+.checklist li + li{border-top:1px solid var(--line)}
+.checklist label{display:flex;gap:12px;align-items:flex-start;padding:10px 0;cursor:pointer}
+.checklist input{width:24px;height:24px;margin:1px 0 0;flex-shrink:0;accent-color:var(--water)}
+.checklist.boxed{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:0 14px}
+.small{font-size:.9rem;color:var(--muted)}
+table.assist{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);font-size:.95rem}
+.assist th,.assist td{text-align:left;vertical-align:top;padding:10px 12px}
+.assist tbody tr{border-top:1px solid var(--line)}
+.assist thead th{font-size:.85rem;color:var(--muted)}
+.assist tbody th{font-weight:400}
+.assist td{font-weight:700;width:42%}
+
+/* ---------- Print (both pages; "Print / save as PDF" on damage.html) ----------
+   Black on white, no banner or buttons, checkboxes as empty boxes to tick by hand,
+   source links printed with their addresses. */
+@media print{
+  :root{--bg:#fff !important;--ink:#000 !important;--muted:#000 !important;--line:#000 !important;
+    --water:#000 !important;--water-soft:#fff !important;--alert:#000 !important;--alert-soft:#fff !important;
+    --amber:#000 !important;--amber-soft:#fff !important;--panel:#fff !important}
+  body{background:#fff;color:#000;font-size:12pt}
+  .wrap{max-width:none;padding:0}
+  .lang,.print-btn,.actions,.banner,.back,.notice,.stale,#district,.live-btn,.live-alt{display:none !important}
+  a{color:#000}
+  .checklist input{-webkit-appearance:none;appearance:none;width:14px;height:14px;border:1.5px solid #000;border-radius:2px;background:#fff;margin-top:4px}
+  .steps>li,.checklist li,.assist tr,.note,.safety{break-inside:avoid}
+  #assist-source a::after{content:" (" attr(href) ")";word-break:break-all}
+  @page{margin:15mm}
+}

@@ -128,6 +128,22 @@ function timestamp(path, v) {
   return t;
 }
 
+// A date without a time, "2026-09-26", for sources that only give a day. Returns ms or null.
+function dateOnly(path, v) {
+  const m = typeof v === "string" && v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return timestamp(path, v); // a full timestamp is fine too
+  const t = Date.parse(v + "T00:00:00+07:00");
+  const b = new Date(t + 7 * 3600 * 1000);
+  if (isNaN(t) || b.getUTCFullYear() !== +m[1] || b.getUTCMonth() + 1 !== +m[2] || b.getUTCDate() !== +m[3]) {
+    err(path, `${show(v)} is not a real date. Use "2026-09-26", or a full time like "2026-09-26T14:30:00+07:00".`,
+      `${show(v)} ไม่ใช่วันที่ที่มีจริง ใช้ "2026-09-26" หรือเวลาเต็มแบบ "2026-09-26T14:30:00+07:00"`);
+    return null;
+  }
+  if (t > Date.now() + FUTURE_TOLERANCE_MS) { err(path, `${show(v)} is in the future.`, `${show(v)} เป็นวันในอนาคต`); return null; }
+  if (t < EARLIEST) { err(path, `${show(v)} is before September 2026. Probably a typo.`, `${show(v)} อยู่ก่อนเดือนกันยายน 2026 น่าจะพิมพ์ผิด`); return null; }
+  return t;
+}
+
 function list(path, v, { nonEmpty = true } = {}) {
   if (!Array.isArray(v)) {
     err(path, `Must be a list [ ... ].`, `ต้องเป็นรายการ [ ... ]`);
@@ -268,6 +284,27 @@ function checkTools(v) {
   return times;
 }
 
+// Assistance amounts shown on damage.html. "max" is either one text for both languages
+// ("49,500 บาท / baht per house") or separate { "th": ..., "en": ... }.
+function checkAssistance(a) {
+  const p = "assistance";
+  if (!isObj(a)) { err(p, "Must be an object { ... }.", "ต้องเป็นออบเจ็กต์ { ... }"); return; }
+  knownKeys(p, a, ["updated", "source", "links", "items"]);
+  if (required(p, a, "updated")) dateOnly(`${p}.updated`, a.updated);
+  if (required(p, a, "source")) bilingual(`${p}.source`, a.source);
+  if (required(p, a, "links")) list(`${p}.links`, a.links).forEach((u, i) => url(`${p}.links[${i}]`, u));
+  if (required(p, a, "items")) list(`${p}.items`, a.items).forEach((it, i) => {
+    const q = `${p}.items[${i}]`;
+    if (!isObj(it)) { err(q, "Must be an object { ... }.", "ต้องเป็นออบเจ็กต์ { ... }"); return; }
+    knownKeys(q, it, ["label", "max"]);
+    if (required(q, it, "label")) bilingual(`${q}.label`, it.label);
+    if (required(q, it, "max")) {
+      if (isObj(it.max)) bilingual(`${q}.max`, it.max);
+      else text(`${q}.max`, it.max);
+    }
+  });
+}
+
 function checkSources(v) {
   list("sources", v).forEach((s, i) => {
     const p = `sources[${i}]`;
@@ -327,7 +364,7 @@ function run() {
   if (d === undefined) return;
   if (!isObj(d)) { err("(file)", "The top level must be an object { ... }.", "ระดับบนสุดต้องเป็นออบเจ็กต์ { ... }"); return; }
 
-  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roadsNote", "roadsLiveUrl", "roadsLiveUrlAlt", "roads", "tools", "sources", "serviceWorker"]);
+  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roadsNote", "roadsLiveUrl", "roadsLiveUrlAlt", "roads", "tools", "assistance", "sources", "serviceWorker"]);
   if ("serviceWorker" in d && typeof d.serviceWorker !== "boolean") {
     err("serviceWorker", `Must be true or false (no quotes), got ${show(d.serviceWorker)}.`, `ต้องเป็น true หรือ false (ไม่มีเครื่องหมายคำพูด) แต่ได้ ${show(d.serviceWorker)}`);
   }
@@ -346,6 +383,7 @@ function run() {
     if (!("roadsLiveUrl" in d)) err("roadsLiveUrlAlt", `A backup link needs a main "roadsLiveUrl" too.`, `ต้องมี "roadsLiveUrl" (ลิงก์หลัก) ก่อนจึงจะใส่ลิงก์สำรองได้`);
   }
   if ("tools" in d) times.push(...checkTools(d.tools));
+  if (required("(root)", d, "assistance")) checkAssistance(d.assistance);
   if (required("(root)", d, "sources")) checkSources(d.sources);
 
   const newest = Math.max(...times.filter(t => t != null));

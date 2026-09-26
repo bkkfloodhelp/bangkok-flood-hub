@@ -35,10 +35,15 @@ export async function launchChrome(profile) {
   // GitHub's Ubuntu runners block Chrome's sandbox; only relax it there, never on a real machine.
   if (process.env.GITHUB_ACTIONS === "true") args.push("--no-sandbox");
   const proc = spawn(findChrome(), [...args, "about:blank"], { stdio: "ignore" });
+  // Chrome writes its port to this file; wait until it's there AND fully written (it can
+  // briefly exist empty, which would make us connect to port 80).
   const portFile = join(profile, "DevToolsActivePort");
-  for (let i = 0; i < 100 && !existsSync(portFile); i++) await sleep(100);
-  if (!existsSync(portFile)) throw new Error("Chrome did not start");
-  const port = readFileSync(portFile, "utf8").split("\n")[0];
+  let port = "";
+  for (let i = 0; i < 100 && !/^\d+$/.test(port); i++) {
+    await sleep(100);
+    if (existsSync(portFile)) port = readFileSync(portFile, "utf8").split("\n")[0].trim();
+  }
+  if (!/^\d+$/.test(port)) throw new Error("Chrome did not start");
   const targets = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
   const ws = new WebSocket(targets.find(t => t.type === "page").webSocketDebuggerUrl);
   await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });

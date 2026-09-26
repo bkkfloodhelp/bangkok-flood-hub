@@ -3,7 +3,8 @@
 
 // The page arrives already filled in (pre-rendered from data/flood.json at deploy time, in Thai
 // and English). This script only enhances it: "X hours ago" times, the stale-roads warning,
-// the district filter, the language toggle, the "may be out of date" notice, and offline support.
+// the district filter, the "may be out of date" notice, and offline support (the language
+// toggle is in lang.js, shared with the other pages).
 // If the live data file is newer than the pre-rendered copy, it re-renders the data sections
 // with render.js (the same code the deploy step uses).
 
@@ -14,8 +15,8 @@ const R = window.FloodRender; // from render.js; if it failed to load, the pre-r
 const $ = id => document.getElementById(id);
 const root = document.documentElement;
 
-// Set before first paint by the inline script in <head> (from localStorage).
-let lang = root.lang === "en" ? "en" : "th";
+const L = window.FloodLang; // lang.js: language toggle + lang="th" marking
+const currentLang = () => (L ? L.lang : root.lang === "en" ? "en" : "th");
 let data = null;            // the data the page is currently showing
 let fallbackReason = null;  // null = live data; "fallback" = saved copy; "none" = no data at all
 
@@ -43,6 +44,7 @@ function buildDistricts() {
     o.value = value; o.textContent = text;
     sel.appendChild(o);
   };
+  const lang = currentLang();
   add("all", lang === "th" ? "ทุกเขต" : "All districts");
   const seen = new Set();
   data.shelters.forEach(s => {
@@ -76,49 +78,13 @@ function renderNotice() {
   n.hidden = !fallbackReason;
 }
 
-// Every piece of text should be marked with its real language (for screen readers).
-// English is always marked lang="en" in the HTML; Thai sits under <html lang="th">. When the page
-// is switched to English, mark any Thai that is still visible (e.g. the "ไทย" button, a source
-// written in Thai) as lang="th"; switching back removes those marks.
-const THAI = /[\u0E00-\u0E7F]/;
-function markThai() {
-  document.querySelectorAll("[data-auto-lang]").forEach(el => { el.removeAttribute("lang"); el.removeAttribute("data-auto-lang"); });
-  if (lang !== "en") return;
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  const found = [];
-  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
-    const el = n.parentElement;
-    if (!THAI.test(n.nodeValue) || el.closest("[data-th], script, style")) continue; // data-th is hidden in English
-    const marked = el.closest("[lang]");
-    if (marked && marked !== root && marked.lang === "th") continue;
-    found.push(n);
-  }
-  found.forEach(n => {
-    const el = n.parentElement;
-    if (el.childNodes.length === 1) { el.lang = "th"; el.dataset.autoLang = ""; return; }
-    const span = document.createElement("span"); // Thai mixed with other content: wrap just this text
-    span.lang = "th"; span.dataset.autoLang = "";
-    el.replaceChild(span, n);
-    span.appendChild(n);
-  });
-}
-
 function enhance() {
   refreshAges();
   checkStale();
   buildDistricts();
   applyFilter();
   renderNotice();
-  markThai();
-}
-
-function setLang(l) {
-  lang = l;
-  root.lang = l; // CSS shows the matching data-th / data-en text
-  try { localStorage.setItem("lang", l); } catch (e) {}
-  document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.set === l));
-  buildDistricts();
-  markThai();
+  if (L) L.markThai();
 }
 
 // ---------- data ----------
@@ -195,9 +161,8 @@ function setupServiceWorker(d) {
 
 // ---------- start ----------
 
-document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.set)));
 $("district").addEventListener("change", applyFilter);
-setLang(lang);
+if (L) L.onChange(buildDistricts); // <option> text is per language
 
 // The pre-rendered HTML matches the embedded copy, so enhance it straight away.
 data = readEmbedded();

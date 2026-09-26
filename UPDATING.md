@@ -186,6 +186,23 @@ Websites or apps people can use to check the situation themselves. The section o
 - `"note"` ใส่หรือไม่ก็ได้ · is optional. `"description"` ต้องมีเสมอ · is always required.
 - `"updated"` = เวลาที่คุณตรวจว่าลิงก์ยังใช้ได้ · the time you checked the link still works.
 
+### วงเงินช่วยเหลือ (หน้าบันทึกความเสียหาย) · Assistance amounts (damage page)
+ตารางวงเงินช่วยเหลือในหน้า `damage.html` มาจาก `"assistance"` แก้เฉพาะเมื่อมีประกาศใหม่จากหน่วยงานรัฐ และระบุแหล่งที่มาทุกครั้ง
+The assistance table on `damage.html` comes from `"assistance"`. Only change it when a government body announces new rules, and always give the source.
+```json
+  "assistance": {
+    "updated": "2026-09-26",
+    "source": { "th": "กรมประชาสัมพันธ์ ผ่านฐานเศรษฐกิจ", "en": "Government Public Relations Department, via Thansettakij" },
+    "links": [ "https://..." ],
+    "items": [
+      { "label": { "th": "ค่าวัสดุซ่อมแซมที่พักอาศัย ตามความเสียหายจริง", "en": "Home repair materials, based on actual damage" }, "max": "49,500 บาท / baht per house" }
+    ]
+  },
+```
+- `"updated"` ใส่แค่วันที่ได้ (`"2026-09-26"`) ถ้าแหล่งข่าวไม่ระบุเวลา · can be just a date if the source gives no time.
+- `"max"` เขียนแบบเดียวใช้ทั้งสองภาษา หรือแยกเป็น `{ "th": "49,500 บาท ต่อหลัง", "en": "49,500 baht per house" }` ก็ได้ · one text for both languages, or separate `{ "th": ..., "en": ... }`.
+- **ใส่ตัวเลขตามประกาศเท่านั้น ห้ามประมาณ** · **Only enter amounts exactly as announced. Never estimate.**
+
 ### เพิ่มแหล่งข้อมูล · Add a source
 ```json
     { "title": "BMA Facebook (roads 27 Sep)", "url": "https://..." }

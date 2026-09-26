@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Builds index.html from data/flood.json. Runs in the deploy workflow after validation;
-// volunteers never need to run it. Usage: node scripts/embed-fallback.mjs
+// Builds index.html and damage.html from data/flood.json. Runs in the deploy workflow after
+// validation; volunteers never need to run it. Usage: node scripts/embed-fallback.mjs
 //
 // 1. Pre-renders every data section (status, hotlines, shelters, roads, sources) into the
 //    <!--render:ID--> ... <!--/render:ID--> markers, in Thai and English, using render.js,
@@ -8,22 +8,32 @@
 // 2. Embeds a copy of the data in <script id="fallback-data"> for when the live file can't load.
 // 3. Checks that every hotline and shelter phone number ended up as a tel: link, and fails
 //    (blocking the deploy) if one is missing.
+// 4. damage.html: pre-renders the assistance table and its source line from "assistance".
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const require = createRequire(import.meta.url);
-const { sections, telHref } = require("../render.js");
+const { sections, damageSections, telHref } = require("../render.js");
 
-export function buildPage(html, data) {
-  const parts = sections(data);
+// Replace the contents of every <!--render:ID--> ... <!--/render:ID--> marker.
+function fill(html, parts, file) {
   for (const [id, content] of Object.entries(parts)) {
     const re = new RegExp(`(<!--render:${id}-->)[\\s\\S]*?(<!--/render:${id}-->)`, "g");
     const found = html.match(re);
-    if (!found || found.length !== 1) throw new Error(`index.html needs exactly one <!--render:${id}--> ... <!--/render:${id}--> marker`);
+    if (!found || found.length !== 1) throw new Error(`${file} needs exactly one <!--render:${id}--> ... <!--/render:${id}--> marker`);
     html = html.replace(re, (_, open, close) => open + content + close);
   }
+  return html;
+}
+
+export function buildDamagePage(html, data) {
+  return fill(html, damageSections(data), "damage.html");
+}
+
+export function buildPage(html, data) {
+  html = fill(html, sections(data), "index.html");
 
   // Compact, and escape "<" so text like "</script>" inside the data can't end the block early.
   const json = JSON.stringify(data).replace(/</g, "\\u003c");
@@ -46,4 +56,6 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const { html, telCount } = buildPage(readFileSync(root + "index.html", "utf8"), data);
   writeFileSync(root + "index.html", html);
   console.log(`Built index.html: all sections pre-rendered, ${telCount} tel: links present, fallback data embedded`);
+  writeFileSync(root + "damage.html", buildDamagePage(readFileSync(root + "damage.html", "utf8"), data));
+  console.log(`Built damage.html: ${data.assistance.items.length} assistance rows pre-rendered`);
 }

@@ -16,7 +16,7 @@ import { serve, stop } from "./lib/server.mjs";
 import { buildPage } from "./embed-fallback.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
-const SITE_FILES = ["index.html", "style.css", "render.js", "app.js", "sw.js", "data", "fonts",
+const SITE_FILES = ["index.html", "damage.html", "style.css", "render.js", "lang.js", "app.js", "damage.js", "sw.js", "data", "fonts",
   "icon.svg", "favicon-32.png", "apple-touch-icon.png", "scripts/sw-disable.js"];
 const WAIT_MS = 12000;
 
@@ -62,8 +62,8 @@ async function scenario(title, applyOffSwitch) {
 
   // Navigate, then poll until `until(state)` holds or time runs out. Returns the last state,
   // or null if the page itself failed to load.
-  async function visit(until) {
-    const nav = await chrome.send("Page.navigate", { url });
+  async function visit(until, path = "") {
+    const nav = await chrome.send("Page.navigate", { url: url + path });
     if (nav.result && nav.result.errorText) return null;
     let state = null;
     for (const start = Date.now(); Date.now() - start < WAIT_MS; await sleep(300)) {
@@ -89,6 +89,12 @@ async function scenario(title, applyOffSwitch) {
     check(s && s.shelters > 0, "offline: page still loads from the saved copy", show(s));
     check(s && s.notice, 'offline: "may be out of date" notice is shown', show(s));
     check(s && s.fonts >= 2, "offline: IBM Plex Sans Thai fonts load from the cache", show(s));
+    // damage.html was cached when the hub installed the worker, even if never opened.
+    const d = await visit(() => true, "damage.html");
+    const damageOk = d && (await chrome.send("Runtime.evaluate", {
+      expression: `document.querySelectorAll('.assist tbody tr').length > 0 && document.querySelectorAll('input[type=checkbox]').length === 15`, returnByValue: true,
+    })).result.result.value;
+    check(!!damageOk, "offline: damage.html opens from the cache (never visited before)", show(d));
 
     applyOffSwitch(site);
     server = await serve(site, port);
