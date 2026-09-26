@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bangkok Flood Help · ข้อมูลน้ำท่วมกรุงเทพฯ</title>
+<meta name="description" content="เบอร์โทรฉุกเฉิน ศูนย์พักพิง ถนนที่ควรเลี่ยง และวิธีรับมือน้ำท่วม กรุงเทพฯ รวบรวมโดยอาสาสมัคร ไม่ใช่เว็บไซต์ทางการ">
+<!-- Open Graph (LINE / Facebook link previews).
+     If the site moves (e.g. a custom domain), update og:url. Stage 2 adds og:image (absolute URL). -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="th_TH">
+<meta property="og:site_name" content="ข้อมูลช่วยเหลือน้ำท่วม กรุงเทพฯ">
+<meta property="og:title" content="ข้อมูลช่วยเหลือน้ำท่วม กรุงเทพฯ · เบอร์ฉุกเฉิน ศูนย์พักพิง ถนนที่ควรเลี่ยง">
+<meta property="og:description" content="เบอร์โทรฉุกเฉิน ศูนย์พักพิงชั่วคราว ถนนที่ควรหลีกเลี่ยง และวิธีรับมือน้ำท่วม รวบรวมโดยอาสาสมัคร ไม่ใช่เว็บไซต์ทางการ เหตุฉุกเฉินโทร 1669 หรือ 1555">
+<meta property="og:url" content="https://phantawat.github.io/bangkok-flood-hub/">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1><span data-th>ข้อมูลช่วยเหลือน้ำท่วม กรุงเทพฯ</span><span data-en>Bangkok flood help</span></h1>
+    <p class="updated" id="updated"></p>
+  </div>
+  <div class="lang" role="group" aria-label="Language">
+    <button type="button" data-set="th" aria-pressed="true">ไทย</button>
+    <button type="button" data-set="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<p class="notice" id="notice" hidden></p>
+
+<div class="status" role="status">
+  <strong id="status-title"></strong>
+  <p id="status-body"></p>
+</div>
+<p class="fresh" id="status-fresh"></p>
+
+<h2><span data-th>โทรขอความช่วยเหลือ</span><span data-en>Call for help</span></h2>
+<p class="sub"><span data-th>แตะเพื่อโทร</span><span data-en>Tap to call</span></p>
+<div class="calls" id="calls"></div>
+
+<h2><span data-th>ศูนย์พักพิงชั่วคราว</span><span data-en>Temporary shelters</span></h2>
+<p class="sub" id="shelters-note"></p>
+<select id="district" aria-label="District">
+  <option value="all">ทุกเขต</option>
+</select>
+<ul class="list" id="shelters"></ul>
+
+<h2><span data-th>ถนนที่ควรหลีกเลี่ยง</span><span data-en>Roads to avoid</span></h2>
+<p class="sub" id="roads-sub"></p>
+<div class="stale" id="roads-stale" hidden>
+  <strong><span data-th>ข้อมูลถนนเก่ากว่า 6 ชั่วโมง</span><span data-en>Road information is over 6 hours old</span></strong><br>
+  <span data-th>โปรดตรวจสอบกับ <a href="tel:1555">สายด่วน กทม. 1555</a> หรือ กทม. ก่อนเดินทาง</span><span data-en>Please check with the <a href="tel:1555">BMA hotline 1555</a> or the BMA before travelling.</span>
+</div>
+<ul class="list" id="roads"></ul>
+
+<h2><span data-th>ความปลอดภัย</span><span data-en>Stay safe</span></h2>
+<ul class="tips" data-th>
+  <li>ถ้าน้ำเข้าบ้าน ปิดเบรกเกอร์หลักก่อนน้ำถึงปลั๊ก ห้ามแตะเครื่องใช้ไฟฟ้าขณะยืนในน้ำ</li>
+  <li>เลี่ยงการเดินลุยน้ำ อาจมีท่อเปิด ไฟรั่ว สัตว์มีพิษ และเชื้อโรค</li>
+  <li>ชาร์จโทรศัพท์และพาวเวอร์แบงก์ให้เต็ม</li>
+  <li>ย้ายเอกสาร ยา และของมีค่าขึ้นที่สูง</li>
+  <li>ถ่ายรูปความเสียหายเก็บไว้ เพื่อใช้ยื่นขอรับความช่วยเหลือภายหลัง</li>
+  <li>กทม. เปิดที่จอดรถชั่วคราวสำหรับผู้กังวลว่ารถจะเสียหาย สอบถาม 1555</li>
+</ul>
+<ul class="tips" data-en>
+  <li>If water enters your home, switch off the main breaker before it reaches outlets. Never touch electrical items while standing in water.</li>
+  <li>Avoid walking through floodwater: it can hide open drains, live cables, snakes and sewage.</li>
+  <li>Keep your phone and power bank fully charged.</li>
+  <li>Move documents, medicine and valuables up high.</li>
+  <li>Photograph any damage. You'll need it to apply for assistance later.</li>
+  <li>BMA has opened temporary parking for residents worried about vehicle damage. Ask 1555.</li>
+</ul>
+
+<footer>
+  <p><span data-th>หน้านี้รวบรวมโดยอาสาสมัคร ไม่ใช่เว็บไซต์ทางการ ข้อมูลอาจล่าช้า เหตุฉุกเฉินโทร 1669 หรือ 1555 ทันที ชื่อสถานที่ภาษาไทยบางแห่งแปลจากข่าวภาษาอังกฤษ โปรดตรวจสอบ</span><span data-en>Compiled by volunteers. Not an official site, and information may be delayed. In an emergency call 1669 or 1555 immediately.</span></p>
+  <p class="src" id="sources"><span data-th>แหล่งข้อมูล:</span><span data-en>Sources:</span></p>
+</footer>
+</div>
+
+<!-- Fallback copy of data/flood.json. Used when the live file can't be loaded.
+     Do not edit by hand: scripts/embed-fallback.mjs rewrites it on every deploy. -->
+<script type="application/json" id="fallback-data">{"lastUpdated":"2026-09-26T13:15:00+07:00","status":{"updated":"2026-09-26T13:15:00+07:00","source":"Khaosod English","title":{"th":"ประกาศเขตภัยพิบัติทั้ง 50 เขต","en":"All 50 districts declared disaster zones"},"body":{"th":"ฝนตกเกือบ 300 มม. ใน 48 ชม. คลองฝั่งตะวันออกเต็ม ระดับน้ำในคลองวิกฤต หากอยู่ริมคลองหรือที่ลุ่ม ให้ยกของขึ้นที่สูงและหลีกเลี่ยงการเดินทาง กรมอุตุฯ คาดฝนหนักถึง 28 ก.ย.","en":"Nearly 300 mm of rain in 48 hours. Canals in eastern Bangkok are full and at critical levels. If you live near a canal or in a low area, move belongings up and avoid travel. Heavy rain is forecast through 28 Sep."}},"hotlines":[{"number":"1669","urgent":true,"label":{"th":"เจ็บป่วยฉุกเฉิน / เคลื่อนย้ายผู้ป่วย","en":"Medical emergency / patient transport"}},{"number":"1555","urgent":true,"label":{"th":"สายด่วน กทม.","en":"BMA hotline"}},{"number":"02-248-5115","urgent":false,"label":{"th":"ศูนย์ควบคุมระบบป้องกันน้ำท่วม","en":"Flood control centre"}},{"number":"1784","urgent":false,"label":{"th":"ปภ. สายด่วน 24 ชม.","en":"DDPM 24-hour hotline"}},{"display":"LINE","url":"https://line.me/R/ti/p/@traffyfondue","urgent":false,"label":{"th":"แจ้งเหตุผ่าน @Traffyfondue","en":"Report via @Traffyfondue"}},{"number":"191","urgent":false,"label":{"th":"ตำรวจ / เหตุด่วน","en":"Police / emergencies"}}],"sheltersNote":{"th":"กทม. มีศูนย์พักพิง 233 แห่ง รองรับราว 15,000 คน รายการด้านล่างคือที่ประกาศแล้ว โทรถามก่อนเดินทาง หรือโทร 1555 / สำนักงานเขตเพื่อหาแห่งที่ใกล้ที่สุด","en":"Bangkok has 233 shelters for about 15,000 people. Below are those publicly announced so far. Call before you go, or call 1555 / your district office for the nearest one."},"shelters":[{"name":{"th":"วัดหลักสี่","en":"Wat Lak Si"},"district":{"th":"หลักสี่","en":"Lak Si"},"tel":"096-999-4829","updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"วัดลาดปลาเค้า","en":"Wat Lat Pla Khao"},"district":{"th":"ลาดพร้าว","en":"Lat Phrao"},"tel":"089-815-6188","updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"วัดเทวสุนทร","en":"Wat Thewa Sunthorn"},"district":{"th":"จตุจักร","en":"Chatuchak"},"tel":"096-883-7585","updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"โรงเรียนประชาภิบาล","en":"Prachapiban School"},"district":{"th":"บางเขน","en":"Bang Khen"},"tel":"089-783-3595","updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"วัดดอนเมือง","en":"Wat Don Mueang"},"district":{"th":"ดอนเมือง","en":"Don Mueang"},"tel":"092-396-3773","updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"ศูนย์พักพิงเขตบางซื่อ","en":"Bang Sue district shelter"},"district":{"th":"บางซื่อ","en":"Bang Sue"},"tel":"081-268-1104","updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"ศูนย์พัฒนาเด็ก รฟท. ตึกแดง","en":"SRT child development centre, Tuek Daeng"},"district":{"th":"บางซื่อ","en":"Bang Sue"},"tel":null,"updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"ชุมชนบ้านพัก รฟท.","en":"SRT housing community"},"district":null,"tel":null,"updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"โรงเรียนประชานุกูล","en":"Prachanukul School"},"district":{"th":"สายไหม","en":"Sai Mai"},"tel":"086-937-9294","updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"โรงเรียนวังเล็กวิทยานุสรณ์ (รับได้ 100 คน)","en":"Wang Lek Wittayanusorn School (max 100)"},"district":{"th":"มีนบุรี","en":"Min Buri"},"tel":"088-245-3565","updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"โรงเรียนสุเหร่าทรายกองดิน (รับได้ 100 คน)","en":"Surao Sai Kong Din School (max 100)"},"district":null,"tel":"081-826-1556","updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"โรงเรียนศาลาคู้ (รับได้ 60 คน)","en":"Salakhoo School (max 60)"},"district":null,"tel":"085-624-9534","updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"},{"name":{"th":"โรงเรียนสุเหร่าบางชัน (รับได้ 50 คน)","en":"Surao Bang Chan School (max 50)"},"district":null,"tel":"065-616-3956","updated":"2026-09-26T12:46:00+07:00","source":"Thai PBS World","sourceUrl":"https://www.thaipbsworld.com/around-thailand/558607"}],"roads":[{"name":{"th":"วิภาวดีรังสิต","en":"Vibhavadi Rangsit"},"type":"avoid","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"พหลโยธิน","en":"Phahon Yothin"},"type":"avoid","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"รัชดาภิเษก","en":"Ratchadaphisek"},"type":"avoid","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"พัฒนาการ","en":"Pattanakan"},"type":"avoid","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"ลาดพร้าว","en":"Lat Phrao"},"type":"avoid","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"ศรีนครินทร์","en":"Srinakarin"},"type":"avoid","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"สุขุมวิท","en":"Sukhumvit"},"type":"avoid","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"รามคำแหง","en":"Ramkhamhaeng"},"type":"avoid","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"พระราม 9","en":"Rama 9"},"type":"avoid","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"รามอินทรา","en":"Ram Intra"},"type":"avoid","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"กำแพงเพชร 2","en":"Kamphaeng Phet 2"},"type":"slow","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"ราชวิถี","en":"Ratchawithi"},"type":"slow","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"ศรีอยุธยา","en":"Si Ayutthaya"},"type":"slow","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"บางนา-ตราด","en":"Bang Na-Trat"},"type":"slow","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"},{"name":{"th":"พระราม 2","en":"Rama 2"},"type":"slow","updated":"2026-09-26T08:30:00+07:00","source":"BMA via Khaosod English"}],"sources":[{"title":"Thai PBS World (shelters)","url":"https://www.thaipbsworld.com/around-thailand/558607"},{"title":"Khaosod English (roads)","url":"https://www.khaosodenglish.com/featured/2026/09/26/bangkok-declares-all-50-districts-disaster-affected-as-flood-warning-issued/"},{"title":"The Nation (hotlines)","url":"https://www.nationthailand.com/thailand/bangkok/40071507"},{"title":"Khaosod English (shelter capacity)","url":"https://www.khaosodenglish.com/news/2026/09/26/closed-schools-and-work-from-home-on-monday-as-bangkok-battles-floods/"}]}</script>
+<script src="app.js"></script>
+</body>
+</html>

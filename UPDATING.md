@@ -1,0 +1,162 @@
+# วิธีอัปเดตข้อมูล · How to update the information
+
+คู่มือนี้สำหรับอาสาสมัครที่ไม่ได้เขียนโปรแกรม แก้ไขได้บน github.com โดยตรง ไม่ต้องติดตั้งอะไร
+This guide is for volunteers who don't write code. Everything is done on github.com and there is nothing to install.
+
+**You only ever edit one file: `data/flood.json`.**
+**ไฟล์เดียวที่ต้องแก้คือ `data/flood.json`**
+
+---
+
+## ก่อนเริ่ม · Before you start
+
+- ต้องมีบัญชี GitHub และได้รับสิทธิ์แก้ไขจากผู้ดูแล
+  You need a GitHub account and edit access from the maintainer.
+- **ใส่เฉพาะข้อมูลที่มีแหล่งที่มา** (ข่าว ประกาศ กทม. หรือโทรยืนยันเอง) และระบุไว้ในช่อง `source`
+  **Only add information you have a source for** (news, a BMA announcement, or your own phone call), and write that source in the `source` field.
+- **ห้ามแก้เบอร์โทรหรือชื่อสถานที่ถ้ายังไม่ได้ยืนยัน** ถ้าสงสัยว่าผิด ให้แจ้งผู้ดูแล
+  **Don't change a phone number or a place name unless you have confirmed it.** If you think something is wrong, tell the maintainer.
+- ห้ามใส่ข้อมูลส่วนตัวของผู้ประสบภัย (ชื่อ เบอร์โทรส่วนตัว ที่อยู่บ้าน)
+  Never add personal details of flood victims (names, private phone numbers, home addresses).
+
+---
+
+## ขั้นตอน · Steps
+
+### 1. เปิดไฟล์ · Open the file
+ไปที่หน้า repository บน github.com → คลิกโฟลเดอร์ `data` → คลิก `flood.json`
+Go to the repository on github.com → click the `data` folder → click `flood.json`.
+
+### 2. กดแก้ไข · Click edit
+กดไอคอน **ดินสอ ✏️** มุมขวาบนของไฟล์
+Click the **pencil icon ✏️** at the top right of the file.
+
+### 3. แก้ข้อมูล · Make your change
+ดูตัวอย่างด้านล่าง แก้เฉพาะข้อความในเครื่องหมาย `"..."` ระวังอย่าลบเครื่องหมาย `"` `,` `{ }` `[ ]`
+See the examples below. Only change the text inside `"..."`, and be careful not to delete any `"`, `,`, `{ }` or `[ ]`.
+
+**ทุกครั้งที่แก้รายการไหน ให้แก้เวลา `updated` ของรายการนั้น และแก้ `lastUpdated` ที่บรรทัดบนสุดด้วย**
+**Whenever you change an item, also update that item's `updated` time and the `lastUpdated` time at the top of the file.**
+
+### 4. บันทึก · Save (commit)
+กดปุ่มสีเขียว **Commit changes...** → เขียนสั้น ๆ ว่าแก้อะไร เช่น `เพิ่มศูนย์พักพิงวัดxxx` → เลือก **Commit directly to the main branch** → กด **Commit changes**
+Click the green **Commit changes...** button → write a short note of what you changed, e.g. `Add shelter at Wat xxx` → choose **Commit directly to the main branch** → click **Commit changes**.
+
+### 5. ตรวจผล · Check the result (สำคัญ · important)
+คลิกแท็บ **Actions** ด้านบน ดูรายการล่าสุด (รอประมาณ 1–2 นาที)
+Click the **Actions** tab at the top and look at the newest run. It takes about 1–2 minutes.
+
+- ✅ **เครื่องหมายถูกสีเขียว** = ข้อมูลถูกต้องและขึ้นหน้าเว็บแล้ว
+  **Green tick** = the data is valid and the site is updated.
+- ❌ **กากบาทสีแดง** = มีข้อผิดพลาด **หน้าเว็บยังเป็นข้อมูลเดิม (ไม่เสียหาย)** ให้คลิกเข้าไปดู แล้วไปข้อ 6
+  **Red cross** = there is a mistake. **The live site is unchanged and still safe.** Click the run and go to step 6.
+
+> หมายเหตุ: เบราว์เซอร์และ GitHub อาจเก็บหน้าเดิมไว้ประมาณ 10 นาที ถ้ายังไม่เห็นข้อมูลใหม่ให้รอสักครู่แล้วรีเฟรช
+> Note: browsers and GitHub may keep the old page for about 10 minutes. If you don't see your change yet, wait and refresh.
+
+### 6. ถ้ามีข้อผิดพลาด · If there is an error
+คลิกรายการสีแดง → คลิก **Check flood.json / ตรวจสอบข้อมูล** → อ่านข้อความ ❌ ERROR ซึ่งบอกทั้งตำแหน่งและวิธีแก้เป็นภาษาไทย
+Click the red run → click **Check flood.json / ตรวจสอบข้อมูล** → read the ❌ ERROR lines. Each one says where the problem is and how to fix it, in English and Thai.
+
+ตัวอย่าง · Example:
+```
+❌ ERROR shelters[3].tel: "08-978-3595" is not a valid Thai phone number. ...
+    ข้อผิดพลาด: "08-978-3595" ไม่ใช่รูปแบบเบอร์โทรที่ถูกต้อง ...
+```
+`shelters[3]` หมายถึงศูนย์พักพิง **ลำดับที่ 4** (เริ่มนับจาก 0) · `shelters[3]` means the **4th** shelter (counting starts at 0).
+
+กลับไปแก้ `flood.json` อีกครั้ง (ข้อ 1–4) จนได้เครื่องหมายสีเขียว ถ้าแก้ไม่ได้ ติดต่อผู้ดูแล
+Edit `flood.json` again (steps 1–4) until you get a green tick. If you're stuck, contact the maintainer.
+
+---
+
+## วิธีเขียนเวลา · How to write a time
+
+รูปแบบ · Format: `ปี-เดือน-วันTชั่วโมง:นาที:00+07:00`
+
+```
+"2026-09-27T09:45:00+07:00"
+```
+= 27 ก.ย. 2026 เวลา 09:45 น. (เวลาไทย) · 27 Sep 2026, 09:45 Bangkok time
+
+- ใช้ปี **ค.ศ.** (2026) **ไม่ใช่ พ.ศ.** (2569) · Use the **AD** year (2026), **not** the Buddhist year (2569).
+- ใช้เวลา 24 ชั่วโมง (บ่ายสองโมง = `14:00`) · Use 24-hour time (2 pm = `14:00`).
+- ต้องมี `T` ตรงกลาง และ `+07:00` ท้ายเสมอ · Always keep the `T` in the middle and `+07:00` at the end.
+- ใส่เวลาที่ **แหล่งข่าวประกาศ** หรือเวลาที่ **คุณโทรยืนยัน** ไม่ใช่เวลาที่พิมพ์
+  Use the time the **source published it** or the time **you confirmed it by phone**, not the time you are typing.
+
+---
+
+## ตัวอย่าง · Examples
+
+### แก้ประกาศสถานการณ์ · Change the status message
+```json
+"status": {
+  "updated": "2026-09-27T09:45:00+07:00",
+  "source": "Khaosod English",
+  "title": { "th": "หัวข้อภาษาไทย", "en": "English headline" },
+  "body":  { "th": "รายละเอียดภาษาไทย", "en": "English details" }
+},
+```
+
+### เพิ่มศูนย์พักพิง · Add a shelter
+คัดลอกบล็อกของศูนย์ที่มีอยู่ วางต่อท้าย แล้วแก้ข้อมูล **อย่าลืม `,` คั่นระหว่างบล็อก**
+Copy an existing shelter block, paste it after the last one, and edit it. **Don't forget the `,` between blocks.**
+```json
+    {
+      "name": { "th": "ชื่อภาษาไทย", "en": "English name" },
+      "district": { "th": "บางเขน", "en": "Bang Khen" },
+      "tel": "081-234-5678",
+      "updated": "2026-09-27T09:45:00+07:00",
+      "source": "โทรยืนยันกับศูนย์ / Phoned the shelter",
+      "sourceUrl": "https://..."
+    }
+```
+- ไม่รู้เขต → `"district": null` · District unknown → `"district": null`
+- ไม่มีเบอร์ → `"tel": null` · No phone number → `"tel": null`
+- `null` ไม่มีเครื่องหมายคำพูด · `null` has **no** quotes.
+- `sourceUrl` ใส่หรือไม่ใส่ก็ได้ ถ้าไม่ใส่ให้ลบทั้งบรรทัด และลบ `,` ท้ายบรรทัดก่อนหน้า
+  `sourceUrl` is optional. If you remove it, delete the whole line and the `,` at the end of the line before it.
+- **District names must be written exactly the same way every time** (e.g. always `"Bang Khen"`), or the district filter will list the district twice.
+
+### ปิดศูนย์พักพิง · Remove a shelter
+ลบทั้งบล็อก `{ ... }` ของศูนย์นั้น แล้วตรวจว่าไม่มี `,` เกินหลังบล็อกสุดท้าย
+Delete that shelter's whole `{ ... }` block, then check there is no extra `,` after the last block.
+
+### แก้ถนน · Update a road
+```json
+    { "name": { "th": "วิภาวดีรังสิต", "en": "Vibhavadi Rangsit" }, "type": "avoid", "updated": "2026-09-27T09:45:00+07:00", "source": "BMA via Khaosod English" },
+```
+- `"type"`: `"avoid"` = เลี่ยง (red) · `"slow"` = ขับช้า (yellow)
+- ไม่ต้องใส่ "ถ." หรือ "Rd" หน้าเว็บเติมให้เอง · Don't write "ถ." or "Rd"; the page adds them.
+- **ถ้ายืนยันว่าถนนยังท่วมอยู่ ให้แก้เวลา `updated` เป็นเวลาที่ยืนยัน** ถ้าข้อมูลถนนเก่ากว่า 6 ชั่วโมง หน้าเว็บจะขึ้นคำเตือนสีแดงให้ผู้ใช้โทรเช็ก 1555
+  **If you confirm a road is still flooded, set its `updated` to the time you confirmed it.** When road information is over 6 hours old, the page shows a red warning telling people to check with 1555.
+
+### เพิ่มแหล่งข้อมูล · Add a source
+```json
+    { "title": "BMA Facebook (roads 27 Sep)", "url": "https://..." }
+```
+
+---
+
+## ข้อผิดพลาดที่พบบ่อย · Common mistakes
+
+| ปัญหา · Problem | วิธีแก้ · Fix |
+|---|---|
+| ลืม `,` ระหว่างบล็อกหรือบรรทัด · Missing `,` between blocks or lines | ใส่ `,` ท้ายบรรทัดก่อนหน้า · Add `,` at the end of the line above |
+| มี `,` เกินหลังรายการสุดท้าย · Extra `,` after the last item | ลบ `,` ตัวสุดท้ายก่อน `]` หรือ `}` · Delete the last `,` before `]` or `}` |
+| เครื่องหมายคำพูดโค้ง `“ ”` (คัดลอกจาก LINE/Word) · Curly quotes `“ ”` copied from LINE/Word | เปลี่ยนเป็น `"` ตรง · Replace with straight `"` |
+| ใช้ปี พ.ศ. `2569` · Buddhist year `2569` | ใช้ `2026` · Use `2026` |
+| เบอร์มีช่องว่าง `081 234 5678` · Spaces in a phone number | ใช้ขีด `081-234-5678` · Use dashes |
+| ลืมแก้ `updated` · Forgot to change `updated` | หน้าเว็บจะบอกว่าข้อมูลเก่า แก้เวลาให้ตรง · The page will show the item as old; set the right time |
+| `"urgent": "true"` | ไม่ต้องมีเครื่องหมายคำพูด `"urgent": true` · No quotes |
+
+---
+
+## ถ้าหน้าเว็บผิด · If the live page shows something wrong
+
+ถ้าข้อมูลที่ขึ้นหน้าเว็บผิด (แต่ Actions เป็นสีเขียว) ให้แก้ `flood.json` ใหม่ให้ถูกต้องแล้ว commit ได้ทันที
+If the live page shows wrong information (but Actions was green), simply edit `flood.json` again with the correct information and commit.
+
+ถ้าต้องการย้อนกลับเป็นเวอร์ชันก่อน: ที่หน้า `flood.json` กด **History** → เลือกเวอร์ชันที่ถูก → กด **⋯ → View file** → กด **Raw** → คัดลอกทั้งหมด → กลับไปแก้ไข `flood.json` แล้ววางแทนทั้งไฟล์ → commit
+To go back to an earlier version: on the `flood.json` page click **History** → choose the correct version → **⋯ → View file** → **Raw** → copy everything → edit `flood.json`, replace the whole content with what you copied → commit.
