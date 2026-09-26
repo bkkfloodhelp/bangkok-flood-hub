@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Loads the built page in headless Chrome with JavaScript DISABLED and checks that the critical
 // content is there without it: every hotline and every shelter phone number as a working,
-// visible tel: link, plus the status message, shelter names and road list.
+// visible tel: link, plus the status message, shelter names and road list, in both Thai and
+// English (nobody can switch language without JavaScript, so both are shown together).
 // The page is built from data/flood.json first (as the deploy does), so your files aren't changed.
 //
 //   node scripts/test-nojs.mjs        (needs Node 22+ and Chrome; set CHROME_PATH if needed)
@@ -32,11 +33,16 @@ const PAGE_STATE = `JSON.stringify((() => {
   return {
     jsRan: document.documentElement.classList.contains("js"),
     links: [...document.querySelectorAll("a[href]")].filter(visible).map(a => ({ href: a.getAttribute("href"), text: a.innerText.trim() })),
-    status: text("#status-title"),
-    shelterNames: [...document.querySelectorAll("#shelters .name")].filter(visible).map(e => e.innerText.trim()),
+    status: { th: text("#status-title [data-th]"), en: text("#status-title [data-en]") },
+    shelterNames: {
+      th: [...document.querySelectorAll("#shelters .name [data-th]")].filter(visible).map(e => e.innerText.trim()),
+      en: [...document.querySelectorAll("#shelters .name [data-en]")].filter(visible).map(e => e.innerText.trim()),
+    },
+    roadNames: [...document.querySelectorAll("#roads .rn [data-en]")].filter(visible).length,
     roads: [...document.querySelectorAll("#roads li")].filter(visible).length,
     roadsNote: text("#roads-note"),
-    englishShown: [...document.querySelectorAll("[data-en]")].some(visible),
+    englishHidden: [...document.querySelectorAll("[data-en]")].filter(e => !e.closest("[hidden]") && !visible(e)).map(e => e.innerText.trim().slice(0, 30)),
+    scrollWidth: document.documentElement.scrollWidth,
     jsOnlyControlsShown: [...document.querySelectorAll(".lang, #district")].some(visible),
   };
 })())`;
@@ -67,12 +73,17 @@ try {
     check(!!link && link.text.includes(e.text), `${e.what}: visible link ${e.href}`,
       link ? `link shows "${link.text}"` : "missing or hidden");
   }
-  check(s.status === data.status.title.th, "status message shown", `got "${s.status}"`);
-  const missingNames = data.shelters.map(x => x.name.th).filter(n => !s.shelterNames.includes(n));
-  check(!missingNames.length, `all ${data.shelters.length} shelter names shown`, missingNames.join(", "));
+  check(s.status.th === data.status.title.th && s.status.en === data.status.title.en, "status message shown in Thai and English",
+    `got "${s.status.th}" / "${s.status.en}"`);
+  for (const lang of ["th", "en"]) {
+    const missingNames = data.shelters.map(x => x.name[lang]).filter(n => !s.shelterNames[lang].includes(n));
+    check(!missingNames.length, `all ${data.shelters.length} shelter names shown in ${lang === "th" ? "Thai" : "English"}`, missingNames.join(", "));
+  }
+  check(s.roadNames === data.roads.length, `all ${data.roads.length} road names shown in English too`, `${s.roadNames} shown`);
   check(s.roads === data.roads.length, `all ${data.roads.length} roads shown`, `${s.roads} shown`);
   if (data.roadsNote) check(s.roadsNote.startsWith(data.roadsNote.text.th), "road note shown", `got "${s.roadsNote.slice(0, 40)}"`);
-  check(!s.englishShown, "only Thai is shown (English is hidden, as with JavaScript on)");
+  check(!s.englishHidden.length, "all English text is shown alongside the Thai", s.englishHidden.slice(0, 5).join(" | "));
+  check(s.scrollWidth <= 360, "no sideways scrolling at 360px with both languages shown", `page is ${s.scrollWidth}px wide`);
   check(!s.jsOnlyControlsShown, "language toggle and district filter are hidden (they need JavaScript)");
 
   const h = JSON.parse((await send("Runtime.evaluate", { expression: "JSON.stringify(document.documentElement.scrollHeight)", returnByValue: true })).result.result.value);

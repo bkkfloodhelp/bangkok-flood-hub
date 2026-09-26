@@ -95,3 +95,11 @@ html[lang="en"] [data-en]{display:revert}
 /* Without JavaScript the language toggle and district filter can't work, so hide them.
    The inline script in <head> adds class "js" to <html>. */
 html:not(.js) .lang,html:not(.js) #district{display:none}
+/* Without JavaScript nobody can switch language, so show Thai and English together:
+   "โทรขอความช่วยเหลือ / Call for help". Longer paragraphs put the English on its own line. */
+html:not(.js) [data-en]{display:revert}
+html:not(.js) span[data-th] + span[data-en]::before{content:" / "}
+html:not(.js) :is(#status-body,#shelters-note,#roads-note,footer p:not(.src)) > span[data-en]{display:block;margin-top:4px}
+html:not(.js) :is(#status-body,#shelters-note,#roads-note,footer p:not(.src)) > span[data-en]::before,
+html:not(.js) .call span[data-th] + span[data-en]::before{content:none}
+html:not(.js) .age{white-space:normal}
