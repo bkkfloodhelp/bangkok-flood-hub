@@ -135,7 +135,7 @@ function fetchLive() {
 
 // ---------- service worker (offline support) ----------
 
-// Only registrations/caches under this site's own path; phantawat.github.io is shared with other sites.
+// Only registrations/caches under this site's own path; the github.io address is shared with other sites.
 const SCOPE = new URL("./", location.href).href;
 
 function setupServiceWorker(d) {

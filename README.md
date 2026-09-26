@@ -70,13 +70,13 @@ If the service worker ever causes problems (for example, people keep seeing an o
 1. **Quickest, no code:** in `data/flood.json`, add `"serviceWorker": false,` on the line after the first `{`, then commit. Once visitors load the page with signal, it removes the worker and its saved copies.
 2. **Stronger (works even if app.js is broken):** open `scripts/sw-disable.js` on github.com, copy all of it, then edit `sw.js`, replace its whole content with what you copied, and commit. Each visitor's browser picks up the new `sw.js` on its next visit: it deletes this site's saved copies, unregisters itself and reloads the page from the network.
 
-To turn it back on, remove the flag, or restore `sw.js` from its **History**. Either off-switch only touches this site's own caches (names starting `flood-hub-`), never other sites on `phantawat.github.io`.
+To turn it back on, remove the flag, or restore `sw.js` from its **History**. Either off-switch only touches this site's own caches (names starting `flood-hub-`), never other sites on the same `github.io` address.
 
 ## Setup (one time)
 
 1. Push this folder to a GitHub repository, using `main` as the default branch.
 2. Go to **Settings → Pages → Build and deployment → Source** and choose **GitHub Actions**.
-3. Push any commit, or run the workflow from the **Actions** tab. The site appears at <https://phantawat.github.io/bangkok-flood-hub/>.
+3. Push any commit, or run the workflow from the **Actions** tab. The site appears at <https://bkkfloodhelp.github.io/bangkok-flood-hub/>.
 4. If the URL ever changes (e.g. a custom domain), update `og:url` in `index.html`.
 5. Optional but recommended: in **Settings → Branches**, protect `main` so changes go through a pull request. The check then runs before anything is merged.
 

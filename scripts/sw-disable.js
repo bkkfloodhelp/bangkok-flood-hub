@@ -4,7 +4,7 @@
 // unregisters the service worker and reloads the page straight from the network.
 // To turn the service worker back on later, restore the previous sw.js from History.
 
-const PREFIX = "flood-hub-"; // only this site's caches; phantawat.github.io is shared with other sites
+const PREFIX = "flood-hub-"; // only this site's caches; the github.io address is shared with other sites
 
 self.addEventListener("install", () => self.skipWaiting());
 

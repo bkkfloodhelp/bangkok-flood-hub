@@ -7,8 +7,8 @@
 //
 // EMERGENCY OFF-SWITCH: replace this whole file with scripts/sw-disable.js (see README).
 
-// Only caches starting with this prefix belong to this site. phantawat.github.io is shared
-// with other project sites, so never touch other caches.
+// Only caches starting with this prefix belong to this site. The github.io address is shared
+// with other project sites of the same account, so never touch other caches.
 const PREFIX = "flood-hub-";
 const CACHE = PREFIX + "v5";
 const NETWORK_TIMEOUT_MS = 4000;
