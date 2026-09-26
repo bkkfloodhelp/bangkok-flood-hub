@@ -6,8 +6,9 @@
 //    <!--render:ID--> ... <!--/render:ID--> markers, in Thai and English, using render.js,
 //    so the page shows all phone numbers even with JavaScript disabled.
 // 2. Embeds a copy of the data in <script id="fallback-data"> for when the live file can't load.
-// 3. Checks that every hotline and shelter phone number ended up as a tel: link, and fails
-//    (blocking the deploy) if one is missing.
+// 3. Checks that every hotline and shelter phone number ended up as a tel: link, and that the
+//    road list has exactly as many rows of each type as flood.json has roads. If not, it fails
+//    and nothing is deployed.
 // 4. damage.html: pre-renders the assistance table and its source line from "assistance".
 // 5. Both pages: copies SVG files (icons.svg, img/*.svg) into <!--include:FILE--> markers, so
 //    icons and illustrations need no extra download and work offline and without JavaScript.
@@ -62,15 +63,28 @@ export function buildPage(html, data) {
   ];
   const missing = numbers.filter(n => !html.includes(`href="${telHref(n)}"`));
   if (missing.length) throw new Error(`Pre-rendered page is missing tel: links for ${missing.join(", ")}`);
-  return { html, telCount: numbers.length };
+
+  // Roads: count the rows actually written into the HTML (what people see with JavaScript off),
+  // per type, and compare with flood.json.
+  const roadsHtml = html.match(/<!--render:roads-->([\s\S]*?)<!--\/render:roads-->/)[1];
+  const rows = roadsHtml.match(/<li>[\s\S]*?<\/li>/g) || [];
+  const count = types => types.reduce((m, t) => ((m[t] = (m[t] || 0) + 1), m), {});
+  const shown = count(rows.map(li => (li.match(/class="tag ([\w-]+)"/) || [, "(no type)"])[1]));
+  const want = count(data.roads.map(r => r.type));
+  const diff = Object.keys({ ...want, ...shown }).filter(t => want[t] !== shown[t]);
+  if (rows.length !== data.roads.length || diff.length) {
+    throw new Error(`Pre-rendered road list has ${rows.length} rows but flood.json has ${data.roads.length} roads` +
+      (diff.length ? ` (${diff.map(t => `${t}: ${shown[t] || 0} shown, ${want[t] || 0} in data`).join("; ")})` : ""));
+  }
+  return { html, telCount: numbers.length, roadCount: rows.length };
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const root = ROOT;
   const data = JSON.parse(readFileSync(root + "data/flood.json", "utf8"));
-  const { html, telCount } = buildPage(readFileSync(root + "index.html", "utf8"), data);
+  const { html, telCount, roadCount } = buildPage(readFileSync(root + "index.html", "utf8"), data);
   writeFileSync(root + "index.html", html);
-  console.log(`Built index.html: all sections pre-rendered, ${telCount} tel: links present, fallback data embedded`);
+  console.log(`Built index.html: all sections pre-rendered, ${telCount} tel: links present, ${roadCount}/${data.roads.length} roads rendered, fallback data embedded`);
   writeFileSync(root + "damage.html", buildDamagePage(readFileSync(root + "damage.html", "utf8"), data));
   console.log(`Built damage.html: ${data.assistance.items.length} assistance rows pre-rendered`);
 }
