@@ -30,8 +30,11 @@ function findChrome() {
 
 // Returns { proc, ws, send }. send(method, params) resolves with the raw protocol reply.
 export async function launchChrome(profile) {
-  const proc = spawn(findChrome(), ["--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check",
-    "--hide-scrollbars", "--remote-debugging-port=0", `--user-data-dir=${profile}`, "about:blank"], { stdio: "ignore" });
+  const args = ["--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check",
+    "--hide-scrollbars", "--remote-debugging-port=0", `--user-data-dir=${profile}`];
+  // GitHub's Ubuntu runners block Chrome's sandbox; only relax it there, never on a real machine.
+  if (process.env.GITHUB_ACTIONS === "true") args.push("--no-sandbox");
+  const proc = spawn(findChrome(), [...args, "about:blank"], { stdio: "ignore" });
   const portFile = join(profile, "DevToolsActivePort");
   for (let i = 0; i < 100 && !existsSync(portFile); i++) await sleep(100);
   if (!existsSync(portFile)) throw new Error("Chrome did not start");

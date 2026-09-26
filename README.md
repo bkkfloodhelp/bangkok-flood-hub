@@ -37,9 +37,12 @@ sw.js                      service worker: offline support after the first visit
 fonts/                     IBM Plex Sans Thai (Thai + Latin, weights 400/600/700, ~65 KB) and its licence, OFL.txt
 scripts/sw-disable.js      emergency replacement for sw.js that removes the service worker
 scripts/test-sw.mjs        end-to-end test of offline mode and both off-switches (headless Chrome)
+scripts/test-a11y.mjs      contrast, keyboard, 360px layout and tel: link checks, with screenshots
+scripts/lib/               shared Chrome and test-server helpers for the scripts above
 scripts/make-og-image.mjs  regenerates og-image.png, the LINE/Facebook link preview picture
 og-image.png               1200×630 preview picture (generated; don't edit by hand)
 .github/workflows/deploy.yml  check → embed fallback → publish to GitHub Pages
+.github/workflows/tests.yml   runs both browser tests when code changes (does not block deploys)
 ```
 
 - **No framework, no build tools, no npm packages.** The scripts only need Node.js 20 or later (CI uses 22).
@@ -78,6 +81,23 @@ node scripts/test-sw.mjs        # needs Node 22+ and Chrome; set CHROME_PATH if 
 ```
 
 It runs the site in headless Chrome on a temporary copy, so your files are not changed. It checks that the worker installs, that the page loads offline with the "may be out of date" notice, and that **both** emergency off-switches remove the worker and its caches. It takes about 20 seconds.
+
+**Accessibility and layout test** (run after any change to the page, styles or scripts):
+
+```sh
+node scripts/test-a11y.mjs      # needs Node 22+ and Chrome
+```
+
+It measures the page as rendered at 360px wide, in light and dark mode, in Thai and English. It also runs a "warnings" state with the "may be out of date" notice and the stale-roads warning switched on. It checks:
+- every piece of visible text for colour contrast (WCAG AA: 4.5:1, or 3:1 for large text)
+- that every button and link can be reached with the Tab key and shows a clear focus outline
+- that the page never scrolls sideways
+- that tap targets are at least 24×24px
+- that every `tel:` link dials exactly the number it shows
+
+Because it measures the page rather than a fixed list, new features are checked automatically. Screenshots of all 8 combinations are saved in `test-output/` (not committed) so you can look at them.
+
+**On GitHub:** both browser tests run automatically when code changes (see the **Actions** tab, "Site tests"), and the screenshots are attached to each run. They don't run for data-only or docs-only changes. A failure there does **not** stop a deploy, so urgent data updates are never blocked. Treat a red "Site tests" run as something to fix before the next code change.
 
 **Link preview picture:** `og-image.png` shows the page title and the urgent hotlines, taken from `data/flood.json`. If you change those, regenerate the picture and commit it:
 

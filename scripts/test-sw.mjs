@@ -7,37 +7,16 @@
 //
 // Set CHROME_PATH if Chrome is not found automatically. Exit code 0 = all checks passed.
 
-import { createServer } from "node:http";
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { extname, join, normalize } from "node:path";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { launchChrome, sleep } from "./lib/chrome.mjs";
+import { serve, stop } from "./lib/server.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const SITE_FILES = ["index.html", "style.css", "app.js", "sw.js", "data", "fonts", "scripts/sw-disable.js"];
 const WAIT_MS = 12000;
-
-// ---------- tiny static server that can be switched off to simulate "no signal" ----------
-
-const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".json": "application/json" };
-
-function serve(dir, port) {
-  const server = createServer((req, res) => {
-    let p = decodeURIComponent(new URL(req.url, "http://x").pathname);
-    if (p.endsWith("/")) p += "index.html";
-    const file = normalize(join(dir, p));
-    if (!file.startsWith(dir) || !existsSync(file)) { res.writeHead(404).end(); return; }
-    res.writeHead(200, { "Content-Type": TYPES[extname(file)] || "application/octet-stream", "Cache-Control": "no-cache" });
-    res.end(readFileSync(file));
-  });
-  return new Promise(r => server.listen(port, "127.0.0.1", () => r(server)));
-}
-
-function stop(server) {
-  server.closeAllConnections();
-  return new Promise(r => server.close(r));
-}
 
 // What the page and browser look like right now.
 const REPORT = `(async () => {

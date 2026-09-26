@@ -1,0 +1,37 @@
+name: Site tests
+
+# Browser tests for code changes: offline mode / off-switches, and accessibility at 360px.
+# Deliberately separate from "Check data and deploy": a failure here does NOT block a deploy,
+# so a volunteer's urgent data update is never held up. Data-only and docs-only pushes skip it.
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["data/**", "**.md"]
+  pull_request:
+    paths-ignore: ["data/**", "**.md"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-tests:
+    name: Offline + accessibility tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Service worker and off-switches
+        run: node scripts/test-sw.mjs
+      - name: Accessibility and layout at 360px
+        if: always()
+        run: node scripts/test-a11y.mjs
+      - name: Keep screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-360px
+          path: test-output/
+          if-no-files-found: ignore
