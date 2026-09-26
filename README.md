@@ -36,7 +36,7 @@ scripts/embed-fallback.mjs copies flood.json into index.html at deploy time
 .github/workflows/deploy.yml  check → embed fallback → publish to GitHub Pages
 ```
 
-- **No framework, no build tools, no npm packages.** The scripts only need Node.js 20 or later.
+- **No framework, no build tools, no npm packages.** The scripts only need Node.js 20 or later (CI uses 22).
 - **Fallback:** `index.html` contains a copy of the data. The page draws that copy instantly, then loads `data/flood.json`. If the load fails, the page keeps the copy and shows a "may be out of date" notice.
 - **Deploy:** on every push to `main`, GitHub Actions runs `validate.mjs`. If that passes, it embeds the fallback and publishes. Pull requests are checked but not published.
 

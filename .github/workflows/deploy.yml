@@ -16,10 +16,10 @@ jobs:
     name: Check flood.json / ตรวจสอบข้อมูล
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
       - run: node scripts/validate.mjs
 
   deploy:
@@ -27,7 +27,9 @@ jobs:
     needs: validate
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    # Job-level permissions replace the workflow-level ones, so contents: read is repeated here.
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
@@ -37,10 +39,10 @@ jobs:
       group: pages
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
       - name: Embed fallback copy of the data into index.html
         run: node scripts/embed-fallback.mjs
       - name: Collect site files
