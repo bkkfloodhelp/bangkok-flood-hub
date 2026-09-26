@@ -28,8 +28,15 @@
 
   const ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
   const esc = s => String(s).replace(/[&<>"']/g, c => ESC[c]);
-  const bi = (th, en) => '<span data-th>' + esc(th) + '</span><span data-en>' + esc(en) + '</span>';
+  // Thai text sits under the page's lang="th"; English is always marked lang="en".
+  // (When the page is switched to English, app.js marks any Thai still visible as lang="th".)
+  const bi = (th, en) => '<span data-th>' + esc(th) + '</span><span data-en lang="en">' + esc(en) + '</span>';
   const biObj = o => bi(o.th, o.en);
+  // Free text that volunteers may write in either language (source names, link titles):
+  // marked lang="en" only if it has letters and no Thai characters.
+  const THAI = /[\u0E00-\u0E7F]/;
+  const isEnglish = s => !THAI.test(s) && /[A-Za-z]/.test(s);
+  const txt = s => (isEnglish(String(s)) ? '<span lang="en">' + esc(s) + '</span>' : esc(s));
   const telHref = n => "tel:" + n.replace(/-/g, "");
 
   // Date/time parts in Bangkok time, whatever the device or server timezone.
@@ -98,7 +105,7 @@
     return '<li data-district="' + esc(s.district ? s.district.en : "") + '"><div>' +
       '<div class="name">' + biObj(s.name) + '</div>' +
       '<div class="meta">' + district + '</div>' +
-      '<div class="meta">' + ageHTML(s.updated) + (s.source ? " · " + esc(s.source) : "") + '</div>' +
+      '<div class="meta">' + ageHTML(s.updated) + (s.source ? " · " + txt(s.source) : "") + '</div>' +
       '</div>' + (s.tel ? '<a class="tel" href="' + esc(telHref(s.tel)) + '">' + esc(s.tel) + '</a>' : "") + '</li>';
   }
 
@@ -107,7 +114,7 @@
     return '<li><span class="road"><span class="tag ' + esc(r.type) + '">' + biObj(tag) + '</span>' +
       // Names are shown exactly as written in flood.json (e.g. "ถ.สุขุมวิท", "แยกพงษ์เพชร").
       '<span class="rn">' + biObj(r.name) + '</span></span>' +
-      '<span class="meta age-col">' + ageHTML(r.updated) + (r.source && r.source !== mainSource ? " · " + esc(r.source) : "") + '</span></li>';
+      '<span class="meta age-col">' + ageHTML(r.updated) + (r.source && r.source !== mainSource ? " · " + txt(r.source) : "") + '</span></li>';
   }
 
   // HTML for every data-driven element, keyed by element id.
@@ -119,22 +126,23 @@
       "updated": bi("อัปเดตล่าสุด: " + last.th, "Last updated: " + last.en),
       "status-title": biObj(d.status.title),
       "status-body": biObj(d.status.body),
-      "status-fresh": ageHTML(d.status.updated) + (d.status.source ? " · " + esc(d.status.source) : ""),
+      "status-fresh": ageHTML(d.status.updated) + (d.status.source ? " · " + txt(d.status.source) : ""),
       "calls": d.hotlines.map(h =>
         '<a class="call' + (h.urgent ? " urgent" : "") + '" href="' + esc(h.number ? telHref(h.number) : h.url) + '">' +
-        '<b>' + esc(h.number || h.display) + '</b>' + biObj(h.label) + '</a>').join("\n"),
+        '<b>' + (h.number ? esc(h.number) : txt(h.display)) + '</b>' + biObj(h.label) + '</a>').join("\n"),
       "shelters-note": biObj(d.sheltersNote),
       "shelters": d.shelters.map(shelterItem).join("\n"),
       "roads-sub": newest
-        ? bi("ประกาศโดย " + mainSource + " · ", "Source: " + mainSource + " · ") + ageHTML(newest.road.updated) +
+        ? '<span data-th>ประกาศโดย ' + txt(mainSource) + ' · </span><span data-en lang="en">Source: ' + esc(mainSource) + ' · </span>' +
+          ageHTML(newest.road.updated) +
           bi(" สถานการณ์อาจเปลี่ยนแล้ว", ". Conditions may have changed since.")
         : bi("ยังไม่มีรายงานถนน", "No road reports yet."),
       // Empty string when there is no note: the box is hidden by CSS (.note:empty).
       "roads-note": d.roadsNote
-        ? biObj(d.roadsNote.text) + '<br><span class="meta">' + ageHTML(d.roadsNote.updated) + " · " + esc(d.roadsNote.source) + '</span>'
+        ? biObj(d.roadsNote.text) + '<br><span class="meta">' + ageHTML(d.roadsNote.updated) + " · " + txt(d.roadsNote.source) + '</span>'
         : "",
       "roads": d.roads.map(r => roadItem(r, mainSource)).join("\n"),
-      "source-links": " " + d.sources.map(s => '<a href="' + esc(s.url) + '">' + esc(s.title) + '</a>').join(", "),
+      "source-links": " " + d.sources.map(s => '<a href="' + esc(s.url) + '"' + (isEnglish(s.title) ? ' lang="en"' : "") + '>' + esc(s.title) + '</a>').join(", "),
     };
   }
 

@@ -41,6 +41,18 @@ const PAGE_STATE = `JSON.stringify((() => {
     roadNames: [...document.querySelectorAll("#roads .rn [data-en]")].filter(visible).length,
     roads: [...document.querySelectorAll("#roads li")].filter(visible).length,
     roadsNote: text("#roads-note"),
+    // Visible English text (letters, no Thai) whose nearest lang attribute isn't "en".
+    englishNotMarked: (() => {
+      const bad = [];
+      const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      for (let n = w.nextNode(); n; n = w.nextNode()) {
+        const t = n.nodeValue.trim(), el = n.parentElement;
+        if (!/[A-Za-z]/.test(t) || /[\u0E00-\u0E7F]/.test(t) || el.closest("script, style") || !visible(el)) continue;
+        const lang = el.closest("[lang]").getAttribute("lang");
+        if (lang !== "en") bad.push('"' + t.slice(0, 30) + '" is lang="' + lang + '"');
+      }
+      return bad;
+    })(),
     englishHidden: [...document.querySelectorAll("[data-en]")].filter(e => !e.closest("[hidden]") && !visible(e)).map(e => e.innerText.trim().slice(0, 30)),
     scrollWidth: document.documentElement.scrollWidth,
     jsOnlyControlsShown: [...document.querySelectorAll(".lang, #district")].some(visible),
@@ -83,6 +95,7 @@ try {
   check(s.roads === data.roads.length, `all ${data.roads.length} roads shown`, `${s.roads} shown`);
   if (data.roadsNote) check(s.roadsNote.startsWith(data.roadsNote.text.th), "road note shown", `got "${s.roadsNote.slice(0, 40)}"`);
   check(!s.englishHidden.length, "all English text is shown alongside the Thai", s.englishHidden.slice(0, 5).join(" | "));
+  check(!s.englishNotMarked.length, 'every visible English text is marked lang="en"', s.englishNotMarked.slice(0, 5).join(" | "));
   check(s.scrollWidth <= 360, "no sideways scrolling at 360px with both languages shown", `page is ${s.scrollWidth}px wide`);
   check(!s.jsOnlyControlsShown, "language toggle and district filter are hidden (they need JavaScript)");
 

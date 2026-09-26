@@ -62,12 +62,12 @@ function applyFilter() {
 }
 
 const NOTICE = {
-  fallback: '<strong><span data-th>ข้อมูลอาจไม่เป็นปัจจุบัน </span><span data-en>May be out of date. </span></strong>' +
+  fallback: '<strong><span data-th>ข้อมูลอาจไม่เป็นปัจจุบัน </span><span data-en lang="en">May be out of date. </span></strong>' +
     '<span data-th>โหลดข้อมูลล่าสุดไม่สำเร็จ กำลังแสดงข้อมูลสำรอง ลองรีเฟรชเมื่อมีสัญญาณ</span>' +
-    '<span data-en>Couldn\'t load the latest data, so this is a saved copy. Try refreshing when you have signal.</span>',
-  none: '<strong><span data-th>ข้อมูลอาจไม่เป็นปัจจุบัน </span><span data-en>May be out of date. </span></strong>' +
+    '<span data-en lang="en">Couldn\'t load the latest data, so this is a saved copy. Try refreshing when you have signal.</span>',
+  none: '<strong><span data-th>ข้อมูลอาจไม่เป็นปัจจุบัน </span><span data-en lang="en">May be out of date. </span></strong>' +
     '<span data-th>โหลดข้อมูลไม่สำเร็จ เหตุฉุกเฉินโทร 1669 หรือ 1555</span>' +
-    '<span data-en>Could not load the information. In an emergency call 1669 or 1555.</span>',
+    '<span data-en lang="en">Could not load the information. In an emergency call 1669 or 1555.</span>',
 };
 
 function renderNotice() {
@@ -76,12 +76,40 @@ function renderNotice() {
   n.hidden = !fallbackReason;
 }
 
+// Every piece of text should be marked with its real language (for screen readers).
+// English is always marked lang="en" in the HTML; Thai sits under <html lang="th">. When the page
+// is switched to English, mark any Thai that is still visible (e.g. the "ไทย" button, a source
+// written in Thai) as lang="th"; switching back removes those marks.
+const THAI = /[\u0E00-\u0E7F]/;
+function markThai() {
+  document.querySelectorAll("[data-auto-lang]").forEach(el => { el.removeAttribute("lang"); el.removeAttribute("data-auto-lang"); });
+  if (lang !== "en") return;
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const found = [];
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    const el = n.parentElement;
+    if (!THAI.test(n.nodeValue) || el.closest("[data-th], script, style")) continue; // data-th is hidden in English
+    const marked = el.closest("[lang]");
+    if (marked && marked !== root && marked.lang === "th") continue;
+    found.push(n);
+  }
+  found.forEach(n => {
+    const el = n.parentElement;
+    if (el.childNodes.length === 1) { el.lang = "th"; el.dataset.autoLang = ""; return; }
+    const span = document.createElement("span"); // Thai mixed with other content: wrap just this text
+    span.lang = "th"; span.dataset.autoLang = "";
+    el.replaceChild(span, n);
+    span.appendChild(n);
+  });
+}
+
 function enhance() {
   refreshAges();
   checkStale();
   buildDistricts();
   applyFilter();
   renderNotice();
+  markThai();
 }
 
 function setLang(l) {
@@ -90,6 +118,7 @@ function setLang(l) {
   try { localStorage.setItem("lang", l); } catch (e) {}
   document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.set === l));
   buildDistricts();
+  markThai();
 }
 
 // ---------- data ----------

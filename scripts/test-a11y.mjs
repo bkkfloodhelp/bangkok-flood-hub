@@ -41,12 +41,15 @@ function normalOverrides() {
 
 // "warnings": the live data file 404s (→ fallback notice) and the page was built with roads
 // last updated 7 hours ago (→ stale-roads warning). The first roads are also given every road
-// type, so each label style is checked even before real data uses it.
+// type, so each label style is checked even before real data uses it, and one shelter source is
+// written in Thai (checks language marking when the page is switched to English).
 function warningsOverrides() {
   const data = readData();
   const sevenHoursAgo = new Date(Date.now() - 7 * 3600e3 + 7 * 3600e3).toISOString().slice(0, 19) + "+07:00";
   data.roads.forEach(r => { r.updated = sevenHoursAgo; });
   Object.keys(ROAD_TAGS).forEach((type, i) => { if (data.roads[i]) data.roads[i].type = type; });
+  // A source written in Thai, which must be marked lang="th" when the page is in English.
+  if (data.shelters[0]) data.shelters[0].source = "โทรยืนยันกับศูนย์";
   return { "/data/flood.json": null, "/index.html": built(data) };
 }
 
@@ -140,6 +143,22 @@ const HELPERS = `window.__a11y = (() => {
     return { fails, count };
   }
 
+  // Language of parts: visible Thai text must resolve to lang="th", visible English (letters,
+  // no Thai) to lang="en", whichever language the page is switched to.
+  function languages() {
+    const fails = [], seen = new Set();
+    const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let n = w.nextNode(); n; n = w.nextNode()) {
+      const t = n.nodeValue.trim(), el = n.parentElement;
+      if (!t || el.closest("script, style, option") || !visible(el)) continue;
+      const want = /[\u0E00-\u0E7F]/.test(t) ? "th" : /[A-Za-z]/.test(t) ? "en" : null;
+      if (!want) continue;
+      const got = el.closest("[lang]").getAttribute("lang");
+      if (got !== want && !seen.has(t)) { seen.add(t); fails.push('"' + t.slice(0, 30) + '" is lang="' + got + '", should be "' + want + '"'); }
+    }
+    return fails;
+  }
+
   // Number the focusable elements so the keyboard walk can tell them apart.
   function tagFocusables() {
     const list = [...document.querySelectorAll(FOCUSABLE)].filter(visible);
@@ -161,7 +180,7 @@ const HELPERS = `window.__a11y = (() => {
     };
   }
 
-  return { contrast, layout, targets, tel, tagFocusables, focused };
+  return { contrast, layout, targets, tel, languages, tagFocusables, focused };
 })(); true`;
 
 // ---------- runner ----------
@@ -199,6 +218,7 @@ async function run(chrome, url, { theme, lang, state }) {
   const docLang = await evaluate("document.documentElement.lang");
   report(`<html lang> is "${lang}"`, docLang === lang ? [] : [`it is "${docLang}"`]);
 
+  report("every visible text is marked with its real language (lang)", await evaluate("__a11y.languages()"));
   const c = await evaluate("__a11y.contrast()");
   report(`text contrast (lowest ${c.min}:1)`, c.fails);
   report(`no sideways scrolling at ${WIDTH}px`, await evaluate(`__a11y.layout(${WIDTH})`));
