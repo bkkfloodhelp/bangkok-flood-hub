@@ -7,39 +7,16 @@
 //
 // Set CHROME_PATH if Chrome is not found automatically. Exit code 0 = all checks passed.
 
-import { spawn } from "node:child_process";
 import { createServer } from "node:http";
 import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
+import { launchChrome, sleep } from "./lib/chrome.mjs";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const SITE_FILES = ["index.html", "style.css", "app.js", "sw.js", "data", "fonts", "scripts/sw-disable.js"];
 const WAIT_MS = 12000;
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-if (typeof WebSocket !== "function") {
-  console.error("This test needs Node 22 or later (built-in WebSocket). You have " + process.version);
-  process.exit(1);
-}
-
-function findChrome() {
-  const candidates = [
-    process.env.CHROME_PATH,
-    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-    "/Applications/Chromium.app/Contents/MacOS/Chromium",
-    "/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium", "/usr/bin/chromium-browser",
-    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  ];
-  const found = candidates.find(p => p && existsSync(p));
-  if (!found) {
-    console.error("Chrome not found. Set CHROME_PATH=/path/to/chrome and try again.");
-    process.exit(1);
-  }
-  return found;
-}
-const CHROME = findChrome();
 
 // ---------- tiny static server that can be switched off to simulate "no signal" ----------
 
@@ -60,25 +37,6 @@ function serve(dir, port) {
 function stop(server) {
   server.closeAllConnections();
   return new Promise(r => server.close(r));
-}
-
-// ---------- Chrome via the DevTools protocol ----------
-
-async function launchChrome(profile) {
-  const proc = spawn(CHROME, ["--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check",
-    "--remote-debugging-port=0", `--user-data-dir=${profile}`, "about:blank"], { stdio: "ignore" });
-  const portFile = join(profile, "DevToolsActivePort");
-  for (let i = 0; i < 100 && !existsSync(portFile); i++) await sleep(100);
-  if (!existsSync(portFile)) throw new Error("Chrome did not start");
-  const port = readFileSync(portFile, "utf8").split("\n")[0];
-  const targets = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
-  const ws = new WebSocket(targets.find(t => t.type === "page").webSocketDebuggerUrl);
-  await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
-  let id = 0;
-  const pending = new Map();
-  ws.onmessage = m => { const d = JSON.parse(m.data); if (pending.has(d.id)) { pending.get(d.id)(d); pending.delete(d.id); } };
-  const send = (method, params = {}) => new Promise(r => { const i = ++id; pending.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); });
-  return { proc, ws, send };
 }
 
 // What the page and browser look like right now.

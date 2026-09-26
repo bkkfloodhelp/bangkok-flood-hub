@@ -37,6 +37,8 @@ sw.js                      service worker: offline support after the first visit
 fonts/                     IBM Plex Sans Thai (Thai + Latin, weights 400/600/700, ~65 KB) and its licence, OFL.txt
 scripts/sw-disable.js      emergency replacement for sw.js that removes the service worker
 scripts/test-sw.mjs        end-to-end test of offline mode and both off-switches (headless Chrome)
+scripts/make-og-image.mjs  regenerates og-image.png, the LINE/Facebook link preview picture
+og-image.png               1200×630 preview picture (generated; don't edit by hand)
 .github/workflows/deploy.yml  check → embed fallback → publish to GitHub Pages
 ```
 
@@ -76,6 +78,14 @@ node scripts/test-sw.mjs        # needs Node 22+ and Chrome; set CHROME_PATH if 
 ```
 
 It runs the site in headless Chrome on a temporary copy, so your files are not changed. It checks that the worker installs, that the page loads offline with the "may be out of date" notice, and that **both** emergency off-switches remove the worker and its caches. It takes about 20 seconds.
+
+**Link preview picture:** `og-image.png` shows the page title and the urgent hotlines, taken from `data/flood.json`. If you change those, regenerate the picture and commit it:
+
+```sh
+node scripts/make-og-image.mjs  # needs Node 22+ and Chrome
+```
+
+Facebook and LINE keep old previews for a long time. After changing the picture, paste the site URL into the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) and click **Scrape Again**.
 
 The page must be served over HTTP. When opened as a `file://`, the browser blocks loading `flood.json` and the page shows the fallback notice.
 
