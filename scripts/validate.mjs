@@ -184,7 +184,11 @@ function checkHotlines(v) {
   items.forEach((h, i) => {
     const p = `hotlines[${i}]`;
     if (!isObj(h)) { err(p, "Must be an object { ... }.", "ต้องเป็นออบเจ็กต์ { ... }"); return; }
-    knownKeys(p, h, ["number", "url", "display", "urgent", "label"]);
+    knownKeys(p, h, ["number", "url", "display", "urgent", "group", "label"]);
+    // Optional: "other" puts it under "Other useful numbers"; without it, it's a main emergency number.
+    if ("group" in h && h.group !== "main" && h.group !== "other") {
+      err(`${p}.group`, `Must be "main" or "other" (or left out), got ${show(h.group)}.`, `ต้องเป็น "main" หรือ "other" (หรือไม่ใส่) แต่ได้ ${show(h.group)}`);
+    }
     const hasNum = "number" in h, hasUrl = "url" in h;
     if (hasNum === hasUrl) {
       err(p, `Needs exactly one of "number" (phone) or "url" (link).`, `ต้องมีอย่างใดอย่างหนึ่ง: "number" (เบอร์โทร) หรือ "url" (ลิงก์)`);

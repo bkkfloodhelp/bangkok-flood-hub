@@ -124,6 +124,22 @@
       '<span class="meta age-col">' + ageHTML(r.updated) + (r.source && r.source !== mainSource ? " · " + txt(r.source) : "") + '</span></li>';
   }
 
+  // One hotline card: tel: link for numbers, plain link for LINE etc. "urgent" = red card.
+  function callCard(h) {
+    return '<a class="call' + (h.urgent ? " urgent" : "") + '" href="' + esc(h.number ? telHref(h.number) : h.url) + '">' +
+      // lang goes on <b> itself: a <span> inside the card would be shrunk by the ".call span" style.
+      (h.number ? '<b>' + esc(h.number) : '<b' + (isEnglish(h.display) ? ' lang="en"' : "") + '>' + esc(h.display)) + '</b>' + biObj(h.label) + '</a>';
+  }
+
+  // Hotlines with "group": "other" go under a smaller "Other useful numbers" heading; nothing
+  // at all when there are none. The rest are the main emergency numbers at the top.
+  function otherCalls(hotlines) {
+    const other = hotlines.filter(h => h.group === "other");
+    if (!other.length) return "";
+    return '<h3 class="calls-other-h">' + bi("เบอร์อื่นที่เป็นประโยชน์", "Other useful numbers") + '</h3>\n' +
+      '<div class="calls">' + other.map(callCard).join("\n") + '</div>';
+  }
+
   // A website or app people can use to check for themselves (the "tools" section).
   function toolItem(t) {
     const kind = t.official ? { cls: "official", th: "ทางการ", en: "Official" } : { cls: "unofficial", th: "ไม่เป็นทางการ", en: "Unofficial" };
@@ -158,9 +174,8 @@
       "status-title": biObj(d.status.title),
       "status-body": biObj(d.status.body),
       "status-fresh": ageHTML(d.status.updated) + (d.status.source ? " · " + txt(d.status.source) : ""),
-      "calls": d.hotlines.map(h =>
-        '<a class="call' + (h.urgent ? " urgent" : "") + '" href="' + esc(h.number ? telHref(h.number) : h.url) + '">' +
-        '<b>' + (h.number ? esc(h.number) : txt(h.display)) + '</b>' + biObj(h.label) + '</a>').join("\n"),
+      "calls": d.hotlines.filter(h => h.group !== "other").map(callCard).join("\n"),
+      "calls-other": otherCalls(d.hotlines),
       "shelters-note": biObj(d.sheltersNote),
       "shelters": d.shelters.map(shelterItem).join("\n"),
       "roads-sub": newest

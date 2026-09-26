@@ -13,58 +13,23 @@
     }
   },
   "hotlines": [
-    {
-      "number": "1669",
-      "urgent": true,
-      "label": { "th": "เจ็บป่วยฉุกเฉิน / เคลื่อนย้ายผู้ป่วย", "en": "Medical emergency / patient transport" }
-    },
-    {
-      "number": "1555",
-      "urgent": true,
-      "label": { "th": "สายด่วน กทม.", "en": "BMA hotline" }
-    },
-    {
-      "number": "02-248-5115",
-      "urgent": false,
-      "label": { "th": "ศูนย์ควบคุมระบบป้องกันน้ำท่วม", "en": "Flood control centre" }
-    },
-    {
-      "number": "1784",
-      "urgent": false,
-      "label": { "th": "ปภ. สายด่วน 24 ชม.", "en": "DDPM 24-hour hotline" }
-    },
-    {
-      "display": "LINE",
-      "url": "https://line.me/R/ti/p/@traffyfondue",
-      "urgent": false,
-      "label": { "th": "แจ้งเหตุผ่าน @Traffyfondue", "en": "Report via @Traffyfondue" }
-    },
-    {
-      "number": "191",
-      "urgent": false,
-      "label": { "th": "ตำรวจ / เหตุด่วน", "en": "Police / emergencies" }
-    },
-    {
-      "number": "1586",
-      "urgent": false,
-      "label": { "th": "กรมทางหลวง สอบถามเส้นทาง", "en": "Dept of Highways (route info)" }
-    },
-    {
-      "number": "1146",
-      "urgent": false,
-      "label": { "th": "กรมทางหลวงชนบท", "en": "Dept of Rural Roads" }
-    },
-    {
-      "number": "1130",
-      "urgent": false,
-      "label": { "th": "การไฟฟ้านครหลวง (ไฟฟ้าขัดข้อง)", "en": "MEA (power problems)" }
-    },
-    {
-      "display": "LINE",
-      "url": "https://line.me/R/ti/p/@1784DDPM",
-      "urgent": false,
-      "label": { "th": "ปภ. ทาง LINE", "en": "DDPM on LINE" }
-    }
+    { "number": "1669", "urgent": true, "label": { "th": "เจ็บป่วยฉุกเฉิน / เคลื่อนย้ายผู้ป่วย", "en": "Medical emergency / patient transport" } },
+    { "number": "1555", "urgent": true, "label": { "th": "สายด่วน กทม.", "en": "BMA hotline" } },
+    { "number": "1784", "urgent": false, "label": { "th": "ปภ. สายด่วน 24 ชม.", "en": "DDPM 24-hour hotline" } },
+    { "number": "191", "urgent": false, "label": { "th": "ตำรวจ / เหตุด่วน", "en": "Police / emergencies" } },
+    { "number": "1199", "urgent": false, "label": { "th": "กรมเจ้าท่า เหตุด่วนทางน้ำ / เรือ", "en": "Marine Dept: boat and waterway incidents" } },
+    { "number": "1646", "urgent": true, "label": { "th": "ศูนย์เอราวัณ กทม. เจ็บป่วยฉุกเฉิน", "en": "BMA Erawan Centre (medical emergency)" } },
+    { "number": "1554", "urgent": true, "label": { "th": "หน่วยแพทย์กู้ชีวิต วชิรพยาบาล (มีเรือกู้ภัย)", "en": "Vajira Hospital rescue unit (has rescue boats)" } },
+    { "number": "02-248-5115", "urgent": false, "group": "other", "label": { "th": "ศูนย์ควบคุมระบบป้องกันน้ำท่วม", "en": "Flood control centre" } },
+    { "display": "LINE", "url": "https://line.me/R/ti/p/@traffyfondue", "urgent": false, "group": "other", "label": { "th": "แจ้งเหตุผ่าน @Traffyfondue", "en": "Report via @Traffyfondue" } },
+    { "number": "1586", "urgent": false, "group": "other", "label": { "th": "กรมทางหลวง สอบถามเส้นทาง", "en": "Dept of Highways (route info)" } },
+    { "number": "1146", "urgent": false, "group": "other", "label": { "th": "กรมทางหลวงชนบท", "en": "Dept of Rural Roads" } },
+    { "number": "1130", "urgent": false, "group": "other", "label": { "th": "การไฟฟ้านครหลวง (ไฟฟ้าขัดข้อง)", "en": "MEA (power problems)" } },
+    { "display": "LINE", "url": "https://line.me/R/ti/p/@1784DDPM", "urgent": false, "group": "other", "label": { "th": "ปภ. ทาง LINE", "en": "DDPM on LINE" } },
+    { "number": "1300", "urgent": false, "group": "other", "label": { "th": "แจ้งคนหาย / ขอความช่วยเหลือทางสังคม", "en": "Missing persons / social assistance" } },
+    { "number": "1155", "urgent": false, "group": "other", "label": { "th": "ตำรวจท่องเที่ยว (พูดภาษาอังกฤษได้)", "en": "Tourist Police (English spoken)" } },
+    { "number": "1543", "urgent": false, "group": "other", "label": { "th": "การทางพิเศษฯ สอบถามเส้นทาง / อุบัติเหตุบนทางด่วน", "en": "Expressway Authority: routes and accidents" } },
+    { "number": "1137", "urgent": false, "group": "other", "label": { "th": "จส.100 แจ้งอุบัติเหตุ / สภาพจราจร", "en": "JS100 radio: accidents and traffic" } }
   ],
   "sheltersNote": {
     "th": "กทม. มีศูนย์พักพิง 233 แห่ง รองรับราว 15,000 คน รายการด้านล่างคือที่ประกาศแล้ว โทรถามก่อนเดินทาง หรือโทร 1555 / สำนักงานเขตเพื่อหาแห่งที่ใกล้ที่สุด",

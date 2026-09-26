@@ -165,3 +165,5 @@ table.assist{width:100%;border-collapse:collapse;background:var(--panel);border:
   #assist-source a::after{content:" (" attr(href) ")";word-break:break-all}
   @page{margin:15mm}
 }
+/* Secondary hotlines ("group": "other"), below the main emergency numbers. */
+.calls-other-h{font-size:1.05rem;margin:24px 0 8px}
