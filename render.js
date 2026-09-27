@@ -190,7 +190,8 @@
       "status-fresh": ageHTML(d.status.updated) + (d.status.source ? " · " + txt(d.status.source) : ""),
       "calls": d.hotlines.filter(h => h.group !== "other").map(callCard).join("\n"),
       "calls-other": otherCalls(d.hotlines),
-      "shelters-note": biObj(d.sheltersNote),
+      // Shelter note: text plus its own "updated … · source" line, like the road note.
+      "shelters-note": biObj(d.sheltersNote.text) + '<br><span class="meta">' + ageHTML(d.sheltersNote.updated) + " · " + txt(d.sheltersNote.source) + '</span>',
       "shelters": d.shelters.map(shelterItem).join("\n"),
       "roads-sub": newest
         ? '<span data-th>ประกาศโดย ' + txt(mainSource) + ' · </span><span data-en lang="en">Source: ' + esc(mainSource) + ' · </span>' +

@@ -254,9 +254,9 @@ function checkRoads(v) {
   return times;
 }
 
-// Optional note above the road list; remove the whole block to hide it.
-function checkRoadsNote(n) {
-  const p = "roadsNote";
+// A note with its own freshness: the road note (optional; remove to hide) and the shelter note
+// (required). Same shape: { updated, source, text: { th, en } }.
+function checkNote(p, n) {
   if (!isObj(n)) { err(p, "Must be an object { ... }.", "ต้องเป็นออบเจ็กต์ { ... }"); return null; }
   knownKeys(p, n, ["updated", "source", "text"]);
   let t = null;
@@ -399,10 +399,10 @@ function run() {
   const times = [];
   if (required("(root)", d, "status")) times.push(checkStatus(d.status));
   if (required("(root)", d, "hotlines")) checkHotlines(d.hotlines);
-  if (required("(root)", d, "sheltersNote")) bilingual("sheltersNote", d.sheltersNote);
+  if (required("(root)", d, "sheltersNote")) times.push(checkNote("sheltersNote", d.sheltersNote));
   if (required("(root)", d, "shelters")) times.push(...checkShelters(d.shelters));
   if (required("(root)", d, "roads")) times.push(...checkRoads(d.roads));
-  if ("roadsNote" in d) times.push(checkRoadsNote(d.roadsNote));
+  if ("roadsNote" in d) times.push(checkNote("roadsNote", d.roadsNote));
   if ("roadsLiveUrl" in d) url("roadsLiveUrl", d.roadsLiveUrl, { allowHttp: true });
   if ("roadsLiveUrlAlt" in d) {
     url("roadsLiveUrlAlt", d.roadsLiveUrlAlt, { allowHttp: true });

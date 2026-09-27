@@ -157,6 +157,17 @@ The yellow box above the road list, for caveats such as "this list is incomplete
 ไม่ต้องการแล้ว: ลบทั้งบล็อก `"roadsNote": { ... },` ออก กล่องจะหายไปเอง
 No longer needed: delete the whole `"roadsNote": { ... },` block and the box disappears.
 
+### ข้อความเหนือรายชื่อศูนย์พักพิง · Shelter note
+ข้อความสรุปเหนือรายชื่อศูนย์พักพิง ต้องมีเวลา `updated` และแหล่งข้อมูล `source` เสมอ เหมือนหมายเหตุเหนือรายการถนน
+The summary above the shelter list. Like the road note, it always needs `updated` and `source`.
+```json
+  "sheltersNote": {
+    "updated": "2026-09-27T12:00:00+07:00",
+    "source": "ปภ. ผ่านโพสต์ทูเดย์ / DDPM via Post Today",
+    "text": { "th": "ข้อความภาษาไทย", "en": "English text" }
+  },
+```
+
 ### จุดรับบริจาค · Donation points
 ส่วนนี้แสดงต่อจากศูนย์พักพิง และจะแสดงเมื่อมีอย่างน้อย 1 จุด ใส่เบอร์ได้หลายเบอร์ต่อจุด
 Shown after the shelters, and only when there is at least one point. Each point can have several phone numbers.

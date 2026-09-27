@@ -32,8 +32,12 @@
     { "number": "1137", "urgent": false, "group": "other", "label": { "th": "จส.100 แจ้งอุบัติเหตุ / สภาพจราจร", "en": "JS100 radio: accidents and traffic" } }
   ],
   "sheltersNote": {
-    "th": "กทม. เปิดศูนย์พักพิงชั่วคราวราว 200 แห่ง ครอบคลุมทั้ง 50 เขต ปภ. ส่งข้อความ Cell Broadcast แจ้งที่ตั้งศูนย์ใกล้คุณไปยังโทรศัพท์ในแต่ละเขต รายชื่อด้านล่างเป็นเพียงบางส่วน โทรถามก่อนเดินทาง หรือโทร 1555 / สำนักงานเขต",
-    "en": "The BMA has opened about 200 temporary shelters across all 50 districts. The DDPM is sending shelter locations by Cell Broadcast alert to phones in each district. The list below is partial: call before you go, or call 1555 / your district office."
+    "updated": "2026-09-27T12:00:00+07:00",
+    "source": "ปภ. ผ่านโพสต์ทูเดย์ / DDPM via Post Today",
+    "text": {
+      "th": "กทม. เปิดศูนย์พักพิงชั่วคราวราว 200 แห่ง ครอบคลุมทั้ง 50 เขต ปภ. ส่งข้อความ Cell Broadcast แจ้งที่ตั้งศูนย์ใกล้คุณไปยังโทรศัพท์ในแต่ละเขต รายชื่อด้านล่างเป็นเพียงบางส่วน โทรถามก่อนเดินทาง หรือโทร 1555 / สำนักงานเขต",
+      "en": "The BMA has opened about 200 temporary shelters across all 50 districts. The DDPM is sending shelter locations by Cell Broadcast alert to phones in each district. The list below is partial: call before you go, or call 1555 / your district office."
+    }
   },
   "shelters": [
     {
@@ -219,7 +223,6 @@
   "sources": [
     { "title": "Thai PBS World (shelters)", "url": "https://www.thaipbsworld.com/around-thailand/558607" },
     { "title": "The Nation (hotlines)", "url": "https://www.nationthailand.com/thailand/bangkok/40071507" },
-    { "title": "Khaosod English (shelter capacity)", "url": "https://www.khaosodenglish.com/news/2026/09/26/closed-schools-and-work-from-home-on-monday-as-bangkok-battles-floods/" },
     { "title": "Thai PBS: BMA road update, 27 Sep 10:31", "url": "https://www.thaipbs.or.th/news/content/558668" },
     { "title": "Thai PBS: governor's briefing, 27 Sep", "url": "https://www.thaipbs.or.th/news/content/558666" },
     { "title": "Thairath: governor at Don Mueang, 27 Sep 09:20", "url": "https://www.thairath.co.th/news/local/bangkok/2962324" },
