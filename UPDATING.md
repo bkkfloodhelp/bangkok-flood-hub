@@ -35,7 +35,7 @@ Click the **pencil icon ✏️** at the top right of the file.
 ดูตัวอย่างด้านล่าง แก้เฉพาะข้อความในเครื่องหมาย `"..."` ระวังอย่าลบเครื่องหมาย `"` `,` `{ }` `[ ]`
 See the examples below. Only change the text inside `"..."`, and be careful not to delete any `"`, `,`, `{ }` or `[ ]`.
 
-**ทุกครั้งที่แก้รายการไหน ให้แก้เวลา `updated` ของรายการนั้น** หน้าเว็บจะแสดง "อัปเดตล่าสุด" จากเวลาล่าสุดในไฟล์ให้เอง
+**ทุกครั้งที่แก้รายการไหน ให้แก้เวลา `updated` ของรายการนั้น** หน้าเว็บจะแสดง "อัปเดตล่าสุด" จากเวลาล่าสุดในไฟล์ให้เอง อย่าลบบรรทัด `"lastUpdated"` บนสุดของไฟล์ (ใส่เวลาล่าสุดไว้) เพราะเบราว์เซอร์ที่ยังเก็บโค้ดเก่าไว้ต้องใช้ / Don't delete the `"lastUpdated"` line at the top of the file (set it to the newest time): browsers holding older copies of the code need it.
 **Whenever you change an item, also update that item's `updated` time.** The page works out "last updated" by itself from the newest time in the file.
 
 ### 4. บันทึก · Save (commit)

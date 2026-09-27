@@ -196,7 +196,7 @@ Volunteers editing `data/flood.json` on github.com aren't affected. Their change
 
 ## "Last updated" is automatic
 
-`flood.json` has no `lastUpdated` field. The page header shows the newest `updated` time found anywhere in the file: status, notes, roads, shelters, donation points, tools or assistance. Date-only values count as midnight Bangkok time. If an old copy still has `lastUpdated`, the validator warns that it can be deleted.
+The page header shows the newest `updated` time found anywhere in the file: status, notes, roads, shelters, donation points, tools or assistance. Date-only values count as midnight Bangkok time. `flood.json` still keeps a `lastUpdated` field, and the validator requires it: older copies of `app.js` still cached in visitors' browsers reject data without it and show "โหลดข้อมูลไม่สำเร็จ" (this happened on 28 Sep 2026 when it was removed). Set it to the newest time when you update; the header doesn't read it.
 
 ## Local preview
 
