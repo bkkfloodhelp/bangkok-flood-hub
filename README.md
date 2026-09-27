@@ -43,6 +43,7 @@ scripts/sw-disable.js      emergency replacement for sw.js that removes the serv
 scripts/test-sw.mjs        end-to-end test of offline mode and both off-switches (headless Chrome)
 scripts/test-a11y.mjs      contrast, keyboard, 360px layout and tel: link checks, with screenshots
 scripts/test-nojs.mjs      checks every phone number works with JavaScript disabled
+scripts/test-freshness.mjs checks the "over N hours old" warnings appear exactly when data is too old
 scripts/lib/               shared Chrome and test-server helpers for the scripts above
 scripts/make-og-image.mjs  regenerates og-image.png, the LINE/Facebook link preview picture
 scripts/lib/samples.mjs    sample tools / live-roads links the tests use until flood.json has real ones
@@ -185,6 +186,7 @@ It runs the site in headless Chrome on a temporary copy, so your files are not c
 ```sh
 node scripts/test-a11y.mjs      # needs Node 22+ and Chrome
 node scripts/test-nojs.mjs      # page with JavaScript disabled: every hotline and shelter tel: link present
+node scripts/test-freshness.mjs # red "over N hours old" warnings: status > 6 h, roads > 6 h, shelter note > 24 h
 ```
 
 It measures the page as rendered at 360px wide, in light and dark mode, in Thai and English. It also runs a "warnings" state with the "may be out of date" notice and the stale-roads warning switched on. It checks:

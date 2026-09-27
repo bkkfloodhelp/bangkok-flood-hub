@@ -59,6 +59,10 @@ function warningsData() {
   const data = withSamples(readData()); // tools, live-roads links, every road type, even before real entries exist
   const sevenHoursAgo = new Date(Date.now() - 7 * 3600e3 + 7 * 3600e3).toISOString().slice(0, 19) + "+07:00";
   data.roads.forEach(r => { r.updated = sevenHoursAgo; });
+  // Status and shelter note old enough for their warnings too, so all three red boxes are checked.
+  data.status.updated = sevenHoursAgo;
+  if (data.roadsNote) data.roadsNote.updated = sevenHoursAgo;
+  data.sheltersNote.updated = new Date(Date.now() - 25 * 3600e3 + 7 * 3600e3).toISOString().slice(0, 19) + "+07:00";
   Object.keys(ROAD_TAGS).forEach((type, i) => { if (data.roads[i]) data.roads[i].type = type; });
   // A source written in Thai, which must be marked lang="th" when the page is in English.
   if (data.shelters[0]) data.shelters[0].source = "โทรยืนยันกับศูนย์";
@@ -208,7 +212,7 @@ function report(label, fails) {
 
 const READY = {
   hub: `document.querySelectorAll("#district option").length > 1`, // built by app.js, so enhancement has run
-  warnings: `!document.getElementById("notice").hidden && !document.getElementById("roads-stale").hidden`,
+  warnings: `!document.getElementById("notice").hidden && ["roads-stale", "status-stale", "shelters-stale"].every(id => !document.getElementById(id).hidden)`,
   damage: `document.documentElement.dataset.enhanced === "damage"`, // set at the end of damage.js
 };
 

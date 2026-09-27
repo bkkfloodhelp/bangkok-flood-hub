@@ -29,8 +29,12 @@ function refreshAges() {
   document.querySelectorAll(".age[data-ts]").forEach(s => { s.innerHTML = R.agoHTML(s.dataset.ts, now); });
 }
 
+// Red "over N hours old" warnings for roads, the status box and the shelter note.
 function checkStale() {
-  $("roads-stale").hidden = !(R && data && R.roadsStale(data.roads, Date.now()));
+  const s = R && data ? R.staleness(data, Date.now()) : {};
+  $("roads-stale").hidden = !s.roads;
+  $("status-stale").hidden = !s.status;
+  $("shelters-stale").hidden = !s.shelters;
 }
 
 // <option> can't hold data-th/data-en spans, so the district list is rebuilt per language.

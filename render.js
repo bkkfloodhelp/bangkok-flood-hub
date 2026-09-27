@@ -14,7 +14,9 @@
   "use strict";
 
   const BKK_OFFSET_MS = 7 * 3600 * 1000;
-  const ROADS_STALE_MS = 6 * 3600 * 1000;
+  // When the red "over N hours old" warnings appear (they need the current time: JavaScript only).
+  const HOUR = 3600 * 1000;
+  const STALE_AFTER = { roads: 6 * HOUR, status: 6 * HOUR, shelters: 24 * HOUR };
   const TH_DAYS = ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์"];
   const TH_MONTHS = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
   const EN_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -102,9 +104,16 @@
     return newest;
   }
 
-  function roadsStale(roads, now) {
-    const n = newestRoad(roads);
-    return !!n && now - n.t > ROADS_STALE_MS;
+  const olderThan = (iso, now, ms) => { const t = Date.parse(iso); return !isNaN(t) && now - t > ms; };
+
+  // Which warnings to show. Roads: the newest listed road or the road note is too old.
+  function staleness(d, now) {
+    const n = newestRoad(d.roads || []);
+    return {
+      roads: (!!n && now - n.t > STALE_AFTER.roads) || (!!d.roadsNote && olderThan(d.roadsNote.updated, now, STALE_AFTER.roads)),
+      status: !!d.status && olderThan(d.status.updated, now, STALE_AFTER.status),
+      shelters: !!d.sheltersNote && olderThan(d.sheltersNote.updated, now, STALE_AFTER.shelters),
+    };
   }
 
   function shelterItem(s) {
@@ -226,5 +235,5 @@
     };
   }
 
-  return { sections: sections, damageSections: damageSections, agoHTML: agoHTML, roadsStale: roadsStale, telHref: telHref, ROAD_TAGS: ROAD_TAGS };
+  return { sections: sections, damageSections: damageSections, agoHTML: agoHTML, staleness: staleness, STALE_AFTER: STALE_AFTER, telHref: telHref, ROAD_TAGS: ROAD_TAGS };
 });
