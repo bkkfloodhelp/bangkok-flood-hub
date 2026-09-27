@@ -177,3 +177,5 @@ h1 > .icon,h2 > .icon{color:var(--water)}
 }
 /* Secondary hotlines ("group": "other"), below the main emergency numbers. */
 .calls-other-h{font-size:1.05rem;margin:24px 0 8px}
+/* Donation points: several phone numbers per place, wrapping onto new lines on narrow screens. */
+.phones{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}

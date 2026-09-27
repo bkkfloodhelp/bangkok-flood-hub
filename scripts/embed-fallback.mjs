@@ -6,7 +6,7 @@
 //    <!--render:ID--> ... <!--/render:ID--> markers, in Thai and English, using render.js,
 //    so the page shows all phone numbers even with JavaScript disabled.
 // 2. Embeds a copy of the data in <script id="fallback-data"> for when the live file can't load.
-// 3. Checks that every hotline and shelter phone number ended up as a tel: link, and that the
+// 3. Checks that every hotline, shelter and donation-point phone number ended up as a tel: link, and that the
 //    road list has exactly as many rows of each type as flood.json has roads. If not, it fails
 //    and nothing is deployed.
 // 4. damage.html: pre-renders the assistance table and its source line from "assistance".
@@ -60,6 +60,7 @@ export function buildPage(html, data) {
   const numbers = [
     ...data.hotlines.filter(h => h.number).map(h => h.number),
     ...data.shelters.filter(s => s.tel).map(s => s.tel),
+    ...((data.donations && data.donations.points) || []).flatMap(p => p.phones),
   ];
   const missing = numbers.filter(n => !html.includes(`href="${telHref(n)}"`));
   if (missing.length) throw new Error(`Pre-rendered page is missing tel: links for ${missing.join(", ")}`);

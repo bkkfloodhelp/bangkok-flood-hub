@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2026-09-27T10:31:00+07:00",
+  "lastUpdated": "2026-09-27T16:16:00+07:00",
   "status": {
-    "updated": "2026-09-27T10:17:00+07:00",
+    "updated": "2026-09-27T16:16:00+07:00",
     "source": "ไทยพีบีเอส / Thai PBS, ไทยรัฐ / Thairath",
     "title": {
-      "th": "ฝนเริ่มลด แต่น้ำในคลองยังวิกฤต",
-      "en": "Rain easing, but canals still critical"
+      "th": "ฝนลดลง แต่ฝั่งตะวันออกยังวิกฤต",
+      "en": "Rain easing, but the east is still in crisis"
     },
     "body": {
-      "th": "หย่อมความกดอากาศต่ำเคลื่อนออกจาก กทม. แล้ว ฝนเริ่มเบาบางลง แต่คลองหลัก ได้แก่ เปรมประชากร ลาดพร้าว แสนแสบ และประเวศบุรีรมย์ ยังสูงระดับวิกฤต พื้นที่ลาดกระบัง หนองจอก และมีนบุรี น้ำยังสูง ผู้ว่าฯ คาดการจราจรกลับเป็นปกติใน 2 วัน แต่ในชุมชนอาจใช้เวลาถึง 2 สัปดาห์กว่าน้ำจะแห้ง โรงเรียนสังกัด กทม. ปิดวันจันทร์ 28 ก.ย. ระวังไฟฟ้าดูด อย่าเข้าใกล้สายไฟ เสาไฟ หรือรถที่จมน้ำ",
-      "en": "The low-pressure system has moved out of Bangkok and rain is easing, but the main canals (Prem Prachakorn, Lat Phrao, Saen Saep and Prawet Burirom) are still at critical levels. Water is still high in Lat Krabang, Nong Chok and Min Buri. The governor expects traffic to return to normal within 2 days, but communities may take up to 2 weeks to dry out. BMA schools are closed on Monday 28 Sep. Beware of electric shock: stay away from power lines, poles and submerged cars."
+      "th": "ครม. ประกาศให้วันจันทร์ 28 และอังคาร 29 ก.ย. เป็นวันหยุดราชการกรณีพิเศษ ใน กทม. นนทบุรี ปทุมธานี และสมุทรปราการ ทางด่วนฟรีถึงคืนวันอังคาร 29 ก.ย. ลาดกระบัง เคหะร่มเกล้า และแฟลตคลองจั่น น้ำยังสูงและกำลังอพยพประชาชน แจ้งผู้ป่วยติดเตียงหรือกลุ่มเปราะบางที่ติดค้างได้ที่ 1669 หรือ 1555 คลองหลักยังสูงระดับวิกฤต ระวังไฟฟ้าดูด อย่าเข้าใกล้สายไฟ เสาไฟ หรือรถที่จมน้ำ",
+      "en": "Monday 28 and Tuesday 29 Sep are special government holidays in Bangkok, Nonthaburi, Pathum Thani and Samut Prakan. Expressways are free until Tuesday night. Water is still high in Lat Krabang, Kheha Romklao and Khlong Chan flats, where people are being evacuated. Report stranded bedridden or vulnerable people to 1669 or 1555. Main canals are still at critical levels. Beware of electric shock: stay away from power lines, poles and submerged cars."
     }
   },
   "hotlines": [
@@ -32,8 +32,8 @@
     { "number": "1137", "urgent": false, "group": "other", "label": { "th": "จส.100 แจ้งอุบัติเหตุ / สภาพจราจร", "en": "JS100 radio: accidents and traffic" } }
   ],
   "sheltersNote": {
-    "th": "กทม. มีศูนย์พักพิง 233 แห่ง รองรับราว 15,000 คน รายการด้านล่างคือที่ประกาศแล้ว โทรถามก่อนเดินทาง หรือโทร 1555 / สำนักงานเขตเพื่อหาแห่งที่ใกล้ที่สุด",
-    "en": "Bangkok has 233 shelters for about 15,000 people. Below are those publicly announced so far. Call before you go, or call 1555 / your district office for the nearest one."
+    "th": "กทม. เปิดศูนย์พักพิงชั่วคราวราว 200 แห่ง ครอบคลุมทั้ง 50 เขต ปภ. ส่งข้อความ Cell Broadcast แจ้งที่ตั้งศูนย์ใกล้คุณไปยังโทรศัพท์ในแต่ละเขต รายชื่อด้านล่างเป็นเพียงบางส่วน โทรถามก่อนเดินทาง หรือโทร 1555 / สำนักงานเขต",
+    "en": "The BMA has opened about 200 temporary shelters across all 50 districts. The DDPM is sending shelter locations by Cell Broadcast alert to phones in each district. The list below is partial: call before you go, or call 1555 / your district office."
   },
   "shelters": [
     {
@@ -135,8 +135,35 @@
       "updated": "2026-09-26T12:46:00+07:00",
       "source": "Thai PBS World",
       "sourceUrl": "https://www.thaipbsworld.com/around-thailand/558607"
+    },
+    {
+      "name": { "th": "ศูนย์พักพิงชั่วคราว สจล. (สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง)", "en": "KMITL temporary shelter (King Mongkut's Institute of Technology Ladkrabang)" },
+      "district": { "th": "ลาดกระบัง", "en": "Lat Krabang" },
+      "tel": null,
+      "updated": "2026-09-27T06:19:00+07:00",
+      "source": "PPTV"
     }
   ],
+  "donations": {
+    "note": {
+      "th": "เปิด 24 ชม. รับอาหารแห้ง อาหารปรุงสุก อาหารกึ่งสำเร็จรูป น้ำดื่ม นมกล่อง นมผงเด็ก และอุปกรณ์ทำความสะอาด ไม่รับของสด",
+      "en": "Open 24 hours. Accepting dry food, cooked food, instant food, drinking water, boxed milk, baby formula and cleaning supplies. No fresh food."
+    },
+    "points": [
+      {
+        "name": { "th": "อาคารสำนักการระบายน้ำ ชั้น 1 ศาลาว่าการ กทม. (ดินแดง)", "en": "Drainage Department building, 1st floor, Bangkok City Hall (Din Daeng)" },
+        "phones": ["081-611-2878", "095-495-7960", "094-551-2949", "063-169-6949", "086-898-0856"],
+        "updated": "2026-09-27T12:47:00+07:00",
+        "source": "BMA via Thai PBS"
+      },
+      {
+        "name": { "th": "โรงเรียนฝึกอาชีพกรุงเทพมหานคร (ประเวศ)", "en": "BMA Vocational Training School (Prawet)" },
+        "phones": ["089-446-1855", "095-926-4555", "086-022-3778"],
+        "updated": "2026-09-27T12:47:00+07:00",
+        "source": "BMA via Thai PBS"
+      }
+    ]
+  },
   "roadsNote": {
     "updated": "2026-09-27T10:31:00+07:00",
     "source": "กทม. ผ่านไทยพีบีเอส / BMA via Thai PBS",
@@ -195,6 +222,10 @@
     { "title": "Khaosod English (shelter capacity)", "url": "https://www.khaosodenglish.com/news/2026/09/26/closed-schools-and-work-from-home-on-monday-as-bangkok-battles-floods/" },
     { "title": "Thai PBS: BMA road update, 27 Sep 10:31", "url": "https://www.thaipbs.or.th/news/content/558668" },
     { "title": "Thai PBS: governor's briefing, 27 Sep", "url": "https://www.thaipbs.or.th/news/content/558666" },
-    { "title": "Thairath: governor at Don Mueang, 27 Sep 09:20", "url": "https://www.thairath.co.th/news/local/bangkok/2962324" }
+    { "title": "Thairath: governor at Don Mueang, 27 Sep 09:20", "url": "https://www.thairath.co.th/news/local/bangkok/2962324" },
+    { "title": "Thai PBS: BMA donation points, 27 Sep 12:47", "url": "https://www.thaipbs.or.th/news/content/558679" },
+    { "title": "Thairath: special holidays 28–29 Sep", "url": "https://www.thairath.co.th/news/politic/2962441" },
+    { "title": "Post Today: DDPM shelter Cell Broadcast", "url": "https://www.posttoday.com/general-news/749455" },
+    { "title": "PPTV: KMITL evacuation centre", "url": "https://www.pptvhd36.com/news/%E0%B8%AA%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%A1/284196" }
   ]
 }

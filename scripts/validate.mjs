@@ -309,6 +309,28 @@ function checkAssistance(a) {
   });
 }
 
+// Optional donation points section: a note and a list of places with phone numbers.
+function checkDonations(dn) {
+  const p = "donations", times = [];
+  if (!isObj(dn)) { err(p, "Must be an object { ... }.", "ต้องเป็นออบเจ็กต์ { ... }"); return times; }
+  knownKeys(p, dn, ["note", "points"]);
+  if (required(p, dn, "note")) bilingual(`${p}.note`, dn.note);
+  if (required(p, dn, "points")) {
+    const points = list(`${p}.points`, dn.points, { nonEmpty: false });
+    points.forEach((x, i) => {
+      const q = `${p}.points[${i}]`;
+      if (!isObj(x)) { err(q, "Must be an object { ... }.", "ต้องเป็นออบเจ็กต์ { ... }"); return; }
+      knownKeys(q, x, ["name", "phones", "updated", "source"]);
+      if (required(q, x, "name")) bilingual(`${q}.name`, x.name);
+      if (required(q, x, "phones")) list(`${q}.phones`, x.phones).forEach((n, j) => phone(`${q}.phones[${j}]`, n));
+      if (required(q, x, "updated")) times.push(timestamp(`${q}.updated`, x.updated));
+      if (required(q, x, "source")) text(`${q}.source`, x.source);
+    });
+    noDuplicates(`${p}.points`, points, x => (isObj(x) && isObj(x.name) ? x.name.th : null), "donation point / จุดรับบริจาค");
+  }
+  return times;
+}
+
 function checkSources(v) {
   list("sources", v).forEach((s, i) => {
     const p = `sources[${i}]`;
@@ -368,7 +390,7 @@ function run() {
   if (d === undefined) return;
   if (!isObj(d)) { err("(file)", "The top level must be an object { ... }.", "ระดับบนสุดต้องเป็นออบเจ็กต์ { ... }"); return; }
 
-  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roadsNote", "roadsLiveUrl", "roadsLiveUrlAlt", "roads", "tools", "assistance", "sources", "serviceWorker"]);
+  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roadsNote", "roadsLiveUrl", "roadsLiveUrlAlt", "donations", "roads", "tools", "assistance", "sources", "serviceWorker"]);
   if ("serviceWorker" in d && typeof d.serviceWorker !== "boolean") {
     err("serviceWorker", `Must be true or false (no quotes), got ${show(d.serviceWorker)}.`, `ต้องเป็น true หรือ false (ไม่มีเครื่องหมายคำพูด) แต่ได้ ${show(d.serviceWorker)}`);
   }
@@ -387,6 +409,7 @@ function run() {
     if (!("roadsLiveUrl" in d)) err("roadsLiveUrlAlt", `A backup link needs a main "roadsLiveUrl" too.`, `ต้องมี "roadsLiveUrl" (ลิงก์หลัก) ก่อนจึงจะใส่ลิงก์สำรองได้`);
   }
   if ("tools" in d) times.push(...checkTools(d.tools));
+  if ("donations" in d) times.push(...checkDonations(d.donations));
   if (required("(root)", d, "assistance")) checkAssistance(d.assistance);
   if (required("(root)", d, "sources")) checkSources(d.sources);
 

@@ -140,6 +140,20 @@
       '<div class="calls">' + other.map(callCard).join("\n") + '</div>';
   }
 
+  // Donation points (after the shelters): name, tap-to-call numbers, and how fresh the entry is.
+  // The whole section, heading and note included, is left out while there are no points.
+  function donationsSection(dn) {
+    if (!dn || !dn.points || !dn.points.length) return "";
+    const item = p => '<li><div>' +
+      '<div class="name">' + biObj(p.name) + '</div>' +
+      '<div class="phones">' + p.phones.map(n => '<a class="tel" href="' + esc(telHref(n)) + '">' + esc(n) + '</a>').join("") + '</div>' +
+      '<div class="meta">' + ageHTML(p.updated) + (p.source ? " · " + txt(p.source) : "") + '</div>' +
+      '</div></li>';
+    return '<h2><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-donate"/></svg>' + bi("จุดรับบริจาค", "Donation points") + '</h2>\n' +
+      (dn.note ? '<p class="sub bi-block">' + biObj(dn.note) + '</p>\n' : "") +
+      '<ul class="list">' + dn.points.map(item).join("\n") + '</ul>';
+  }
+
   // A website or app people can use to check for themselves (the "tools" section).
   function toolItem(t) {
     const kind = t.official ? { cls: "official", th: "ทางการ", en: "Official" } : { cls: "unofficial", th: "ไม่เป็นทางการ", en: "Unofficial" };
@@ -187,6 +201,7 @@
       "roads-note": d.roadsNote
         ? '<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-warning"/></svg>' + biObj(d.roadsNote.text) + '<br><span class="meta">' + ageHTML(d.roadsNote.updated) + " · " + txt(d.roadsNote.source) + '</span>'
         : "",
+      "donations": donationsSection(d.donations),
       "roads-live": roadsLive(d),
       "roads": d.roads.map(r => roadItem(r, mainSource)).join("\n"),
       "tools": toolsSection(d.tools),

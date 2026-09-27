@@ -29,6 +29,7 @@ const countTypes = types => types.reduce((m, t) => ((m[t] = (m[t] || 0) + 1), m)
 const expected = [
   ...data.hotlines.map(h => ({ what: `hotline ${h.number || h.display}`, href: h.number ? telHref(h.number) : h.url, text: h.number || h.display })),
   ...data.shelters.filter(s => s.tel).map(s => ({ what: `shelter "${s.name.th}"`, href: telHref(s.tel), text: s.tel })),
+  ...((data.donations && data.donations.points) || []).flatMap(p => p.phones.map(n => ({ what: `donation point "${p.name.th}"`, href: telHref(n), text: n }))),
   { what: "live road flooding button", href: data.roadsLiveUrl, text: "เช็กถนนน้ำท่วมล่าสุด" },
   ...(data.roadsLiveUrlAlt ? [{ what: "live roads backup link", href: data.roadsLiveUrlAlt, text: "ลิงก์สำรอง" }] : []),
   ...data.tools.map(t => ({ what: `tool "${t.name.en}"`, href: t.url, text: t.name.th })),
