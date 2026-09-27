@@ -26,7 +26,7 @@ check() {
   local name="$1"; shift
   local log="$LOG_DIR/$(echo "$name" | tr -c 'a-zA-Z0-9' '_').log"
   if "$@" > "$log" 2>&1; then
-    printf '  ✓ %s: %s\n' "$name" "$(grep -E '✓ All|✅|Built index' "$log" | tail -1 | sed 's/^ *//')"
+    printf '  ✓ %s: %s\n' "$name" "$(grep -E '^✓|✓ All|✅|Built index' "$log" | tail -1 | sed 's/^ *//')"
   else
     printf '  ✗ %s failed. Last lines:\n' "$name"
     grep -E '✗|❌|Error|      - ' "$log" | head -20 | sed 's/^/    /'
