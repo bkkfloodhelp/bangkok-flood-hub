@@ -216,7 +216,7 @@ const READY = {
   damage: `document.documentElement.dataset.enhanced === "damage"`, // set at the end of damage.js
 };
 
-async function run(chrome, base, { theme, lang, state, page = "hub", roads = [] }) {
+async function run(chrome, base, { theme, lang, state, page = "hub", roads = [], noteUpdated = null }) {
   const url = page === "damage" ? base + "damage.html" : base;
   const { send } = chrome;
   const evaluate = async expr => {
@@ -269,8 +269,10 @@ async function run(chrome, base, { theme, lang, state, page = "hub", roads = [] 
       if (e.list) f.push("empty road-list box is visible");
       if (e.sub) f.push('"No road reports yet" line is visible next to the road note');
       if (!e.note) f.push("road note is hidden");
-      if (e.stale) f.push("stale-roads warning shown with no roads");
-      report("empty road list: note shown, no empty box, no stale warning", f);
+      // With no roads listed, the stale-roads warning depends only on the road note's age (> 6 h).
+      const noteStale = !!noteUpdated && Date.now() - Date.parse(noteUpdated) > 6 * 3600e3;
+      if (e.stale !== noteStale) f.push(`stale-roads warning ${e.stale ? "shown" : "hidden"}, but the road note is ${noteStale ? "over" : "under"} 6 hours old`);
+      report(`empty road list: note shown, no empty box, stale warning only if the note is over 6 h old (${noteStale ? "it is" : "it isn't"})`, f);
     }
   }
 
@@ -457,7 +459,7 @@ try {
     for (const theme of ["light", "dark"]) {
       for (const lang of ["th", "en"]) {
         console.log(`\n${WIDTH}px · ${theme} · ${lang === "th" ? "Thai" : "English"} · ${state}`);
-        await run(chrome, url, { theme, lang, state, roads: stateData.roads });
+        await run(chrome, url, { theme, lang, state, roads: stateData.roads, noteUpdated: stateData.roadsNote && stateData.roadsNote.updated });
       }
     }
     if (state === "normal") {
