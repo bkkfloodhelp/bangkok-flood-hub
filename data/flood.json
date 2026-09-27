@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2026-09-26T20:46:00+07:00",
+  "lastUpdated": "2026-09-27T10:31:00+07:00",
   "status": {
-    "updated": "2026-09-26T20:46:00+07:00",
-    "source": "ไทยโพสต์ / Thai Post",
+    "updated": "2026-09-27T10:17:00+07:00",
+    "source": "ไทยพีบีเอส / Thai PBS, ไทยรัฐ / Thairath",
     "title": {
-      "th": "ประกาศเขตภัยพิบัติทั้ง 50 เขต",
-      "en": "All 50 districts declared disaster zones"
+      "th": "ฝนเริ่มลด แต่น้ำในคลองยังวิกฤต",
+      "en": "Rain easing, but canals still critical"
     },
     "body": {
-      "th": "กรมอุตุฯ เตือนฝนตกหนักถึงหนักมากถึง 27 ก.ย. รวมถึง กทม. คลองสายหลักยังเต็ม หากฝนหยุดต้องใช้เวลาระบายน้ำ 2–3 วัน มีผู้อพยพเข้าศูนย์พักพิงราว 4,200 คน เขื่อนเจ้าพระยาเพิ่มการระบายน้ำ ผู้อยู่ริมแม่น้ำเจ้าพระยาที่ลุ่มต่ำให้เฝ้าระวัง หากอยู่ริมคลองหรือที่ลุ่ม ให้ยกของขึ้นที่สูงและหลีกเลี่ยงการเดินทาง",
-      "en": "The TMD warns of heavy to very heavy rain through 27 Sep, including Bangkok. Main canals are still full; draining will take 2–3 days after the rain stops. About 4,200 people are in shelters. The Chao Phraya Dam has increased its release: people in low-lying areas along the river should stay alert. If you live near a canal or in a low area, move belongings up and avoid travel."
+      "th": "หย่อมความกดอากาศต่ำเคลื่อนออกจาก กทม. แล้ว ฝนเริ่มเบาบางลง แต่คลองหลัก ได้แก่ เปรมประชากร ลาดพร้าว แสนแสบ และประเวศบุรีรมย์ ยังสูงระดับวิกฤต พื้นที่ลาดกระบัง หนองจอก และมีนบุรี น้ำยังสูง ผู้ว่าฯ คาดการจราจรกลับเป็นปกติใน 2 วัน แต่ในชุมชนอาจใช้เวลาถึง 2 สัปดาห์กว่าน้ำจะแห้ง โรงเรียนสังกัด กทม. ปิดวันจันทร์ 28 ก.ย. ระวังไฟฟ้าดูด อย่าเข้าใกล้สายไฟ เสาไฟ หรือรถที่จมน้ำ",
+      "en": "The low-pressure system has moved out of Bangkok and rain is easing, but the main canals (Prem Prachakorn, Lat Phrao, Saen Saep and Prawet Burirom) are still at critical levels. Water is still high in Lat Krabang, Nong Chok and Min Buri. The governor expects traffic to return to normal within 2 days, but communities may take up to 2 weeks to dry out. BMA schools are closed on Monday 28 Sep. Beware of electric shock: stay away from power lines, poles and submerged cars."
     }
   },
   "hotlines": [
@@ -138,18 +138,34 @@
     }
   ],
   "roadsNote": {
-    "updated": "2026-09-26T20:46:00+07:00",
-    "source": "ไทยโพสต์ / Thai Post",
+    "updated": "2026-09-27T10:31:00+07:00",
+    "source": "กทม. ผ่านไทยพีบีเอส / BMA via Thai PBS",
     "text": {
-      "th": "กทม. แจ้งถนน 13 สายที่รถเล็กผ่านไม่ได้ สถานการณ์เปลี่ยนตลอดเวลา ตรวจสอบแบบเรียลไทม์ที่เว็บไซต์ของ กทม. หรือโทร 1555 ก่อนเดินทาง",
-      "en": "BMA says 13 roads are impassable for small cars. Conditions change constantly: check the BMA's real-time website or call 1555 before travelling."
+      "th": "กทม. แจ้งเลี่ยงถนน 31 เส้นทาง และยังมีจุดน้ำท่วม 135 จุด รายการด้านล่างเป็นเพียงบางส่วน ตรวจสอบทั้งหมดแบบเรียลไทม์ที่เว็บไซต์ของ กทม. หรือโทร 1555 ก่อนเดินทาง",
+      "en": "BMA says to avoid 31 roads, with 135 points still flooded. The list below is partial: check the BMA's real-time website or call 1555 before travelling."
     }
   },
   "roadsLiveUrl": "https://weather.bangkok.go.th/flood/",
   "roads": [
-    { "name": { "th": "ด่านดอนเมืองโทลล์เวย์ แจ้งวัฒนะ ขาเข้า (ปิดชั่วคราว)", "en": "Don Muang Tollway, Chaeng Watthana entrance, inbound (temporarily closed)" }, "type": "avoid", "updated": "2026-09-26T20:46:00+07:00", "source": "Thai Post" },
-    { "name": { "th": "ด่านดอนเมืองโทลล์เวย์ หลักสี่ ขาออก (ปิดชั่วคราว)", "en": "Don Muang Tollway, Lak Si entrance, outbound (temporarily closed)" }, "type": "avoid", "updated": "2026-09-26T20:46:00+07:00", "source": "Thai Post" },
-    { "name": { "th": "ด่านดอนเมืองโทลล์เวย์ ลาดพร้าว ขาออก (ปิดชั่วคราว)", "en": "Don Muang Tollway, Lat Phrao entrance, outbound (temporarily closed)" }, "type": "avoid", "updated": "2026-09-26T20:46:00+07:00", "source": "Thai Post" }
+    { "name": { "th": "ถ.รามอินทรา (ซ.รามอินทรา 5 – 13/1)", "en": "Ram Intra Rd (Soi 5 – 13/1)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.พหลโยธิน (ซ.พหลโยธิน 51 – 55, หน้า ม.เกษตรศาสตร์)", "en": "Phahon Yothin Rd (Soi 51 – 55, near Kasetsart University)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.เทพรักษ์ (ถ.พหลโยธิน – ซ.พหลโยธิน 50)", "en": "Thep Rak Rd (Phahon Yothin – Phahon Yothin Soi 50)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.วัชรพล", "en": "Watcharaphon Rd" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.แจ้งวัฒนะ (หลักสี่สแควร์ – วงเวียนหลักสี่)", "en": "Chaeng Watthana Rd (Lak Si Square – Lak Si roundabout)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.นวมินทร์", "en": "Nawamin Rd" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.ประเสริฐมนูกิจ (ใกล้แยกนวมินทร์)", "en": "Prasert Manukit Rd (near Nawamin junction)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.รามคำแหง (หลายช่วง ซ.13 – ซ.55)", "en": "Ramkhamhaeng Rd (several sections, Soi 13 – 55)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.หัวหมาก (ใกล้ ซ.รามคำแหง 24)", "en": "Hua Mak Rd (near Ramkhamhaeng Soi 24)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.ศรีนครินทร์ (แยกลำสาลี – ทางลอดแยกพัฒนาการ)", "en": "Srinakarin Rd (Lam Sali junction – Pattanakan underpass)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.วิภาวดีรังสิต ขาออก (แยกกำแพงเพชร 6)", "en": "Vibhavadi Rangsit Rd outbound (Kamphaeng Phet 6 junction)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.หลวงแพ่ง (ซ.ยุคลรัตน์ – ถ.ประชาพัฒนา)", "en": "Luang Phaeng Rd (Soi Yukolrat – Pracha Phatthana Rd)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.เจ้าคุณทหาร", "en": "Chao Khun Thahan Rd" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.สุคนธสวัสดิ์ (ใกล้ ซ.สุคนธสวัสดิ์ 27)", "en": "Sukhonthasawat Rd (near Soi 27)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.โชคชัย 4", "en": "Chokchai 4 Rd" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.สุวินทวงศ์ (ถ.สีหบุรานุกิจ – ถ.หทัยราษฎร์)", "en": "Suwinthawong Rd (Sihaburanukit – Hathairat Rd)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.สีหบุรานุกิจ", "en": "Sihaburanukit Rd" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.อ่อนนุช (ถ.พัฒนาการ – ซ.อ่อนนุช 84)", "en": "On Nut Rd (Pattanakan Rd – Soi 84)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
+    { "name": { "th": "ถ.วิภาวดีรังสิต หน้าไทยพีบีเอส", "en": "Vibhavadi Rangsit Rd, in front of Thai PBS" }, "type": "no-small-cars", "updated": "2026-09-27T08:40:00+07:00", "source": "Thai PBS" }
   ],
   "tools": [],
   "assistance": {
@@ -175,9 +191,10 @@
   },
   "sources": [
     { "title": "Thai PBS World (shelters)", "url": "https://www.thaipbsworld.com/around-thailand/558607" },
-    { "title": "Khaosod English (roads)", "url": "https://www.khaosodenglish.com/featured/2026/09/26/bangkok-declares-all-50-districts-disaster-affected-as-flood-warning-issued/" },
     { "title": "The Nation (hotlines)", "url": "https://www.nationthailand.com/thailand/bangkok/40071507" },
     { "title": "Khaosod English (shelter capacity)", "url": "https://www.khaosodenglish.com/news/2026/09/26/closed-schools-and-work-from-home-on-monday-as-bangkok-battles-floods/" },
-    { "title": "Thai Post (26 Sep, 20:46 roundup)", "url": "https://www.thaipost.net/hi-light/1077095/" }
+    { "title": "Thai PBS: BMA road update, 27 Sep 10:31", "url": "https://www.thaipbs.or.th/news/content/558668" },
+    { "title": "Thai PBS: governor's briefing, 27 Sep", "url": "https://www.thaipbs.or.th/news/content/558666" },
+    { "title": "Thairath: governor at Don Mueang, 27 Sep 09:20", "url": "https://www.thairath.co.th/news/local/bangkok/2962324" }
   ]
 }
