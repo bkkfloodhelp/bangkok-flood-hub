@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2026-09-27T16:16:00+07:00",
+  "lastUpdated": "2026-09-27T18:30:00+07:00",
   "status": {
-    "updated": "2026-09-27T16:16:00+07:00",
-    "source": "ไทยพีบีเอส / Thai PBS, ไทยรัฐ / Thairath",
+    "updated": "2026-09-27T18:30:00+07:00",
+    "source": "กทม. ผ่าน MGR Online / BMA via MGR Online",
     "title": {
-      "th": "ฝนลดลง แต่ฝั่งตะวันออกยังวิกฤต",
-      "en": "Rain easing, but the east is still in crisis"
+      "th": "สถานการณ์ทยอยดีขึ้น แต่ฝั่งตะวันออกยังต้องเฝ้าระวัง",
+      "en": "Slowly improving, but the east still needs watching"
     },
     "body": {
-      "th": "ครม. ประกาศให้วันจันทร์ 28 และอังคาร 29 ก.ย. เป็นวันหยุดราชการกรณีพิเศษ ใน กทม. นนทบุรี ปทุมธานี และสมุทรปราการ ทางด่วนฟรีถึงคืนวันอังคาร 29 ก.ย. ลาดกระบัง เคหะร่มเกล้า และแฟลตคลองจั่น น้ำยังสูงและกำลังอพยพประชาชน แจ้งผู้ป่วยติดเตียงหรือกลุ่มเปราะบางที่ติดค้างได้ที่ 1669 หรือ 1555 คลองหลักยังสูงระดับวิกฤต ระวังไฟฟ้าดูด อย่าเข้าใกล้สายไฟ เสาไฟ หรือรถที่จมน้ำ",
-      "en": "Monday 28 and Tuesday 29 Sep are special government holidays in Bangkok, Nonthaburi, Pathum Thani and Samut Prakan. Expressways are free until Tuesday night. Water is still high in Lat Krabang, Kheha Romklao and Khlong Chan flats, where people are being evacuated. Report stranded bedridden or vulnerable people to 1669 or 1555. Main canals are still at critical levels. Beware of electric shock: stay away from power lines, poles and submerged cars."
+      "th": "ระดับน้ำในคลองบางแห่งเริ่มลดลง และฝนมีแนวโน้มเบาลง แต่ฝั่งตะวันออกยังได้รับผลกระทบ ได้แก่ แนวคลองแสนแสบ (คลองตัน เทพลีลา บางกะปิ คลองจั่น) และแนวคลองประเวศบุรีรมย์ (ลาดกระบัง ประเวศ สวนหลวง หมู่บ้านนักกีฬา) วันจันทร์ 28 และอังคาร 29 ก.ย. เป็นวันหยุดราชการกรณีพิเศษ ทางด่วนฟรีถึงคืนวันอังคาร แจ้งผู้ป่วยติดเตียงหรือกลุ่มเปราะบางที่ติดค้างได้ที่ 1669 หรือ 1555 หรือแจ้งเหตุผ่าน Traffy Fondue ระวังไฟฟ้าดูด อย่าเข้าใกล้สายไฟ เสาไฟ หรือรถที่จมน้ำ",
+      "en": "Canal levels are starting to fall in some areas and rain is easing, but the east is still affected: along Saen Saep canal (Khlong Tan, Thepleela, Bang Kapi, Khlong Chan) and Prawet Burirom canal (Lat Krabang, Prawet, Suan Luang, the Athletes' Village). Monday 28 and Tuesday 29 Sep are special government holidays; expressways are free until Tuesday night. Report stranded bedridden or vulnerable people to 1669 or 1555, or report problems via Traffy Fondue. Beware of electric shock: stay away from power lines, poles and submerged cars."
     }
   },
   "hotlines": [
@@ -146,6 +146,20 @@
       "tel": null,
       "updated": "2026-09-27T06:19:00+07:00",
       "source": "PPTV"
+    },
+    {
+      "name": { "th": "โรงเรียนการเคหะท่าทราย", "en": "Kheha Tha Sai School" },
+      "district": { "th": "หลักสี่", "en": "Lak Si" },
+      "tel": null,
+      "updated": "2026-09-28T00:00:00+07:00",
+      "source": "Bangkok Today"
+    },
+    {
+      "name": { "th": "โรงเรียนบางเขน (ไว้สาลีอนุสรณ์)", "en": "Bang Khen School (Waisali Anuson)" },
+      "district": { "th": "หลักสี่", "en": "Lak Si" },
+      "tel": null,
+      "updated": "2026-09-28T00:00:00+07:00",
+      "source": "Bangkok Today"
     }
   ],
   "donations": {
@@ -169,11 +183,11 @@
     ]
   },
   "roadsNote": {
-    "updated": "2026-09-27T17:30:00+07:00",
-    "source": "กทม. ผ่านไทยโพสต์ / BMA via Thai Post",
+    "updated": "2026-09-27T18:30:00+07:00",
+    "source": "กทม. ผ่าน MGR Online / BMA via MGR Online",
     "text": {
-      "th": "ข้อมูล กทม. เวลา 17:30 น. ยังมีถนนน้ำท่วมขัง 9 เส้นทาง และคืนผิวจราจรแล้ว 5 เส้นทาง สถานการณ์เปลี่ยนเร็ว ตรวจสอบรายชื่อถนนแบบเรียลไทม์ที่เว็บไซต์ของ กทม. หรือโทร 1555 ก่อนเดินทาง",
-      "en": "As of 17:30, the BMA reports 9 roads still flooded and 5 reopened. Conditions change quickly: check the list of roads in real time on the BMA website or call 1555 before travelling."
+      "th": "ข้อมูล กทม. เวลา 17:30 น. ยังมีถนนน้ำท่วมขัง 9 เส้นทาง และคืนผิวจราจรแล้ว 5 เส้นทาง ถ.รามคำแหง ยังมีน้ำท่วมขัง ถ.เพชรบุรีตัดใหม่ ตั้งแต่แยกคลองตัน เริ่มดีขึ้น ตรวจสอบรายชื่อถนนแบบเรียลไทม์ที่เว็บไซต์ของ กทม. หรือโทร 1555 ก่อนเดินทาง",
+      "en": "As of 17:30, the BMA reports 9 roads still flooded and 5 reopened. Ramkhamhaeng Road is still flooded; New Phetchaburi Road from Khlong Tan junction is improving. Check the list of roads in real time on the BMA website or call 1555 before travelling."
     }
   },
   "roadsLiveUrl": "https://weather.bangkok.go.th/flood/",
@@ -208,6 +222,8 @@
     { "title": "Thairath: special holidays 28–29 Sep", "url": "https://www.thairath.co.th/news/politic/2962441" },
     { "title": "Post Today: DDPM shelter Cell Broadcast", "url": "https://www.posttoday.com/general-news/749455" },
     { "title": "PPTV: KMITL evacuation centre", "url": "https://www.pptvhd36.com/news/%E0%B8%AA%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%A1/284196" },
-    { "title": "Thai Post: BMA roads update, 27 Sep 17:30", "url": "https://www.thaipost.net/general-news/1077562/" }
+    { "title": "Thai Post: BMA roads update, 27 Sep 17:30", "url": "https://www.thaipost.net/general-news/1077562/" },
+    { "title": "MGR Online: BMA deputy governor, 27 Sep 18:30", "url": "https://mgronline.com/qol/detail/9690000094395" },
+    { "title": "Bangkok Today: Lak Si shelters", "url": "https://bangkok-today.com/%E0%B8%81%E0%B8%97%E0%B8%A1-%E0%B8%9C%E0%B8%AA%E0%B8%B2%E0%B8%99%E0%B8%9E%E0%B8%A5%E0%B8%B1%E0%B8%87%E0%B8%A3%E0%B8%B1%E0%B8%90%E0%B8%9A%E0%B8%B2%E0%B8%A5-%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%A7/" }
   ]
 }
