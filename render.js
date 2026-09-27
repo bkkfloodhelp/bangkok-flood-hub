@@ -197,7 +197,9 @@
         ? '<span data-th>ประกาศโดย ' + txt(mainSource) + ' · </span><span data-en lang="en">Source: ' + esc(mainSource) + ' · </span>' +
           ageHTML(newest.road.updated) +
           bi(" สถานการณ์อาจเปลี่ยนแล้ว", ". Conditions may have changed since.")
-        : bi("ยังไม่มีรายงานถนน", "No road reports yet."),
+        // No listed roads: if there's a road note, it says what's going on (with its own time),
+        // so say nothing here; without one, say there are no reports.
+        : d.roadsNote ? "" : bi("ยังไม่มีรายงานถนน", "No road reports yet."),
       // Empty string when there is no note: the box is hidden by CSS (.note:empty).
       "roads-note": d.roadsNote
         ? '<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-warning"/></svg>' + biObj(d.roadsNote.text) + '<br><span class="meta">' + ageHTML(d.roadsNote.updated) + " · " + txt(d.roadsNote.source) + '</span>'

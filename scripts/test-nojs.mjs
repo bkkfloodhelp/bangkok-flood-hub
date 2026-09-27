@@ -127,6 +127,24 @@ try {
   const shot = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: true, clip: { x: 0, y: 0, width: 360, height: h, scale: 1 } });
   writeFileSync(join(OUT, "360-nojs.png"), Buffer.from(shot.result.data, "base64"));
 
+  // ---------- hub with an empty road list (no JavaScript) ----------
+  console.log("\nhub with no roads listed (JavaScript disabled)");
+  const empty = { ...data, roads: [] };
+  const emptyServer = await serve(ROOT, 0, { "/index.html": buildPage(readFileSync(join(ROOT, "index.html"), "utf8"), empty).html });
+  await send("Page.navigate", { url: `http://127.0.0.1:${emptyServer.address().port}/` });
+  await sleep(1500);
+  const e = JSON.parse((await send("Runtime.evaluate", { returnByValue: true, expression: `JSON.stringify((() => {
+    const shown = el => !!el && el.getClientRects().length > 0 && getComputedStyle(el).display !== "none";
+    return { list: shown(document.getElementById("roads")), sub: shown(document.getElementById("roads-sub")),
+      note: shown(document.getElementById("roads-note")), live: shown(document.querySelector(".live-btn")),
+      stale: shown(document.getElementById("roads-stale")), rows: document.querySelectorAll("#roads li").length };
+  })())` })).result.result.value);
+  await stop(emptyServer);
+  check(e.rows === 0 && !e.list, "no empty road-list box", JSON.stringify(e));
+  check(!e.sub, 'no "No road reports yet" line when a road note is present', JSON.stringify(e));
+  check(e.note && (!empty.roadsLiveUrl || e.live), "road note and live-roads button still shown", JSON.stringify(e));
+  check(!e.stale, "no stale-roads warning", JSON.stringify(e));
+
   // ---------- damage.html with JavaScript disabled ----------
   console.log("\ndamage.html with JavaScript disabled (360px)");
   await send("Page.navigate", { url: `http://127.0.0.1:${server.address().port}/damage.html` });
@@ -159,6 +177,8 @@ try {
       footer: both("footer p")[0],
       printButtonShown: visible(document.getElementById("print")),
       clearButtonShown: visible(document.getElementById("clear-ticks")),
+      beforeHome: both(".before-home h2")[0],
+      beforeHomeItems: both(".before-home li"),
       englishNotMarked,
       scrollWidth: document.documentElement.scrollWidth,
     };
@@ -177,6 +197,9 @@ try {
   check(dmg.rows.length === a.items.length && !rowFails.length, `all ${a.items.length} assistance amounts shown, both languages`, rowFails.join(" | "));
   check(dmg.source.thShown && dmg.source.enShown && a.links.every(u => dmg.links.includes(u)), "source line and both source links shown", JSON.stringify(dmg.source));
   check(dmg.links.includes("tel:1555"), "1555 is a tap-to-call link");
+  check(dmg.beforeHome && dmg.beforeHome.thShown && dmg.beforeHome.enShown && dmg.beforeHomeItems.length === 5 && dmg.beforeHomeItems.every(x => x.thShown && x.enShown),
+    '"Before going back home" box shown with all 5 points in Thai and English', JSON.stringify(dmg.beforeHome) + ` items ${dmg.beforeHomeItems.length}`);
+  check(dmg.links.includes("tel:1130"), "1130 (MEA) is a tap-to-call link");
   check(dmg.links.includes("./"), "link back to the hub");
   check(dmg.footer.thShown && dmg.footer.enShown, '"not an official form" note shown in Thai and English');
   check(!dmg.printButtonShown, "print button hidden (it needs JavaScript; the browser's Print still works)");

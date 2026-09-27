@@ -257,6 +257,17 @@ async function run(chrome, base, { theme, lang, state, page = "hub", roads = [] 
     const want = count(roads.map(r => r.type)), got = count(shown);
     const diff = Object.keys({ ...want, ...got }).filter(t => want[t] !== got[t]).map(t => `${t}: ${got[t] || 0} shown, ${want[t] || 0} in data`);
     report(`roads shown per type match the data (${Object.entries(want).map(([t, n]) => `${t} ${n}`).join(", ")})`, diff);
+    if (!roads.length) {
+      const e = await evaluate(`(() => { const shown = el => !!el && el.getClientRects().length > 0; return {
+        list: shown(document.getElementById("roads")), sub: shown(document.getElementById("roads-sub")),
+        note: shown(document.getElementById("roads-note")), stale: shown(document.getElementById("roads-stale")) }; })()`);
+      const f = [];
+      if (e.list) f.push("empty road-list box is visible");
+      if (e.sub) f.push('"No road reports yet" line is visible next to the road note');
+      if (!e.note) f.push("road note is hidden");
+      if (e.stale) f.push("stale-roads warning shown with no roads");
+      report("empty road list: note shown, no empty box, no stale warning", f);
+    }
   }
 
   // Keyboard: press Tab until focus has been round the whole page.
@@ -388,6 +399,7 @@ async function damageBehaviour(chrome, base) {
       sourceLinkUrl: getComputedStyle(document.querySelector("#assist-source a"), "::after").content,
       sources: shown(document.getElementById("assist-source")),
       notOfficial: shown(document.querySelector("footer p")),
+      beforeHome: shown(document.querySelector(".before-home")) && document.querySelectorAll(".before-home li").length === 5,
     };
   })()`);
   const pf = [];
@@ -399,6 +411,7 @@ async function damageBehaviour(chrome, base) {
   if (!/https:/.test(p.sourceLinkUrl)) pf.push("source links don't print their address");
   if (!p.sources) pf.push("source list missing from print");
   if (!p.notOfficial) pf.push('"not an official form" note missing from print');
+  if (!p.beforeHome) pf.push('"Before going back home" box missing from print');
   report("print: black on white, no buttons, empty boxes, sources and note kept (even from dark mode)", pf);
   const pdf = await send("Page.printToPDF", { paperWidth: 8.27, paperHeight: 11.69 });
   writeFileSync(join(OUT, "damage-print.pdf"), Buffer.from(pdf.result.data, "base64"));

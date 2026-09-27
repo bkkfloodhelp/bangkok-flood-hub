@@ -169,35 +169,15 @@
     ]
   },
   "roadsNote": {
-    "updated": "2026-09-27T10:31:00+07:00",
-    "source": "กทม. ผ่านไทยพีบีเอส / BMA via Thai PBS",
+    "updated": "2026-09-27T17:30:00+07:00",
+    "source": "กทม. ผ่านไทยโพสต์ / BMA via Thai Post",
     "text": {
-      "th": "กทม. แจ้งเลี่ยงถนน 31 เส้นทาง และยังมีจุดน้ำท่วม 135 จุด รายการด้านล่างเป็นเพียงบางส่วน ตรวจสอบทั้งหมดแบบเรียลไทม์ที่เว็บไซต์ของ กทม. หรือโทร 1555 ก่อนเดินทาง",
-      "en": "BMA says to avoid 31 roads, with 135 points still flooded. The list below is partial: check the BMA's real-time website or call 1555 before travelling."
+      "th": "ข้อมูล กทม. เวลา 17:30 น. ยังมีถนนน้ำท่วมขัง 9 เส้นทาง และคืนผิวจราจรแล้ว 5 เส้นทาง สถานการณ์เปลี่ยนเร็ว ตรวจสอบรายชื่อถนนแบบเรียลไทม์ที่เว็บไซต์ของ กทม. หรือโทร 1555 ก่อนเดินทาง",
+      "en": "As of 17:30, the BMA reports 9 roads still flooded and 5 reopened. Conditions change quickly: check the list of roads in real time on the BMA website or call 1555 before travelling."
     }
   },
   "roadsLiveUrl": "https://weather.bangkok.go.th/flood/",
-  "roads": [
-    { "name": { "th": "ถ.รามอินทรา (ซ.รามอินทรา 5 – 13/1)", "en": "Ram Intra Rd (Soi 5 – 13/1)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.พหลโยธิน (ซ.พหลโยธิน 51 – 55, หน้า ม.เกษตรศาสตร์)", "en": "Phahon Yothin Rd (Soi 51 – 55, near Kasetsart University)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.เทพรักษ์ (ถ.พหลโยธิน – ซ.พหลโยธิน 50)", "en": "Thep Rak Rd (Phahon Yothin – Phahon Yothin Soi 50)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.วัชรพล", "en": "Watcharaphon Rd" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.แจ้งวัฒนะ (หลักสี่สแควร์ – วงเวียนหลักสี่)", "en": "Chaeng Watthana Rd (Lak Si Square – Lak Si roundabout)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.นวมินทร์", "en": "Nawamin Rd" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.ประเสริฐมนูกิจ (ใกล้แยกนวมินทร์)", "en": "Prasert Manukit Rd (near Nawamin junction)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.รามคำแหง (หลายช่วง ซ.13 – ซ.55)", "en": "Ramkhamhaeng Rd (several sections, Soi 13 – 55)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.หัวหมาก (ใกล้ ซ.รามคำแหง 24)", "en": "Hua Mak Rd (near Ramkhamhaeng Soi 24)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.ศรีนครินทร์ (แยกลำสาลี – ทางลอดแยกพัฒนาการ)", "en": "Srinakarin Rd (Lam Sali junction – Pattanakan underpass)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.วิภาวดีรังสิต ขาออก (แยกกำแพงเพชร 6)", "en": "Vibhavadi Rangsit Rd outbound (Kamphaeng Phet 6 junction)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.หลวงแพ่ง (ซ.ยุคลรัตน์ – ถ.ประชาพัฒนา)", "en": "Luang Phaeng Rd (Soi Yukolrat – Pracha Phatthana Rd)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.เจ้าคุณทหาร", "en": "Chao Khun Thahan Rd" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.สุคนธสวัสดิ์ (ใกล้ ซ.สุคนธสวัสดิ์ 27)", "en": "Sukhonthasawat Rd (near Soi 27)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.โชคชัย 4", "en": "Chokchai 4 Rd" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.สุวินทวงศ์ (ถ.สีหบุรานุกิจ – ถ.หทัยราษฎร์)", "en": "Suwinthawong Rd (Sihaburanukit – Hathairat Rd)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.สีหบุรานุกิจ", "en": "Sihaburanukit Rd" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.อ่อนนุช (ถ.พัฒนาการ – ซ.อ่อนนุช 84)", "en": "On Nut Rd (Pattanakan Rd – Soi 84)" }, "type": "avoid", "updated": "2026-09-27T10:31:00+07:00", "source": "BMA via Thai PBS" },
-    { "name": { "th": "ถ.วิภาวดีรังสิต หน้าไทยพีบีเอส", "en": "Vibhavadi Rangsit Rd, in front of Thai PBS" }, "type": "no-small-cars", "updated": "2026-09-27T08:40:00+07:00", "source": "Thai PBS" }
-  ],
+  "roads": [],
   "tools": [],
   "assistance": {
     "updated": "2026-09-26",
@@ -223,12 +203,12 @@
   "sources": [
     { "title": "Thai PBS World (shelters)", "url": "https://www.thaipbsworld.com/around-thailand/558607" },
     { "title": "The Nation (hotlines)", "url": "https://www.nationthailand.com/thailand/bangkok/40071507" },
-    { "title": "Thai PBS: BMA road update, 27 Sep 10:31", "url": "https://www.thaipbs.or.th/news/content/558668" },
     { "title": "Thai PBS: governor's briefing, 27 Sep", "url": "https://www.thaipbs.or.th/news/content/558666" },
     { "title": "Thairath: governor at Don Mueang, 27 Sep 09:20", "url": "https://www.thairath.co.th/news/local/bangkok/2962324" },
     { "title": "Thai PBS: BMA donation points, 27 Sep 12:47", "url": "https://www.thaipbs.or.th/news/content/558679" },
     { "title": "Thairath: special holidays 28–29 Sep", "url": "https://www.thairath.co.th/news/politic/2962441" },
     { "title": "Post Today: DDPM shelter Cell Broadcast", "url": "https://www.posttoday.com/general-news/749455" },
-    { "title": "PPTV: KMITL evacuation centre", "url": "https://www.pptvhd36.com/news/%E0%B8%AA%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%A1/284196" }
+    { "title": "PPTV: KMITL evacuation centre", "url": "https://www.pptvhd36.com/news/%E0%B8%AA%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%A1/284196" },
+    { "title": "Thai Post: BMA roads update, 27 Sep 17:30", "url": "https://www.thaipost.net/general-news/1077562/" }
   ]
 }

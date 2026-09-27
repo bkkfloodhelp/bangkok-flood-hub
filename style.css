@@ -179,3 +179,10 @@ h1 > .icon,h2 > .icon{color:var(--water)}
 .calls-other-h{font-size:1.05rem;margin:24px 0 8px}
 /* Donation points: several phone numbers per place, wrapping onto new lines on narrow screens. */
 .phones{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
+/* Hide empty containers (e.g. no roads listed right now): no empty list box, no blank line. */
+ul.list:empty,.sub:empty{display:none}
+/* "Before going back home" on damage.html: a red box (the .safety style) holding a heading and a list. */
+.before-home h2{font-size:1rem;margin:2px 0 6px;color:var(--alert)}
+.before-home .points{padding-left:18px}
+.before-home .points li{margin-bottom:6px}
+.before-home a{color:var(--alert);font-weight:700}
