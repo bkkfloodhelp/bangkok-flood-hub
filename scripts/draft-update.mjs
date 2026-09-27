@@ -230,7 +230,7 @@ async function askClaude(current, docs) {
     "text:", d.text, "</document>",
   ].filter(v => v !== null).join("\n")).join("\n\n");
   const user = `Current time in Bangkok: ${bkkIso(Date.now())}\n\nCurrent flood.json (only the parts you may change):\n` +
-    JSON.stringify({ lastUpdated: current.lastUpdated, status: current.status, roadsNote: current.roadsNote, roads: current.roads, shelters: current.shelters }, null, 1) +
+    JSON.stringify({ status: current.status, roadsNote: current.roadsNote, roads: current.roads, shelters: current.shelters }, null, 1) +
     `\n\nDocuments fetched just now:\n\n${docText}\n\nPropose changes as described.`;
   const body = {
     model: MODEL, max_tokens: 16000,
@@ -407,14 +407,10 @@ for (const c of answer.changes || []) {
 }
 
 // Nothing outside the four sections may change (hotlines, assistance, sources, ...).
-const untouched = Object.keys({ ...original, ...data }).filter(k => !SECTIONS.includes(k) && k !== "lastUpdated");
+const untouched = Object.keys({ ...original, ...data }).filter(k => !SECTIONS.includes(k));
 const leaked = untouched.filter(k => JSON.stringify(original[k]) !== JSON.stringify(data[k]));
 if (leaked.length) { console.error(`Refusing: fields outside the allowed sections changed: ${leaked.join(", ")}`); process.exit(1); }
 
-if (accepted.length) {
-  const newest = Math.max(Date.parse(original.lastUpdated), ...accepted.map(a => a.t));
-  data.lastUpdated = bkkIso(newest);
-}
 
 // ---------- pull-request description ----------
 

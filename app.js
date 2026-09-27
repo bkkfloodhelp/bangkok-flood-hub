@@ -95,7 +95,7 @@ function enhance() {
 // ---------- data ----------
 
 function looksValid(d) {
-  return !!(d && d.status && d.status.title && typeof d.lastUpdated === "string" &&
+  return !!(d && d.status && d.status.title &&
     Array.isArray(d.hotlines) && Array.isArray(d.shelters) &&
     Array.isArray(d.roads) && Array.isArray(d.sources));
 }

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Refuses pushes that didn't go through scripts/push-safe.sh (which runs every test first).
+# Enable once per clone:  git config core.hooksPath .githooks
+# Emergency override (skips all tests; avoid):  PUSH_SAFE=1 git push
+if [ "${PUSH_SAFE:-}" != "1" ]; then
+  echo "✗ Push refused: use scripts/push-safe.sh, which runs every test and only pushes if they all pass." >&2
+  exit 1
+fi

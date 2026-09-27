@@ -390,12 +390,15 @@ function run() {
   if (d === undefined) return;
   if (!isObj(d)) { err("(file)", "The top level must be an object { ... }.", "ระดับบนสุดต้องเป็นออบเจ็กต์ { ... }"); return; }
 
-  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roadsNote", "roadsLiveUrl", "roadsLiveUrlAlt", "donations", "roads", "tools", "assistance", "sources", "serviceWorker"]);
+  knownKeys("(root)", d, ["status", "hotlines", "sheltersNote", "shelters", "roadsNote", "roadsLiveUrl", "roadsLiveUrlAlt", "donations", "roads", "tools", "assistance", "sources", "serviceWorker"]);
   if ("serviceWorker" in d && typeof d.serviceWorker !== "boolean") {
     err("serviceWorker", `Must be true or false (no quotes), got ${show(d.serviceWorker)}.`, `ต้องเป็น true หรือ false (ไม่มีเครื่องหมายคำพูด) แต่ได้ ${show(d.serviceWorker)}`);
   }
-  let last = null;
-  if (required("(root)", d, "lastUpdated")) last = timestamp("lastUpdated", d.lastUpdated);
+  // "Last updated" is computed from the newest "updated" in the file (render.js), not stored.
+  if ("lastUpdated" in d) {
+    warn("lastUpdated", `"lastUpdated" is not used any more: the page shows the newest "updated" time automatically. Delete this line.`,
+      `ไม่ใช้ "lastUpdated" แล้ว หน้าเว็บแสดงเวลาอัปเดตล่าสุดให้เองจากเวลา "updated" ล่าสุดในไฟล์ ลบบรรทัดนี้ได้`);
+  }
   const times = [];
   if (required("(root)", d, "status")) times.push(checkStatus(d.status));
   if (required("(root)", d, "hotlines")) checkHotlines(d.hotlines);
@@ -413,11 +416,6 @@ function run() {
   if (required("(root)", d, "assistance")) checkAssistance(d.assistance);
   if (required("(root)", d, "sources")) checkSources(d.sources);
 
-  const newest = Math.max(...times.filter(t => t != null));
-  if (last != null && Number.isFinite(newest) && newest > last) {
-    warn("lastUpdated", `"lastUpdated" is older than the newest item. Did you forget to update it?`,
-      `"lastUpdated" เก่ากว่ารายการที่อัปเดตล่าสุด ลืมแก้เวลานี้หรือเปล่า?`);
-  }
 }
 
 run();

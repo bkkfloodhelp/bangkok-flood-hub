@@ -35,8 +35,8 @@ Click the **pencil icon ✏️** at the top right of the file.
 ดูตัวอย่างด้านล่าง แก้เฉพาะข้อความในเครื่องหมาย `"..."` ระวังอย่าลบเครื่องหมาย `"` `,` `{ }` `[ ]`
 See the examples below. Only change the text inside `"..."`, and be careful not to delete any `"`, `,`, `{ }` or `[ ]`.
 
-**ทุกครั้งที่แก้รายการไหน ให้แก้เวลา `updated` ของรายการนั้น และแก้ `lastUpdated` ที่บรรทัดบนสุดด้วย**
-**Whenever you change an item, also update that item's `updated` time and the `lastUpdated` time at the top of the file.**
+**ทุกครั้งที่แก้รายการไหน ให้แก้เวลา `updated` ของรายการนั้น** หน้าเว็บจะแสดง "อัปเดตล่าสุด" จากเวลาล่าสุดในไฟล์ให้เอง
+**Whenever you change an item, also update that item's `updated` time.** The page works out "last updated" by itself from the newest time in the file.
 
 ### 4. บันทึก · Save (commit)
 กดปุ่มสีเขียว **Commit changes...** → เขียนสั้น ๆ ว่าแก้อะไร เช่น `เพิ่มศูนย์พักพิงวัดxxx` → เลือก **Commit directly to the main branch** → กด **Commit changes**

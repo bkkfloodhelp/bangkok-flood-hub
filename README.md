@@ -166,6 +166,38 @@ Edit `scripts/draft-sources.json`. `{NAME}` in a URL is filled in from a secret 
 
 The site used to be at `https://phantawat.github.io/bangkok-flood-hub/`. That address is now served by the separate repository [Phantawat/bangkok-flood-hub](https://github.com/Phantawat/bangkok-flood-hub). Its pages send visitors to the matching page here, and its `sw.js` removes the old offline copy from phones that saved it. That repository is made by `node scripts/make-redirect-site.mjs <folder>` and tested by `node scripts/test-redirect.mjs`. Don't put site content there.
 
+## Pushing changes (developers): always `scripts/push-safe.sh`
+
+Don't use `git push` directly. Run:
+
+```sh
+scripts/push-safe.sh
+```
+
+It pushes **only if everything passes**, stopping at the first problem:
+1. no uncommitted changes, so what is tested is exactly what is pushed
+2. your branch isn't behind GitHub
+3. the data validator
+4. the build (the committed `index.html` / `damage.html` must match a fresh build)
+5. every browser test: service worker, accessibility, no-JavaScript, freshness warnings, redirect site
+6. then it pushes, waits for GitHub's **Check data and deploy** and **Site tests**, and reports them
+
+It takes about 5–8 minutes and needs Node 22+, Chrome and git, plus `gh` for step 6.
+
+A git hook in `.githooks/pre-push` refuses any push that doesn't come from this script. Enable it once in each copy of the repository:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+In a real emergency, `PUSH_SAFE=1 git push` skips all checks. Avoid it. The site's own deploy still refuses invalid data.
+
+Volunteers editing `data/flood.json` on github.com aren't affected. Their changes are checked by the deploy workflow as before.
+
+## "Last updated" is automatic
+
+`flood.json` has no `lastUpdated` field. The page header shows the newest `updated` time found anywhere in the file: status, notes, roads, shelters, donation points, tools or assistance. Date-only values count as midnight Bangkok time. If an old copy still has `lastUpdated`, the validator warns that it can be deleted.
+
 ## Local preview
 
 ```sh

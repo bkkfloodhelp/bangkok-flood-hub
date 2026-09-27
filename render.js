@@ -187,9 +187,26 @@
       (d.roadsLiveUrlAlt ? '<a class="live-alt" href="' + esc(d.roadsLiveUrlAlt) + '">' + bi("ลิงก์สำรอง", "Backup link") + '</a>' : "");
   }
 
+  // "Last updated" is not stored: it's the newest "updated" value anywhere in the data
+  // (status, notes, roads, shelters, donations, tools, assistance, ...). Returns an ISO time or null.
+  function newestUpdated(d) {
+    let newest = null;
+    (function walk(v) {
+      if (Array.isArray(v)) return v.forEach(walk);
+      if (!v || typeof v !== "object") return;
+      for (const [k, x] of Object.entries(v)) {
+        if (k === "updated" && typeof x === "string") {
+          const t = Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(x) ? x + "T00:00:00+07:00" : x);
+          if (!isNaN(t) && (newest === null || t > newest)) newest = t;
+        } else walk(x);
+      }
+    })(d);
+    return newest === null ? null : new Date(newest + BKK_OFFSET_MS).toISOString().slice(0, 19) + "+07:00";
+  }
+
   // HTML for every data-driven element, keyed by element id.
   function sections(d) {
-    const last = stampLong(d.lastUpdated);
+    const last = stampLong(newestUpdated(d));
     const newest = newestRoad(d.roads);
     const mainSource = newest ? newest.road.source : "";
     return {
@@ -235,5 +252,5 @@
     };
   }
 
-  return { sections: sections, damageSections: damageSections, agoHTML: agoHTML, staleness: staleness, STALE_AFTER: STALE_AFTER, telHref: telHref, ROAD_TAGS: ROAD_TAGS };
+  return { sections: sections, damageSections: damageSections, agoHTML: agoHTML, newestUpdated: newestUpdated, staleness: staleness, STALE_AFTER: STALE_AFTER, telHref: telHref, ROAD_TAGS: ROAD_TAGS };
 });

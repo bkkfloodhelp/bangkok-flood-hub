@@ -30,7 +30,6 @@ function variant({ status, roadsNote, roads = [], shelters }) {
   d.roadsNote = { ...d.roadsNote, updated: ago(roadsNote) };
   d.roads = roads.map(h => road(h));
   d.sheltersNote.updated = ago(shelters);
-  d.lastUpdated = ago(Math.min(status, roadsNote, shelters, ...roads));
   return d;
 }
 
@@ -93,6 +92,45 @@ async function run(js) {
 
 await run(true);
 await run(false);
+
+// ---------- "Last updated" in the header = the newest "updated" anywhere in the data ----------
+// Expected text is worked out here independently (not with the page's own code).
+const TH_M = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+const EN_M = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function expectedStamp(iso) {
+  const b = new Date(Date.parse(iso) + 7 * 3600e3), hm = iso.slice(11, 16);
+  return { th: `${b.getUTCDate()} ${TH_M[b.getUTCMonth()]} ${b.getUTCFullYear() + 543} ${hm}`, en: `${b.getUTCDate()} ${EN_M[b.getUTCMonth()]} ${b.getUTCFullYear()}, ${hm}` };
+}
+function newestIn(where) {
+  const d = variant({ status: 5, roadsNote: 4, shelters: 30 });
+  d.shelters.forEach(s => { s.updated = ago(40); });
+  if (d.donations) d.donations.points.forEach(p => { p.updated = ago(40); });
+  const t = ago(0.5);
+  if (where === "a shelter") d.shelters[d.shelters.length - 1].updated = t;
+  if (where === "the road note") d.roadsNote.updated = t;
+  if (where === "a donation point") d.donations.points[0].updated = t;
+  if (where === "the status") d.status.updated = t;
+  return { d, t };
+}
+async function header(js) {
+  console.log(js ? "\n\"Last updated\" header, with JavaScript" : "\n\"Last updated\" header, without JavaScript");
+  const chrome = await launchChrome(join(tmp, js ? "h-on" : "h-off"));
+  if (!js) await chrome.send("Emulation.setScriptExecutionDisabled", { value: true });
+  try {
+    for (const where of ["a shelter", "the road note", "a donation point", "the status"]) {
+      const { d, t } = newestIn(where);
+      const server = await serve(ROOT, 0, { "/index.html": buildPage(html, d).html, "/data/flood.json": JSON.stringify(d) });
+      await chrome.send("Page.navigate", { url: `http://127.0.0.1:${server.address().port}/` });
+      await sleep(js ? 1500 : 800);
+      const shown = (await chrome.send("Runtime.evaluate", { expression: `document.getElementById("updated").textContent`, returnByValue: true })).result.result.value;
+      await stop(server);
+      const e = expectedStamp(t);
+      check(shown.includes(e.th) && shown.includes(e.en), `newest time in ${where} (${t.slice(11, 16)}) is the header's "last updated"`, `header says "${shown}"`);
+    }
+  } finally { chrome.ws.close(); chrome.proc.kill(); }
+}
+await header(true);
+await header(false);
 await sleep(300);
 rmSync(tmp, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
 console.log(failures ? `\n✗ ${failures} check(s) failed` : "\n✓ All freshness warning checks passed");
