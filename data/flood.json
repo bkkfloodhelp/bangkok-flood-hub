@@ -190,9 +190,7 @@
       "en": "BMA Flood Control Centre data, 07:00, 28 Sep. Communities and sois still hard to get in and out of: Kheha Khlong Chan, Kheha Romklao, Kheha Ram Intra, Ramkhamhaeng Soi 24, Lat Phrao Soi 101/1 and Prasert Manukit Soi 27. Now passable: Phetchaburi Rd (Khlong Tan bridge), Sena Nikhom, Song Prapha, Thep Rak and Nuanchan roads. Check in real time on the BMA website or call 1555 before travelling."
     }
   },
-  "roadsLiveUrl": "https://weather.bangkok.go.th/flood/",
-  "roadsLiveUrlAlt": "https://now.bangkok.go.th/flood-alert.html",
-  "roadsLiveUrlAltLabel": { "th": "เช็กจุดน้ำท่วมแบบเรียลไทม์ (กทม.)", "en": "Real-time flood alerts (BMA)" },
+  "roadsLiveUrl": "https://now.bangkok.go.th/flood-alert.html",
   "roads": [
     { "name": { "th": "ถ.รามคำแหง (ตัด ถ.พระราม 9 – แยกลำสาลี)", "en": "Ramkhamhaeng Rd (Rama 9 Rd – Lam Sali junction)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
     { "name": { "th": "ซ.รามคำแหง 24", "en": "Ramkhamhaeng Soi 24" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
