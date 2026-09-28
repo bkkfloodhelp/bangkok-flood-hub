@@ -2,14 +2,14 @@
   "lastUpdated": "2026-09-28T07:00:00+07:00",
   "status": {
     "updated": "2026-09-28T07:00:00+07:00",
-    "source": "กทม. ผ่านโพสต์ทูเดย์, กรุงเทพธุรกิจ / BMA via Post Today, Bangkok Biz News",
+    "source": "กทม. / BMA, โพสต์ทูเดย์ / Post Today, กรุงเทพธุรกิจ / Bangkok Biz News",
     "title": {
-      "th": "น้ำลดหลายจุด แต่ฝั่งตะวันออกยังท่วมสูง",
-      "en": "Water falling in many areas, but still deep in the east"
+      "th": "ฝนผ่านไปแล้ว น้ำลดหลายจุด แต่ฝั่งตะวันออกยังท่วมสูง",
+      "en": "Rain has passed and water is falling, but the east is still deeply flooded"
     },
     "body": {
-      "th": "ถ.วิภาวดีรังสิต รถทุกชนิดผ่านได้แล้ว แต่ย่านรามคำแหง ลาดพร้าว บางกะปิ ศรีนครินทร์ และมีนบุรี ยังท่วมสูง ชุมชนเคหะคลองจั่น เคหะร่มเกล้า และเคหะรามอินทรา ยังเข้า-ออกลำบาก วันนี้และพรุ่งนี้ (28–29 ก.ย.) เป็นวันหยุดราชการกรณีพิเศษ ทางด่วนฟรีถึงคืนวันอังคาร รัฐบาลแถลงสถานการณ์ทุกวัน 10:00 น. ทาง NBT แจ้งผู้ป่วยติดเตียงหรือกลุ่มเปราะบางที่ติดค้างได้ที่ 1669 หรือ 1555 ระวังไฟฟ้าดูด อย่าเข้าใกล้สายไฟ เสาไฟ หรือรถที่จมน้ำ",
-      "en": "All vehicles can now pass Vibhavadi Rangsit, but Ramkhamhaeng, Lat Phrao, Bang Kapi, Srinakarin and Min Buri are still deeply flooded. Kheha Khlong Chan, Kheha Romklao and Kheha Ram Intra communities are still hard to get in and out of. Monday 28 and Tuesday 29 Sep are special government holidays; expressways are free until Tuesday night. The government gives an official briefing every day at 10:00 on NBT. Report stranded bedridden or vulnerable people to 1669 or 1555. Beware of electric shock: stay away from power lines, poles and submerged cars."
+      "th": "เมฆฝนช่วงดึกผ่านไปแล้ว ฝนตกเพิ่มไม่มาก (สูงสุด 46.5 มม. ที่ลาดกระบัง) และไม่มีกลุ่มฝนใหญ่ในจังหวัดใกล้เคียงที่จะเคลื่อนเข้า กทม. คลองหลัก (แสนแสบ ประเวศบุรีรมย์ เปรมประชากร) ยังสูง แต่ กทม. สูบน้ำ 24 ชม. ทำให้คลองย่อยเริ่มระบายได้ น้ำบนถนนจะลดลงเรื่อย ๆ หากไม่มีฝนเติม ถ.วิภาวดีรังสิต รถทุกชนิดผ่านได้แล้ว แต่ย่านรามคำแหง ลาดพร้าว บางกะปิ ศรีนครินทร์ และมีนบุรี ยังท่วมสูง วันจันทร์ 28 และอังคาร 29 ก.ย. เป็นวันหยุดราชการกรณีพิเศษ ทางด่วนฟรีถึงคืนวันอังคาร รัฐบาลแถลงสถานการณ์ทุกวัน 10:00 น. ทาง NBT แจ้งผู้ป่วยติดเตียงหรือกลุ่มเปราะบางที่ติดค้างได้ที่ 1669 หรือ 1555 ระวังไฟฟ้าดูด",
+      "en": "The overnight rain clouds have passed, with little extra rain (46.5 mm at most, in Lat Krabang), and no large rain clouds in nearby provinces are heading for Bangkok. The main canals (Saen Saep, Prawet Burirom, Prem Prachakorn) are still high, but with 24-hour pumping the smaller canals are starting to drain, so road flooding should keep falling if no more rain comes. All vehicles can now pass Vibhavadi Rangsit, but Ramkhamhaeng, Lat Phrao, Bang Kapi, Srinakarin and Min Buri are still deeply flooded. Monday 28 and Tuesday 29 Sep are special government holidays; expressways are free until Tuesday night. The government briefs the public every day at 10:00 on NBT. Report stranded bedridden or vulnerable people to 1669 or 1555. Beware of electric shock."
     }
   },
   "hotlines": [
@@ -191,6 +191,8 @@
     }
   },
   "roadsLiveUrl": "https://weather.bangkok.go.th/flood/",
+  "roadsLiveUrlAlt": "https://now.bangkok.go.th/flood-alert.html",
+  "roadsLiveUrlAltLabel": { "th": "เช็กจุดน้ำท่วมแบบเรียลไทม์ (กทม.)", "en": "Real-time flood alerts (BMA)" },
   "roads": [
     { "name": { "th": "ถ.รามคำแหง (ตัด ถ.พระราม 9 – แยกลำสาลี)", "en": "Ramkhamhaeng Rd (Rama 9 Rd – Lam Sali junction)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
     { "name": { "th": "ซ.รามคำแหง 24", "en": "Ramkhamhaeng Soi 24" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
@@ -217,7 +219,40 @@
     { "name": { "th": "ถ.นวมินทร์ (แยกนวมินทร์-รามอินทรา – แยกประเสริฐมนูกิจ) รถเล็กผ่านได้", "en": "Nawamin Rd (Nawamin–Ram Intra junction – Prasert Manukit junction), small cars can pass" }, "type": "slow", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
     { "name": { "th": "ถ.ลาดกระบัง (คลองตาพุก – ซ.ลาดกระบัง 14/1 และคลองบัวเกราะ – แยกกิ่งแก้ว)", "en": "Lat Krabang Rd (Khlong Ta Phuk – Soi 14/1, and Khlong Bua Kro – King Kaeo junction)" }, "type": "slow", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" }
   ],
-  "tools": [],
+  "tools": [
+    {
+      "name": { "th": "เรดาร์ฝน สถานีหนองจอก", "en": "Rain radar, Nong Chok station" },
+      "description": { "th": "ดูกลุ่มฝนฝั่งตะวันออกแบบเคลื่อนไหว", "en": "Animated rain radar for eastern Bangkok" },
+      "url": "https://weather.bangkok.go.th/Radar/RadarAnimation.aspx",
+      "official": true,
+      "updated": "2026-09-28T06:00:00+07:00",
+      "source": "BMA Facebook"
+    },
+    {
+      "name": { "th": "เรดาร์ฝน สถานีหนองแขม", "en": "Rain radar, Nong Khaem station" },
+      "description": { "th": "ดูกลุ่มฝนฝั่งตะวันตกแบบเคลื่อนไหว", "en": "Animated rain radar for western Bangkok" },
+      "url": "https://weather.bangkok.go.th/Radar/RadarAnimationNk.aspx",
+      "official": true,
+      "updated": "2026-09-28T06:00:00+07:00",
+      "source": "BMA Facebook"
+    },
+    {
+      "name": { "th": "เว็บไซต์สำนักการระบายน้ำ กทม.", "en": "BMA Drainage Department website" },
+      "description": { "th": "ระดับน้ำท่วมถนน ระดับน้ำในคลอง และข้อมูลอื่น ๆ", "en": "Road flood levels, canal levels and more" },
+      "url": "https://dds.bangkok.go.th/index2.php",
+      "official": true,
+      "updated": "2026-09-28T06:00:00+07:00",
+      "source": "BMA Facebook"
+    },
+    {
+      "name": { "th": "เฟซบุ๊กศูนย์ป้องกันน้ำท่วม กทม.", "en": "BMA Flood Control Centre on Facebook" },
+      "description": { "th": "อัปเดตฝนและน้ำท่วมจากศูนย์ฯ", "en": "Rain and flood updates from the centre" },
+      "url": "https://www.facebook.com/bkk.best",
+      "official": true,
+      "updated": "2026-09-28T06:00:00+07:00",
+      "source": "BMA Facebook"
+    }
+  ],
   "assistance": {
     "updated": "2026-09-26",
     "source": {
@@ -248,6 +283,7 @@
     { "title": "PPTV: KMITL evacuation centre", "url": "https://www.pptvhd36.com/news/%E0%B8%AA%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%A1/284196" },
     { "title": "Bangkok Today: Lak Si shelters", "url": "https://bangkok-today.com/%E0%B8%81%E0%B8%97%E0%B8%A1-%E0%B8%9C%E0%B8%AA%E0%B8%B2%E0%B8%99%E0%B8%9E%E0%B8%A5%E0%B8%B1%E0%B8%87%E0%B8%A3%E0%B8%B1%E0%B8%90%E0%B8%9A%E0%B8%B2%E0%B8%A5-%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%A7/" },
     { "title": "Post Today: BMA road report, 28 Sep 07:00", "url": "https://www.posttoday.com/smart-city/749485" },
-    { "title": "Bangkok Biz News: Vibhavadi reopened, 28 Sep", "url": "https://www.bangkokbiznews.com/news/news-update/1253837" }
+    { "title": "Bangkok Biz News: Vibhavadi reopened, 28 Sep", "url": "https://www.bangkokbiznews.com/news/news-update/1253837" },
+    { "title": "BMA Facebook: rain and canal update, 28 Sep 06:00", "url": "https://www.facebook.com/bangkokbma/posts/pfbid02gdx9eudSVYzuJGUQLuezpXgJGYzvhv91uupsrfPpVV9NSjuFRAdKoa721ZU4uW2Cl" }
   ]
 }

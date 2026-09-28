@@ -390,7 +390,7 @@ function run() {
   if (d === undefined) return;
   if (!isObj(d)) { err("(file)", "The top level must be an object { ... }.", "ระดับบนสุดต้องเป็นออบเจ็กต์ { ... }"); return; }
 
-  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roadsNote", "roadsLiveUrl", "roadsLiveUrlAlt", "donations", "roads", "tools", "assistance", "sources", "serviceWorker"]);
+  knownKeys("(root)", d, ["lastUpdated", "status", "hotlines", "sheltersNote", "shelters", "roadsNote", "roadsLiveUrl", "roadsLiveUrlAlt", "roadsLiveUrlAltLabel", "donations", "roads", "tools", "assistance", "sources", "serviceWorker"]);
   if ("serviceWorker" in d && typeof d.serviceWorker !== "boolean") {
     err("serviceWorker", `Must be true or false (no quotes), got ${show(d.serviceWorker)}.`, `ต้องเป็น true หรือ false (ไม่มีเครื่องหมายคำพูด) แต่ได้ ${show(d.serviceWorker)}`);
   }
@@ -408,6 +408,10 @@ function run() {
   if ("roadsLiveUrlAlt" in d) {
     url("roadsLiveUrlAlt", d.roadsLiveUrlAlt, { allowHttp: true });
     if (!("roadsLiveUrl" in d)) err("roadsLiveUrlAlt", `A backup link needs a main "roadsLiveUrl" too.`, `ต้องมี "roadsLiveUrl" (ลิงก์หลัก) ก่อนจึงจะใส่ลิงก์สำรองได้`);
+  }
+  if ("roadsLiveUrlAltLabel" in d) {
+    bilingual("roadsLiveUrlAltLabel", d.roadsLiveUrlAltLabel);
+    if (!("roadsLiveUrlAlt" in d)) err("roadsLiveUrlAltLabel", `A label needs a "roadsLiveUrlAlt" link too.`, `ต้องมี "roadsLiveUrlAlt" ก่อนจึงจะใส่ชื่อลิงก์ได้`);
   }
   if ("tools" in d) times.push(...checkTools(d.tools));
   if ("donations" in d) times.push(...checkDonations(d.donations));

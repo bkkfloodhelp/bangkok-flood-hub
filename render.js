@@ -180,11 +180,12 @@
     return '<h2>' + bi("เครื่องมือตรวจสอบ", "Check for yourself") + '</h2>\n<ul class="list">' + tools.map(toolItem).join("\n") + '</ul>';
   }
 
-  // Big "check live road flooding" button (+ optional backup link); nothing when no URL is set.
+  // Big "check live road flooding" button (+ optional second link, labelled by roadsLiveUrlAltLabel
+  // or "Backup link"); nothing when no URL is set.
   function roadsLive(d) {
     if (!d.roadsLiveUrl) return "";
     return '<a class="live-btn" href="' + esc(d.roadsLiveUrl) + '">' + bi("เช็กถนนน้ำท่วมล่าสุด", "Check live road flooding") + '</a>' +
-      (d.roadsLiveUrlAlt ? '<a class="live-alt" href="' + esc(d.roadsLiveUrlAlt) + '">' + bi("ลิงก์สำรอง", "Backup link") + '</a>' : "");
+      (d.roadsLiveUrlAlt ? '<a class="live-alt" href="' + esc(d.roadsLiveUrlAlt) + '">' + (d.roadsLiveUrlAltLabel ? biObj(d.roadsLiveUrlAltLabel) : bi("ลิงก์สำรอง", "Backup link")) + '</a>' : "");
   }
 
   // "Last updated" is not stored: it's the newest "updated" value anywhere in the data

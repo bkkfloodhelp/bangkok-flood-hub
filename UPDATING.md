@@ -189,9 +189,11 @@ Shown after the shelters, and only when there is at least one point. Each point 
 ### ปุ่มเช็กถนนน้ำท่วมล่าสุด · "Check live road flooding" button
 ปุ่มสีน้ำเงินเหนือรายการถนน จะแสดงเมื่อใส่ `roadsLiveUrl` เท่านั้น ลิงก์สำรอง (`roadsLiveUrlAlt`) ใส่หรือไม่ก็ได้
 The blue button above the road list only appears when `roadsLiveUrl` is set. The backup link (`roadsLiveUrlAlt`) is optional.
+ชื่อลิงก์ที่สอง (`roadsLiveUrlAltLabel`) ใส่หรือไม่ก็ได้ ถ้าไม่ใส่จะแสดงว่า "ลิงก์สำรอง" · The second link's label (`roadsLiveUrlAltLabel`) is optional; without it the link says "Backup link".
 ```json
   "roadsLiveUrl": "https://...",
   "roadsLiveUrlAlt": "https://...",
+  "roadsLiveUrlAltLabel": { "th": "ชื่อลิงก์", "en": "Link label" },
 ```
 ใส่ไว้ใต้ `"roadsNote": { ... },` · Put these after the `"roadsNote": { ... },` block. ลิงก์ขึ้นต้นด้วย `https://` หรือ `http://` · Links start with `https://` or `http://`.
 

@@ -31,7 +31,7 @@ const expected = [
   ...data.shelters.filter(s => s.tel).map(s => ({ what: `shelter "${s.name.th}"`, href: telHref(s.tel), text: s.tel })),
   ...((data.donations && data.donations.points) || []).flatMap(p => p.phones.map(n => ({ what: `donation point "${p.name.th}"`, href: telHref(n), text: n }))),
   { what: "live road flooding button", href: data.roadsLiveUrl, text: "เช็กถนนน้ำท่วมล่าสุด" },
-  ...(data.roadsLiveUrlAlt ? [{ what: "live roads backup link", href: data.roadsLiveUrlAlt, text: "ลิงก์สำรอง" }] : []),
+  ...(data.roadsLiveUrlAlt ? [{ what: "live roads backup link", href: data.roadsLiveUrlAlt, text: data.roadsLiveUrlAltLabel ? data.roadsLiveUrlAltLabel.th : "ลิงก์สำรอง" }] : []),
   ...data.tools.map(t => ({ what: `tool "${t.name.en}"`, href: t.url, text: t.name.th })),
 ];
 
