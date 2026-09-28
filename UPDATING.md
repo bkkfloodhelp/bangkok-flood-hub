@@ -233,6 +233,14 @@ The assistance table on `damage.html` comes from `"assistance"`. Only change it 
 - `"updated"` ใส่แค่วันที่ได้ (`"2026-09-26"`) ถ้าแหล่งข่าวไม่ระบุเวลา · can be just a date if the source gives no time.
 - `"max"` เขียนแยกภาษาไทยและอังกฤษ ตัวเลขต้องตรงกันทั้งสองภาษา · Write Thai and English separately; the numbers must match in both.
 - **ใส่ตัวเลขตามประกาศเท่านั้น ห้ามประมาณ** · **Only enter amounts exactly as announced. Never estimate.**
+- `"pendingNote"` ใส่หรือไม่ก็ได้ เป็นกล่องสีเหลืองเหนือตาราง สำหรับความช่วยเหลือที่ประกาศแล้วแต่ยังไม่อนุมัติ ลบทั้งบล็อกเมื่อไม่ใช้ กล่องจะหายไป · is optional: an amber box above the table for help that has been announced but not yet approved. Delete the whole block and the box disappears.
+```json
+    "pendingNote": {
+      "updated": "2026-09-28T13:37:00+07:00",
+      "source": "ฐานเศรษฐกิจ / Thansettakij",
+      "text": { "th": "...", "en": "..." }
+    },
+```
 
 ### เพิ่มแหล่งข้อมูล · Add a source
 ```json

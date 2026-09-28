@@ -239,13 +239,18 @@
     };
   }
 
-  // damage.html: the assistance table rows and the source line, from d.assistance.
+  // damage.html: the assistance table rows, the source line and the optional amber
+  // "pending" note above the table (empty string when absent: hidden by CSS, .note:empty).
   // "max" is shown exactly as written; if it's { th, en } each language gets its own text.
   function damageSections(d) {
     const a = d.assistance;
     const date = stampDate(a.updated);
     const host = u => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return u; } };
+    const n = a.pendingNote;
     return {
+      "assist-pending": n
+        ? '<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-warning"/></svg>' + biObj(n.text) + '<br><span class="meta">' + ageHTML(n.updated) + " · " + txt(n.source) + '</span>'
+        : "",
       "assist-rows": a.items.map(it =>
         '<tr><th scope="row">' + biObj(it.label) + '</th><td>' + (typeof it.max === "string" ? esc(it.max) : biObj(it.max)) + '</td></tr>').join("\n"),
       "assist-source": bi("ที่มา: " + a.source.th + " " + date.th, "Source: " + a.source.en + ", " + date.en) +

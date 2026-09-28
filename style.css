@@ -101,8 +101,8 @@ html:not(.js) .lang,html:not(.js) #district{display:none}
    "โทรขอความช่วยเหลือ / Call for help". Longer paragraphs put the English on its own line. */
 html:not(.js) [data-en]{display:revert}
 html:not(.js) span[data-th] + span[data-en]::before{content:" / "}
-html:not(.js) :is(#status-body,#shelters-note,#roads-note,footer p:not(.src),.bi-block) > span[data-en]{display:block;margin-top:4px}
-html:not(.js) :is(#status-body,#shelters-note,#roads-note,footer p:not(.src),.bi-block) > span[data-en]::before,
+html:not(.js) :is(#status-body,#shelters-note,#roads-note,#assist-pending,footer p:not(.src),.bi-block) > span[data-en]{display:block;margin-top:4px}
+html:not(.js) :is(#status-body,#shelters-note,#roads-note,#assist-pending,footer p:not(.src),.bi-block) > span[data-en]::before,
 html:not(.js) .call span[data-th] + span[data-en]::before{content:none}
 html:not(.js) .age{white-space:normal}
 /* "Check live road flooding" button above the road list, and its backup link. */

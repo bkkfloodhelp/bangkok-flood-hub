@@ -173,6 +173,7 @@ try {
       boxes: boxes.length, boxesShown: boxes.filter(visible).length, toggles,
       rows: both(".assist tbody tr th").map((r, i) => ({ ...r, max: document.querySelectorAll(".assist tbody td")[i].innerText.trim() })),
       source: both("#assist-source")[0],
+      pending: both("#assist-pending")[0] || null, pendingShown: visible(document.getElementById("assist-pending")),
       links: [...document.querySelectorAll("a[href]")].filter(visible).map(a => a.getAttribute("href")),
       footer: both("footer p")[0],
       printButtonShown: visible(document.getElementById("print")),
@@ -188,7 +189,7 @@ try {
   check(!dmg.jsRan, "JavaScript really is disabled");
   check(dmg.title.thShown && dmg.title.enShown, "title shown in Thai and English", JSON.stringify(dmg.title));
   check(dmg.steps.length === 4 && dmg.steps.every(x => x.thShown && x.enShown), "all 4 steps shown in Thai and English", `${dmg.steps.length} steps`);
-  check(dmg.boxes === 15 && dmg.boxesShown === 15, "all 15 checkboxes shown", `${dmg.boxesShown}/${dmg.boxes} shown`);
+  check(dmg.boxes === 16 && dmg.boxesShown === 16, "all 16 checkboxes shown", `${dmg.boxesShown}/${dmg.boxes} shown`);
   check(dmg.toggles, "checkboxes can be ticked without JavaScript");
   const rowFails = a.items.map((it, i) => {
     const r = dmg.rows[i], max = typeof it.max === "string" ? it.max : it.max.th;
@@ -196,6 +197,9 @@ try {
   }).filter(Boolean);
   check(dmg.rows.length === a.items.length && !rowFails.length, `all ${a.items.length} assistance amounts shown, both languages`, rowFails.join(" | "));
   check(dmg.source.thShown && dmg.source.enShown && a.links.every(u => dmg.links.includes(u)), "source line and both source links shown", JSON.stringify(dmg.source));
+  if (a.pendingNote) check(dmg.pending && dmg.pending.th === a.pendingNote.text.th && dmg.pending.thShown && dmg.pending.enShown,
+    "pending-assistance note shown in Thai and English", JSON.stringify(dmg.pending));
+  else check(!dmg.pendingShown, "no pending-assistance note: its box is hidden");
   check(dmg.links.includes("tel:1555"), "1555 is a tap-to-call link");
   check(dmg.beforeHome && dmg.beforeHome.thShown && dmg.beforeHome.enShown && dmg.beforeHomeItems.length === 5 && dmg.beforeHomeItems.every(x => x.thShown && x.enShown),
     '"Before going back home" box shown with all 5 points in Thai and English', JSON.stringify(dmg.beforeHome) + ` items ${dmg.beforeHomeItems.length}`);

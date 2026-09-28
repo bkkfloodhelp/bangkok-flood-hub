@@ -170,6 +170,7 @@
   <li><label><input type="checkbox" id="room-furniture" data-save><span class="bi-block"><span data-th>ที่นอน เฟอร์นิเจอร์ และเสื้อผ้า</span><span data-en lang="en">Mattresses, furniture and clothing</span></span></label></li>
   <li><label><input type="checkbox" id="room-work-tools" data-save><span class="bi-block"><span data-th>เครื่องมือหรืออุปกรณ์ประกอบอาชีพ</span><span data-en lang="en">Tools or equipment you use for work</span></span></label></li>
   <li><label><input type="checkbox" id="room-outside" data-save><span class="bi-block"><span data-th>ภายนอกบ้าน รั้ว และประตู</span><span data-en lang="en">Outside, fences and gates</span></span></label></li>
+  <li><label><input type="checkbox" id="room-vehicles" data-save><span class="bi-block"><span data-th>รถยนต์และรถจักรยานยนต์ที่เสียหาย พร้อมป้ายทะเบียนและระดับน้ำที่ตัวรถ</span><span data-en lang="en">Damaged cars and motorbikes, with the number plate and the water line on the vehicle</span></span></label></li>
 </ul>
 <!-- Needs JavaScript (it asks for confirmation first), so hidden without it and in print. -->
 <p class="actions"><button type="button" class="clear-btn" id="clear-ticks"><span data-th>ล้างเครื่องหมายทั้งหมด</span><span data-en lang="en">Clear all ticks</span></button></p>
@@ -177,7 +178,8 @@
 
 <h2><span data-th>ความช่วยเหลือตามหลักเกณฑ์ของ กทม.</span><span data-en lang="en">Assistance under BMA rules</span></h2>
 <p class="note bi-block"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-warning"/></svg><span data-th>ตัวเลขด้านล่างเป็นวงเงินสูงสุด ไม่ใช่เงินที่จะได้รับทุกครัวเรือน จำนวนจริงขึ้นกับความเสียหายจริง คุณสมบัติ และเอกสาร</span><span data-en lang="en">These are maximum amounts, not what every household receives. The actual amount depends on the real damage, eligibility and documents.</span></p>
-<!-- Rows and source line are filled from "assistance" in data/flood.json by scripts/embed-fallback.mjs. -->
+<!-- Pending note, rows and source line are filled from "assistance" in data/flood.json by scripts/embed-fallback.mjs. -->
+<div class="note" id="assist-pending"><!--render:assist-pending--><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-warning"/></svg><span data-th>รัฐบาลกำลังพิจารณาเงินช่วยเหลือเพิ่มเติม 9,000 บาทต่อครัวเรือน และการช่วยเหลือรถยนต์ที่เสียหาย โดยจะเสนอ ครม. วันที่ 29 ก.ย. ยังไม่ยืนยัน อย่ารวมเงินแต่ละประเภทเข้าด้วยกัน เพราะแต่ละรายการมีเงื่อนไขและการอนุมัติแยกกัน</span><span data-en lang="en">The government is considering an extra 9,000 baht per household and help for damaged cars, to be put to the Cabinet on 29 Sep. This is not confirmed. Don&#39;t add the amounts together: each type of help has its own conditions and approval.</span><br><span class="meta"><span class="age" data-ts="2026-09-28T13:37:00+07:00"><span data-th>อัปเดต 28 ก.ย. 13:37 น.</span><span data-en lang="en">updated 28 Sep, 13:37</span></span> · ฐานเศรษฐกิจ / Thansettakij</span><!--/render:assist-pending--></div>
 <table class="assist">
   <thead><tr><th scope="col"><span data-th>ความช่วยเหลือ</span><span data-en lang="en">Assistance</span></th><th scope="col"><span data-th>สูงสุด</span><span data-en lang="en">Maximum</span></th></tr></thead>
   <tbody><!--render:assist-rows--><tr><th scope="row"><span data-th>ค่าวัสดุซ่อมแซมที่พักอาศัย ตามความเสียหายจริง</span><span data-en lang="en">Home repair materials, based on actual damage</span></th><td><span data-th>49,500 บาท ต่อหลัง</span><span data-en lang="en">49,500 baht per house</span></td></tr>

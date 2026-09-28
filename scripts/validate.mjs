@@ -290,13 +290,25 @@ function checkTools(v) {
 
 // Assistance amounts shown on damage.html. "max" is either one text for both languages
 // ("49,500 บาท / baht per house") or separate { "th": ..., "en": ... }.
+// Optional "pendingNote": an amber box above the table for help that is announced but not yet
+// approved ({ "updated", "source", "text": { "th", "en" } }). Delete it to hide the box.
 function checkAssistance(a) {
   const p = "assistance";
   if (!isObj(a)) { err(p, "Must be an object { ... }.", "ต้องเป็นออบเจ็กต์ { ... }"); return; }
-  knownKeys(p, a, ["updated", "source", "links", "items"]);
+  knownKeys(p, a, ["updated", "source", "links", "pendingNote", "items"]);
   if (required(p, a, "updated")) dateOnly(`${p}.updated`, a.updated);
   if (required(p, a, "source")) bilingual(`${p}.source`, a.source);
   if (required(p, a, "links")) list(`${p}.links`, a.links).forEach((u, i) => url(`${p}.links[${i}]`, u));
+  if (a.pendingNote !== undefined) {
+    const q = `${p}.pendingNote`, n = a.pendingNote;
+    if (!isObj(n)) err(q, "Must be an object { ... }.", "ต้องเป็นออบเจ็กต์ { ... }");
+    else {
+      knownKeys(q, n, ["updated", "source", "text"]);
+      if (required(q, n, "updated")) timestamp(`${q}.updated`, n.updated);
+      if (required(q, n, "source")) text(`${q}.source`, n.source);
+      if (required(q, n, "text")) bilingual(`${q}.text`, n.text);
+    }
+  }
   if (required(p, a, "items")) list(`${p}.items`, a.items).forEach((it, i) => {
     const q = `${p}.items[${i}]`;
     if (!isObj(it)) { err(q, "Must be an object { ... }.", "ต้องเป็นออบเจ็กต์ { ... }"); return; }

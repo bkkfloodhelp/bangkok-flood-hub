@@ -92,7 +92,7 @@ async function scenario(title, applyOffSwitch) {
     // damage.html was cached when the hub installed the worker, even if never opened.
     const d = await visit(() => true, "damage.html");
     const damageOk = d && (await chrome.send("Runtime.evaluate", {
-      expression: `document.querySelectorAll('.assist tbody tr').length > 0 && document.querySelectorAll('input[type=checkbox]').length === 15`, returnByValue: true,
+      expression: `document.querySelectorAll('.assist tbody tr').length > 0 && document.querySelectorAll('input[type=checkbox]').length === 16`, returnByValue: true,
     })).result.result.value;
     check(!!damageOk, "offline: damage.html opens from the cache (never visited before)", show(d));
 
