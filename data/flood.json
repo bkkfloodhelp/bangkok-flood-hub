@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "2026-09-28T07:00:00+07:00",
+  "lastUpdated": "2026-09-28T10:00:00+07:00",
   "status": {
-    "updated": "2026-09-28T07:00:00+07:00",
-    "source": "กทม. / BMA, โพสต์ทูเดย์ / Post Today, กรุงเทพธุรกิจ / Bangkok Biz News",
+    "updated": "2026-09-28T10:00:00+07:00",
+    "source": "กทม. / BMA, ไทยรัฐ / Thairath, ไทยพีบีเอส / Thai PBS, ฐานเศรษฐกิจ / Thansettakij",
     "title": {
-      "th": "ฝนผ่านไปแล้ว น้ำลดหลายจุด แต่ฝั่งตะวันออกยังท่วมสูง",
-      "en": "Rain has passed and water is falling, but the east is still deeply flooded"
+      "th": "น้ำลดหลายจุด แต่ฝั่งตะวันออกยังท่วมสูง",
+      "en": "Water falling in many areas, but still deep in the east"
     },
     "body": {
-      "th": "เมฆฝนช่วงดึกผ่านไปแล้ว ฝนตกเพิ่มไม่มาก (สูงสุด 46.5 มม. ที่ลาดกระบัง) และไม่มีกลุ่มฝนใหญ่ในจังหวัดใกล้เคียงที่จะเคลื่อนเข้า กทม. คลองหลัก (แสนแสบ ประเวศบุรีรมย์ เปรมประชากร) ยังสูง แต่ กทม. สูบน้ำ 24 ชม. ทำให้คลองย่อยเริ่มระบายได้ น้ำบนถนนจะลดลงเรื่อย ๆ หากไม่มีฝนเติม ถ.วิภาวดีรังสิต รถทุกชนิดผ่านได้แล้ว แต่ย่านรามคำแหง ลาดพร้าว บางกะปิ ศรีนครินทร์ และมีนบุรี ยังท่วมสูง วันจันทร์ 28 และอังคาร 29 ก.ย. เป็นวันหยุดราชการกรณีพิเศษ ทางด่วนฟรีถึงคืนวันอังคาร รัฐบาลแถลงสถานการณ์ทุกวัน 10:00 น. ทาง NBT แจ้งผู้ป่วยติดเตียงหรือกลุ่มเปราะบางที่ติดค้างได้ที่ 1669 หรือ 1555 ระวังไฟฟ้าดูด",
-      "en": "The overnight rain clouds have passed, with little extra rain (46.5 mm at most, in Lat Krabang), and no large rain clouds in nearby provinces are heading for Bangkok. The main canals (Saen Saep, Prawet Burirom, Prem Prachakorn) are still high, but with 24-hour pumping the smaller canals are starting to drain, so road flooding should keep falling if no more rain comes. All vehicles can now pass Vibhavadi Rangsit, but Ramkhamhaeng, Lat Phrao, Bang Kapi, Srinakarin and Min Buri are still deeply flooded. Monday 28 and Tuesday 29 Sep are special government holidays; expressways are free until Tuesday night. The government briefs the public every day at 10:00 on NBT. Report stranded bedridden or vulnerable people to 1669 or 1555. Beware of electric shock."
+      "th": "ผู้ว่าฯ กทม. ระบุมีผู้ได้รับผลกระทบราว 700,000 คน กทม. เร่งพร่องน้ำฝั่งตะวันออกเพื่อดึงน้ำออกจากชุมชน พื้นที่น่าห่วงที่สุดคือ เคหะคลองจั่น เคหะร่มเกล้า และลาดกระบัง ซึ่งรัฐกำลังส่งครัวสนามและรถสุขาเข้าไป ถ.วิภาวดีรังสิต รถทุกชนิดผ่านได้แล้ว แต่ย่านรามคำแหง ลาดพร้าว บางกะปิ ศรีนครินทร์ และมีนบุรี ยังท่วมสูง กรมอุตุฯ คาดวันนี้ยังมีฝนฟ้าคะนองร้อยละ 70 ของพื้นที่ และตกหนักบางแห่ง วันจันทร์ 28 และอังคาร 29 ก.ย. เป็นวันหยุดราชการกรณีพิเศษ ทางด่วนฟรีถึงคืนวันอังคาร รัฐบาลแถลงทุกวัน 10:00 น. ทาง NBT แจ้งผู้ป่วยติดเตียงหรือกลุ่มเปราะบางที่ติดค้างได้ที่ 1669 หรือ 1555 ระวังไฟฟ้าดูด",
+      "en": "The governor says about 700,000 people have been affected. The BMA is lowering canal levels in the east to pull water out of communities. The areas of most concern are Kheha Khlong Chan, Kheha Romklao and Lat Krabang, where field kitchens and mobile toilets are being sent. All vehicles can now pass Vibhavadi Rangsit, but Ramkhamhaeng, Lat Phrao, Bang Kapi, Srinakarin and Min Buri are still deeply flooded. The TMD forecasts thunderstorms over 70% of the area today, heavy in places. Monday 28 and Tuesday 29 Sep are special government holidays; expressways are free until Tuesday night. The government briefs the public every day at 10:00 on NBT. Report stranded bedridden or vulnerable people to 1669 or 1555. Beware of electric shock."
     }
   },
   "hotlines": [
@@ -183,39 +183,44 @@
     ]
   },
   "roadsNote": {
-    "updated": "2026-09-28T07:00:00+07:00",
-    "source": "กทม. ผ่านโพสต์ทูเดย์ / BMA via Post Today",
+    "updated": "2026-09-28T10:00:00+07:00",
+    "source": "กทม. ผ่านฐานเศรษฐกิจ / BMA via Thansettakij",
     "text": {
-      "th": "ข้อมูลศูนย์ป้องกันน้ำท่วม กทม. เวลา 07:00 น. 28 ก.ย. ชุมชนและซอยที่ยังเข้า-ออกลำบาก: เคหะคลองจั่น เคหะร่มเกล้า เคหะรามอินทรา ซ.รามคำแหง 24 ซ.ลาดพร้าว 101/1 และ ซ.ประเสริฐมนูกิจ 27 ถนนที่สัญจรได้แล้ว: ถ.เพชรบุรี (สะพานคลองตัน) ถ.เสนานิคม ถ.สรงประภา ถ.เทพรักษ์ และ ถ.นวลจันทร์ ตรวจสอบแบบเรียลไทม์ที่เว็บไซต์ของ กทม. หรือโทร 1555 ก่อนเดินทาง",
-      "en": "BMA Flood Control Centre data, 07:00, 28 Sep. Communities and sois still hard to get in and out of: Kheha Khlong Chan, Kheha Romklao, Kheha Ram Intra, Ramkhamhaeng Soi 24, Lat Phrao Soi 101/1 and Prasert Manukit Soi 27. Now passable: Phetchaburi Rd (Khlong Tan bridge), Sena Nikhom, Song Prapha, Thep Rak and Nuanchan roads. Check in real time on the BMA website or call 1555 before travelling."
+      "th": "ข้อมูลศูนย์ป้องกันน้ำท่วม กทม. เวลา 10:00 น. 28 ก.ย. ซอยและชุมชนที่ยังท่วมสูง: เคหะคลองจั่น เคหะร่มเกล้า เคหะรามอินทรา เคหะออเงิน ซ.ประเสริฐมนูกิจ 27 ซ.ลาดพร้าว 101/1, 122 และ 130 ซ.รามคำแหง 24, 60 (สุเหร่าน้อย) และ 127/3 หมู่บ้านฉัตรแก้ว แฮปปี้แลนด์ ซ.ร่มเกล้า 24 ซ.เพิ่มสิน 36 ซ.พหลโยธิน 54 ถ.สุขาภิบาล 5 ซ.55 หมู่บ้านนภาวัลย์ สายไหม ซ.เสรีไทย 57 และ ซ.หทัยราษฎร์ 9 มีนบุรี ตรวจสอบแบบเรียลไทม์ที่เว็บไซต์ของ กทม. หรือโทร 1555 ก่อนเดินทาง",
+      "en": "BMA Flood Control Centre data, 10:00, 28 Sep. Sois and communities still deeply flooded: Kheha Khlong Chan, Kheha Romklao, Kheha Ram Intra, Kheha O Ngoen, Prasert Manukit Soi 27, Lat Phrao Soi 101/1, 122 and 130, Ramkhamhaeng Soi 24, 60 (Surao Noi) and 127/3, Chatkaew Happy Land village, Romklao Soi 24, Phoem Sin Soi 36, Phahon Yothin Soi 54, Sukhaphiban 5 Soi 55, Naphawan village (Sai Mai), Seri Thai Soi 57 and Hathairat Soi 9 (Min Buri). Check in real time on the BMA website or call 1555 before travelling."
     }
   },
   "roadsLiveUrl": "https://now.bangkok.go.th/flood-alert.html",
   "roads": [
-    { "name": { "th": "ถ.รามคำแหง (ตัด ถ.พระราม 9 – แยกลำสาลี)", "en": "Ramkhamhaeng Rd (Rama 9 Rd – Lam Sali junction)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ซ.รามคำแหง 24", "en": "Ramkhamhaeng Soi 24" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.ศรีนครินทร์ (แยกลำสาลี – ตัด ถ.พัฒนาการ)", "en": "Srinakarin Rd (Lam Sali junction – Pattanakan Rd)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.ลาดพร้าว (ตัด ถ.ประดิษฐ์มนูธรรม, แยกแฮปปี้แลนด์, แยกบางกะปิ, ซ.ลาดพร้าว 101/1 และ ซ.ลาดพร้าว 122)", "en": "Lat Phrao Rd (Pradit Manutham Rd, Happy Land junction, Bang Kapi junction, Soi 101/1 and Soi 122)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.นวมินทร์ (แยกประเสริฐมนูกิจ – แยกบางกะปิ)", "en": "Nawamin Rd (Prasert Manukit junction – Bang Kapi junction)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.เสรีไทย (แยกศรีบูรพา – ตัด ถ.ลาดพร้าว)", "en": "Seri Thai Rd (Si Burapha junction – Lat Phrao Rd)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.สุวินทวงศ์ (มีนบุรี – วัดแสนสุข และแยกเมืองมีน – แยกราษฎร์อุทิศ)", "en": "Suwinthawong Rd (Min Buri – Wat Saen Suk, and Mueang Min – Rat Uthit junctions)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.สีหบุรานุกิจ (แยกเมืองมีน – หน้าสำนักงานเขตมีนบุรี)", "en": "Sihaburanukit Rd (Mueang Min junction – Min Buri district office)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.กรุงเทพกรีฑา (ท่วมตลอดสาย)", "en": "Krungthep Kreetha Rd (flooded along its whole length)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.เทศบาลสงเคราะห์ (สัญจรลำบากมาก)", "en": "Thetsaban Songkhro Rd (very difficult to pass)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.งามวงศ์วาน (หน้าซอยชินเขต)", "en": "Ngam Wong Wan Rd (at Soi Chinnakhet)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.พหลโยธิน (หน้า ม.เกษตรฯ – กรมป่าไม้)", "en": "Phahon Yothin Rd (Kasetsart University – Royal Forest Department)" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ซ.ร่มเกล้า 24", "en": "Romklao Soi 24" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ซ.ประเสริฐมนูกิจ 27", "en": "Prasert Manukit Soi 27" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.นักกีฬาแหลมทอง", "en": "Nak Kila Laem Thong Rd" }, "type": "avoid", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.รามคำแหง (แยกลำสาลี – ซ.รามคำแหง 129/4) รถยนต์ผ่านได้", "en": "Ramkhamhaeng Rd (Lam Sali junction – Soi 129/4), cars can pass" }, "type": "slow", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.ศรีนครินทร์ (ถ.พัฒนาการ – สุขุมวิท 77) รถเล็กผ่านได้", "en": "Srinakarin Rd (Pattanakan Rd – Sukhumvit 77), small cars can pass" }, "type": "slow", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.เสรีไทย (แยกศรีบูรพา – ทางเข้ามอเตอร์เวย์ และ ซ.เสรีไทย 71 – แยกสีหบุรานุกิจ)", "en": "Seri Thai Rd (Si Burapha junction – motorway entrance, and Soi 71 – Sihaburanukit junction)" }, "type": "slow", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.แจ้งวัฒนะ (โทรคมนาคม – ศูนย์ราชการ และแยกหลักสี่ – วงเวียนบางเขน) น้ำท่วมเล็กน้อย", "en": "Chaeng Watthana Rd (NT office – Government Complex, and Lak Si junction – Bang Khen roundabout), light flooding" }, "type": "slow", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.พหลโยธิน (วงเวียนบางเขน – กรมทหารราบที่ 11 และ ซ.พหลโยธิน 58)", "en": "Phahon Yothin Rd (Bang Khen roundabout – 11th Infantry Regiment, and Soi 58)" }, "type": "slow", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.รามอินทรา (วงเวียนบางเขน – ซ.รามอินทรา 9)", "en": "Ram Intra Rd (Bang Khen roundabout – Soi 9)" }, "type": "slow", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.วิภาวดีรังสิต ขาออก แยกหลักสี่ (เฉพาะทางคู่ขนาน)", "en": "Vibhavadi Rangsit Rd outbound, Lak Si junction (frontage road only)" }, "type": "slow", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.นวมินทร์ (แยกนวมินทร์-รามอินทรา – แยกประเสริฐมนูกิจ) รถเล็กผ่านได้", "en": "Nawamin Rd (Nawamin–Ram Intra junction – Prasert Manukit junction), small cars can pass" }, "type": "slow", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" },
-    { "name": { "th": "ถ.ลาดกระบัง (คลองตาพุก – ซ.ลาดกระบัง 14/1 และคลองบัวเกราะ – แยกกิ่งแก้ว)", "en": "Lat Krabang Rd (Khlong Ta Phuk – Soi 14/1, and Khlong Bua Kro – King Kaeo junction)" }, "type": "slow", "updated": "2026-09-28T07:00:00+07:00", "source": "BMA via Post Today" }
+    { "name": { "th": "ถ.รามคำแหง (ตัด ถ.พระราม 9 – แยกลำสาลี)", "en": "Ramkhamhaeng Rd (Rama 9 Rd – Lam Sali junction)" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ซ.รามคำแหง 24", "en": "Ramkhamhaeng Soi 24" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.ศรีนครินทร์ (แยกลำสาลี – ตัด ถ.พัฒนาการ)", "en": "Srinakarin Rd (Lam Sali junction – Pattanakan Rd)" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.ลาดพร้าว (ตัด ถ.ประดิษฐ์มนูธรรม, แยกแฮปปี้แลนด์ และแยกบางกะปิ)", "en": "Lat Phrao Rd (Pradit Manutham Rd, Happy Land junction and Bang Kapi junction)" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.นวมินทร์ (แยกประเสริฐมนูกิจ – แยกบางกะปิ)", "en": "Nawamin Rd (Prasert Manukit junction – Bang Kapi junction)" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.เสรีไทย (แยกศรีบูรพา – ตัด ถ.ลาดพร้าว)", "en": "Seri Thai Rd (Si Burapha junction – Lat Phrao Rd)" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.สุวินทวงศ์ (มีนบุรี – วัดแสนสุข และแยกเมืองมีน – แยกราษฎร์อุทิศ)", "en": "Suwinthawong Rd (Min Buri – Wat Saen Suk, and Mueang Min – Rat Uthit junctions)" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.สีหบุรานุกิจ (แยกเมืองมีน – หน้าสำนักงานเขตมีนบุรี)", "en": "Sihaburanukit Rd (Mueang Min junction – Min Buri district office)" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.กรุงเทพกรีฑา (ท่วมตลอดสาย)", "en": "Krungthep Kreetha Rd (flooded along its whole length)" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.เทศบาลสงเคราะห์ (สัญจรลำบากมาก)", "en": "Thetsaban Songkhro Rd (very difficult to pass)" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.งามวงศ์วาน (หน้าเรือนจำคลองเปรม และหน้าซอยชินเขต)", "en": "Ngam Wong Wan Rd (at Khlong Prem Prison and Soi Chinnakhet)" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.พหลโยธิน (หน้า ม.เกษตรฯ – กรมป่าไม้)", "en": "Phahon Yothin Rd (Kasetsart University – Royal Forest Department)" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ซ.ร่มเกล้า 24", "en": "Romklao Soi 24" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ซ.ประเสริฐมนูกิจ 27", "en": "Prasert Manukit Soi 27" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.นักกีฬาแหลมทอง", "en": "Nak Kila Laem Thong Rd" }, "type": "avoid", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.รามคำแหง (แยกลำสาลี – ซ.รามคำแหง 129/4) รถยนต์ผ่านได้", "en": "Ramkhamhaeng Rd (Lam Sali junction – Soi 129/4), cars can pass" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.ศรีนครินทร์ (ถ.พัฒนาการ – สุขุมวิท 77) รถเล็กผ่านได้", "en": "Srinakarin Rd (Pattanakan Rd – Sukhumvit 77), small cars can pass" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.เสรีไทย (แยกศรีบูรพา – ทางเข้ามอเตอร์เวย์ และ ซ.เสรีไทย 71 – แยกสีหบุรานุกิจ)", "en": "Seri Thai Rd (Si Burapha junction – motorway entrance, and Soi 71 – Sihaburanukit junction)" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.แจ้งวัฒนะ (โทรคมนาคม – ศูนย์ราชการ และแยกหลักสี่ – วงเวียนบางเขน) น้ำท่วมเล็กน้อย", "en": "Chaeng Watthana Rd (NT office – Government Complex, and Lak Si junction – Bang Khen roundabout), light flooding" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.พหลโยธิน (วงเวียนบางเขน – กรมทหารราบที่ 11 และ ซ.พหลโยธิน 58)", "en": "Phahon Yothin Rd (Bang Khen roundabout – 11th Infantry Regiment, and Soi 58)" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.รามอินทรา (วงเวียนบางเขน – ซ.รามอินทรา 9)", "en": "Ram Intra Rd (Bang Khen roundabout – Soi 9)" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.วิภาวดีรังสิต ขาออก แยกหลักสี่ (เฉพาะทางคู่ขนาน)", "en": "Vibhavadi Rangsit Rd outbound, Lak Si junction (frontage road only)" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.นวมินทร์ (แยกนวมินทร์-รามอินทรา – แยกประเสริฐมนูกิจ) รถเล็กผ่านได้", "en": "Nawamin Rd (Nawamin–Ram Intra junction – Prasert Manukit junction), small cars can pass" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.ลาดกระบัง (คลองตาพุก – ซ.ลาดกระบัง 14/1 และคลองบัวเกราะ – แยกกิ่งแก้ว)", "en": "Lat Krabang Rd (Khlong Ta Phuk – Soi 14/1, and Khlong Bua Kro – King Kaeo junction)" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.สรงประภา (ถ.วิภาวดีรังสิต – คลองเปรม และช่วงซอย 26–30) น้ำท่วมเล็กน้อย", "en": "Song Prapha Rd (Vibhavadi Rangsit – Khlong Prem, and Soi 26–30), light flooding" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.เทพรักษ์ (ถ.พหลโยธิน – คลองบางเขน และ ถ.พหลโยธิน – ถ.สุขาภิบาล 5) น้ำท่วมเล็กน้อย", "en": "Thep Rak Rd (Phahon Yothin – Khlong Bang Khen, and Phahon Yothin – Sukhaphiban 5), light flooding" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.นวลจันทร์ น้ำท่วมบางช่วง", "en": "Nuanchan Rd, flooded in parts" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.เพชรบุรี (สะพานคลองตัน) น้ำท่วม สัญจรได้", "en": "Phetchaburi Rd (Khlong Tan bridge), flooded but passable" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" },
+    { "name": { "th": "ถ.เสนานิคม น้ำท่วม เริ่มสัญจรได้", "en": "Sena Nikhom Rd, flooded but starting to be passable" }, "type": "slow", "updated": "2026-09-28T10:00:00+07:00", "source": "BMA via Thansettakij" }
   ],
   "tools": [
     {
@@ -280,8 +285,10 @@
     { "title": "Post Today: DDPM shelter Cell Broadcast", "url": "https://www.posttoday.com/general-news/749455" },
     { "title": "PPTV: KMITL evacuation centre", "url": "https://www.pptvhd36.com/news/%E0%B8%AA%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%A1/284196" },
     { "title": "Bangkok Today: Lak Si shelters", "url": "https://bangkok-today.com/%E0%B8%81%E0%B8%97%E0%B8%A1-%E0%B8%9C%E0%B8%AA%E0%B8%B2%E0%B8%99%E0%B8%9E%E0%B8%A5%E0%B8%B1%E0%B8%87%E0%B8%A3%E0%B8%B1%E0%B8%90%E0%B8%9A%E0%B8%B2%E0%B8%A5-%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%A7/" },
-    { "title": "Post Today: BMA road report, 28 Sep 07:00", "url": "https://www.posttoday.com/smart-city/749485" },
     { "title": "Bangkok Biz News: Vibhavadi reopened, 28 Sep", "url": "https://www.bangkokbiznews.com/news/news-update/1253837" },
-    { "title": "BMA Facebook: rain and canal update, 28 Sep 06:00", "url": "https://www.facebook.com/bangkokbma/posts/pfbid02gdx9eudSVYzuJGUQLuezpXgJGYzvhv91uupsrfPpVV9NSjuFRAdKoa721ZU4uW2Cl" }
+    { "title": "BMA Facebook: rain and canal update, 28 Sep 06:00", "url": "https://www.facebook.com/bangkokbma/posts/pfbid02gdx9eudSVYzuJGUQLuezpXgJGYzvhv91uupsrfPpVV9NSjuFRAdKoa721ZU4uW2Cl" },
+    { "title": "Thansettakij: BMA road report, 28 Sep 10:00", "url": "https://www.thansettakij.com/general-news/670061" },
+    { "title": "Thairath: governor, 28 Sep 08:00", "url": "https://www.thairath.co.th/news/local/bangkok/2962537" },
+    { "title": "Thai PBS: deputy interior minister, 28 Sep", "url": "https://www.thaipbs.or.th/news/content/558732" }
   ]
 }
